@@ -11,47 +11,43 @@ class LeftDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 38.0),
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: ClipOval(
-                      child: Image.asset(
-                        "imgs/avatar.png",
-                        width: 80,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    "登录",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            ),
+//            Padding(
+//              padding: const EdgeInsets.only(top: 38.0),
+//              child: Row(
+//                children: <Widget>[
+//                  Padding(
+//                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//                    child: ClipOval(
+//                      child: Image.asset(
+//                        "imgs/avatar.png",
+//                        width: 80,
+//                      ),
+//                    ),
+//                  ),
+//                  Text(
+//                    "登录",
+//                    style: TextStyle(fontWeight: FontWeight.bold),
+//                  )
+//                ],
+//              ),
+//            ),
             Expanded(
               child: ListView(
                 children: <Widget>[
                   ListTile(
                     leading: const Icon(Icons.add),
-                    title: const Text('收支类定义'),
+                    title: const Text('类别管理'),
                   ),
                   ListTile(
-                    leading: const Icon(Icons.settings),
-                    title: const Text('币种设置'),
+                    leading: const Icon(Icons.build),
+                    title: const Text('币种管理'),
                   ),
                   ListTile(
-                    leading: const Icon(Icons.settings),
-                    title: const Text('智能记账'),
+                    leading: const Icon(Icons.attach_money),
+                    title: const Text('账户管理'),
                   ),
                   ListTile(
-                    leading: const Icon(Icons.settings),
-                    title: const Text('周期记账'),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.settings),
+                    leading: const Icon(Icons.account_circle),
                     title: const Text('个人中心'),
                   ),
                 ],

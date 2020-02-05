@@ -1,0 +1,23 @@
+{
+  "subtye":
+  [
+    {"name" : "早餐",
+      "isUserDefined": false,
+      "isPeriod": false},
+    {"name" : "午餐",
+      "isUserDefined": false,
+      "isPeriod": false},
+    {"name" : "晚餐",
+      "isUserDefined": false,
+      "isPeriod": false},
+    {"name" : "零食",
+      "isUserDefined": false,
+      "isPeriod": false},
+    {"name" : "出租车",
+      "isUserDefined": false,
+      "isPeriod": false},
+    {"name" : "公交车-地铁",
+      "isUserDefined": false,
+      "isPeriod": false}
+  ]
+}

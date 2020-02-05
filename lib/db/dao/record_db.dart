@@ -1,41 +1,57 @@
+import 'dart:html';
+
 import 'package:flutter_app/db/record_attr.dart';
 
-class Record {
+class RecordDB {
     int aaId;
-    double amount;
+    num amount;
     int createTime;
     String currentUnit;
+    int currentId; // 当前货币id
     int id;
+    int mainCurrentId; // 当前主货币id
     String mainCurrentAmount;
     String mainCurrentUnit;
     int periodicId;
-    double rate;
-    int recodeType;
+    num rate;
+    int recordType;
     int subType;
     String subTypeName;
     int type;
     String typeName;
     int updateTime;
+    String remark;
+    int year;
+    int month;
+    int day;
 
-    Record({this.aaId, this.amount, this.createTime, this.currentUnit, this.id, this.mainCurrentAmount, this.mainCurrentUnit, this.periodicId, this.rate, this.recodeType, this.subType, this.subTypeName, this.type, this.typeName, this.updateTime});
+    RecordDB({this.aaId, this.amount, this.createTime, this.currentId, this.currentUnit, this.id, this.mainCurrentId, this.mainCurrentAmount, this.mainCurrentUnit,
+        this.periodicId, this.rate, this.recordType, this.subType, this.subTypeName, this.type, this.typeName, this.updateTime, this.remark, this.year, this.month, this.day});
 
-    factory Record.fromJson(Map<String, dynamic> json) {
-        return Record(
+    factory RecordDB.fromJson(Map<String, dynamic> json) {
+        return RecordDB(
             aaId: json[RecordAttr.AA_ID],
             amount: json[RecordAttr.AMOUNT],
             createTime: json[RecordAttr.CREATE_TIME],
             currentUnit: json[RecordAttr.CURRENT_UNIT],
+            currentId: json[RecordAttr.CURRENT_ID],
             id: json[RecordAttr.ID],
             mainCurrentAmount: json[RecordAttr.MAIN_CURRENT_AMOUNT],
             mainCurrentUnit: json[RecordAttr.MAIN_CURRENT_UNIT],
+            mainCurrentId: json[RecordAttr.MAIN_CURRENT_ID],
             periodicId: json[RecordAttr.PERIODIC_ID],
             rate: json[RecordAttr.RATE],
-            recodeType: json[RecordAttr.RECORD_TYPE],
+            recordType: json[RecordAttr.RECORD_TYPE],
             subType: json[RecordAttr.SUB_TYPE],
             subTypeName: json[RecordAttr.SUB_TYPE_NAME],
             type: json[RecordAttr.TYPE],
             typeName: json[RecordAttr.TYPE_NAME],
             updateTime: json[RecordAttr.UPDATE_TIME],
+            remark: json[RecordAttr.REMARK],
+            year: json[RecordAttr.YEAR],
+            month: json[RecordAttr.MONTH],
+            day: json[RecordAttr.DAY]
+
         );
     }
 
@@ -50,12 +66,16 @@ class Record {
         data[RecordAttr.MAIN_CURRENT_UNIT] = this.mainCurrentUnit;
         data[RecordAttr.PERIODIC_ID] = this.periodicId;
         data[RecordAttr.RATE] = this.rate;
-        data[RecordAttr.RECORD_TYPE] = this.recodeType;
+        data[RecordAttr.RECORD_TYPE] = this.recordType;
         data[RecordAttr.SUB_TYPE] = this.subType;
         data[RecordAttr.SUB_TYPE_NAME] = this.subTypeName;
         data[RecordAttr.TYPE] = this.type;
         data[RecordAttr.TYPE_NAME] = this.typeName;
         data[RecordAttr.UPDATE_TIME] = this.updateTime;
+        data[RecordAttr.REMARK] = this.remark;
+        data[RecordAttr.YEAR] = this.year;
+        data[RecordAttr.MONTH] = this.month;
+        data[RecordAttr.DAY] = this.day;
         return data;
     }
 }

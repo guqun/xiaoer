@@ -1,7 +1,30 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_app/page/home_page.dart';
+import 'dart:io';
 
-void main() => runApp(MyApp());
+import 'package:bloc/bloc.dart';
+import 'package:fluro/fluro.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app/application.dart';
+import 'package:flutter_app/bloc/bloc_delegate.dart';
+import 'package:flutter_app/page/home_page.dart';
+import 'package:flutter_app/page/splash_page.dart';
+import 'package:flutter_app/router_util/routes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+void main()
+{
+  Router router = Router();
+  Routes.configureRoutes(router);
+  Application.router = router;
+  BlocSupervisor.delegate = CustomBlocDelegate();
+
+  runApp(MyApp());
+  if(Platform.isAndroid)
+  {
+    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+  }
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -21,7 +44,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: Scaffold(
+          body: SplashPage()),
     );
   }
 }

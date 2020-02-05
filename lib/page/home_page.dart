@@ -25,7 +25,7 @@ class HomeStatePage extends State
             },
           );
         }),
-        title: Text("小二记账"),
+        title: Text("小二"),
       ),
       drawer: new LeftDrawer(), //抽屉
       bottomNavigationBar: BottomAppBar(
@@ -36,7 +36,7 @@ class HomeStatePage extends State
 //            IconButton(icon: Icon(Icons.home)),
             Container(child: Text("明细"), padding: EdgeInsets.all(15),),
             SizedBox(), //中间位置空出
-            Container(child: Text("图表"), padding: EdgeInsets.all(15),),
+            Container(child: Text("统计"), padding: EdgeInsets.all(15),),
           ],
           mainAxisAlignment: MainAxisAlignment.spaceAround, //均分底部导航栏横向空间
         ),

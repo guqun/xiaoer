@@ -1,0 +1,12 @@
+{
+  "account":
+  [{
+    "amount": 0.0,
+    "name": "现金",
+    "status": 1,
+    "currencyId": 1,
+    "englishCurrency": "rmb",
+    "traditionalChineseCurrency": "人民币",
+    "simplifiedChineseCurrency": "人民币"
+  }]
+}
