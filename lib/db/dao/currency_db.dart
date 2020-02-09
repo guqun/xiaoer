@@ -13,9 +13,13 @@ class CurrencyDB {
     String traditionalChineseName;
     int updateTime;
     bool isNetData;
+    bool isMainCurrency;
+    bool isSecondaryCurrency;
+    String image;
 
     CurrencyDB({this.createTime, this.englishName, this.id, this.rate, this.simplifiedChineseName, this.targetEnglishCurrency, this.targetCurrencyId,
-        this.traditionalChineseName, this.updateTime, this.isNetData, this.targetSimplifiedChineseCurrency, this.targetTraditionalChineseCurrency});
+        this.traditionalChineseName, this.updateTime, this.isNetData, this.targetSimplifiedChineseCurrency, this.targetTraditionalChineseCurrency,
+    this.isMainCurrency, this.isSecondaryCurrency, this.image});
 
     factory CurrencyDB.fromJson(Map<String, dynamic> json) {
         return CurrencyDB(
@@ -30,7 +34,10 @@ class CurrencyDB {
             updateTime: json[CurrencyAttr.UPDATE_TIME],
             isNetData: json[CurrencyAttr.IS_NET_DATA] == 1 ? true : false,
             targetTraditionalChineseCurrency: json[CurrencyAttr.TARGET_TRADITIONAL_CHINESE_CURRENCY],
-            targetSimplifiedChineseCurrency: json[CurrencyAttr.TARGET_SIMPLIFIED_CHINESE_CURRENCY]
+            targetSimplifiedChineseCurrency: json[CurrencyAttr.TARGET_SIMPLIFIED_CHINESE_CURRENCY],
+            isMainCurrency: json[CurrencyAttr.IS_MAIN_CURRENCY] == 1 ? true : false,
+            isSecondaryCurrency: json[CurrencyAttr.IS_SECONDARY_CURRENCY] == 1 ? true : false,
+            image: json[CurrencyAttr.IMAGE]
         );
     }
 
@@ -48,6 +55,9 @@ class CurrencyDB {
         data[CurrencyAttr.IS_NET_DATA] = this.isNetData == true ? 1 : 0;
         data[CurrencyAttr.TARGET_SIMPLIFIED_CHINESE_CURRENCY] = this.targetSimplifiedChineseCurrency;
         data[CurrencyAttr.TARGET_TRADITIONAL_CHINESE_CURRENCY] = this.targetTraditionalChineseCurrency;
+        data[CurrencyAttr.IS_MAIN_CURRENCY] = this.isMainCurrency == true ? 1 : 0;
+        data[CurrencyAttr.IS_SECONDARY_CURRENCY] = this.isSecondaryCurrency == true ? 1 : 0;
+        data[CurrencyAttr.IMAGE] = this.image;
         return data;
     }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/res/color_config.dart';
 import 'package:flutter_app/widget/left_drawer.dart';
 
 class HomePage extends StatefulWidget
@@ -6,26 +7,28 @@ class HomePage extends StatefulWidget
 
   @override
   State createState() {
-    return new HomeStatePage();
+    return new HomePageState();
   }
 }
 
-class HomeStatePage extends State
+class HomePageState extends State
 {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorConfig.color_white,
+        centerTitle: true,
         leading: Builder(builder: (context) {
           return IconButton(
-            icon: Icon(Icons.dashboard, color: Colors.white),
+            icon: Icon(Icons.dashboard, color: ColorConfig.color_main_color),
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
           );
         }),
-        title: Text("小二"),
+        title: Text("Two Tiny", style: TextStyle(color: ColorConfig.color_black),),
       ),
       drawer: new LeftDrawer(), //抽屉
       bottomNavigationBar: BottomAppBar(

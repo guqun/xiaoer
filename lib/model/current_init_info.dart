@@ -20,8 +20,11 @@ class CurrencyInitInfo {
 
 class CurrencyInit {
     String englishName;
+    String image;
+    bool isMainCurrency;
     bool isNetData;
-    num rate;
+    bool isSecondaryCurrency;
+    double rate;
     String simplifiedChineseName;
     int targetCurrencyId;
     String targetEnglishCurrency;
@@ -29,13 +32,15 @@ class CurrencyInit {
     String targetTraditionalChineseCurrency;
     String traditionalChineseName;
 
-    CurrencyInit({this.englishName, this.isNetData, this.rate, this.simplifiedChineseName, this.targetCurrencyId, this.targetEnglishCurrency,
-      this.targetSimplifiedChineseCurrency, this.targetTraditionalChineseCurrency, this.traditionalChineseName});
+    CurrencyInit({this.englishName, this.image, this.isMainCurrency, this.isNetData, this.isSecondaryCurrency, this.rate, this.simplifiedChineseName, this.targetCurrencyId, this.targetEnglishCurrency, this.targetSimplifiedChineseCurrency, this.targetTraditionalChineseCurrency, this.traditionalChineseName});
 
     factory CurrencyInit.fromJson(Map<String, dynamic> json) {
         return CurrencyInit(
             englishName: json['englishName'],
+            image: json['image'],
+            isMainCurrency: json['isMainCurrency'],
             isNetData: json['isNetData'],
+            isSecondaryCurrency: json['isSecondaryCurrency'],
             rate: json['rate'],
             simplifiedChineseName: json['simplifiedChineseName'],
             targetCurrencyId: json['targetCurrencyId'],
@@ -49,7 +54,10 @@ class CurrencyInit {
     Map<String, dynamic> toJson() {
         final Map<String, dynamic> data = new Map<String, dynamic>();
         data['englishName'] = this.englishName;
+        data['image'] = this.image;
+        data['isMainCurrency'] = this.isMainCurrency;
         data['isNetData'] = this.isNetData;
+        data['isSecondaryCurrency'] = this.isSecondaryCurrency;
         data['rate'] = this.rate;
         data['simplifiedChineseName'] = this.simplifiedChineseName;
         data['targetCurrencyId'] = this.targetCurrencyId;

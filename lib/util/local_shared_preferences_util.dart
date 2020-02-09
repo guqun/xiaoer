@@ -69,4 +69,17 @@ class LocalSharedPreferencesUtil
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getString(MAIN_TRADITIONAL_CHINESE_CURRENCY);
   }
+
+
+  static Future<void> setUpdateCurrencyTime(int updateCurrencyTime) async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setInt(UPDATE_CURREMCY_TIME, updateCurrencyTime);
+  }
+
+  static Future<int> getUpdateCurrencyTime() async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getInt(UPDATE_CURREMCY_TIME);
+  }
 }

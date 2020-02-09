@@ -6,7 +6,9 @@ class Application {
   static BuildContext buildContext;
   static bool isFirst;
   static int mainCurrencyId;
-  static String mainEnglishurrency;
+  static String mainEnglishCurrency;
   static String mainSimplifiedChineseCurrency;
   static String mainTraditionalChineseCurrency;
+
+//  static String updateCurrencyTime;
 }

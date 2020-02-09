@@ -69,6 +69,10 @@ class DBUtil
   static final String Currency_IsNetDataKey = CurrencyAttr.IS_NET_DATA;
   static final String Currency_TargetSimplifiedChineseCurrencyKey = CurrencyAttr.TARGET_SIMPLIFIED_CHINESE_CURRENCY;
   static final String Currency_TargetTraditionalChineseCurrencyKey = CurrencyAttr.TARGET_TRADITIONAL_CHINESE_CURRENCY;
+  static final String Currency_IsMainCurrencyKey = CurrencyAttr.IS_MAIN_CURRENCY;
+  static final String Currency_IsSecondaryCurrencyKey = CurrencyAttr.IS_SECONDARY_CURRENCY;
+  static final String Currency_ImageKey = CurrencyAttr.IMAGE;
+
 
   // Account table attr
   static final String Account_AmountKey = AccountAttr.AMOUNT;
@@ -162,13 +166,16 @@ class DBUtil
       $Currency_CreateTimeKey integer not null,
       $Currency_UpdateTimeKey integer not null,
       $Currency_RateKey double integer not null,
-      $Currency_SimplifiedChineseNameKey text not null,
-      $Currency_TraditionalChineseNameKey text not null,
+      $Currency_SimplifiedChineseNameKey text,
+      $Currency_TraditionalChineseNameKey text,
       $Currency_IsNetDataKey integer default 1,
       $Currency_TargetCurrencyIdKey integer not null,
       $Currency_TargetEnglishCurrencyKey text not null,
-      $Currency_TargetTraditionalChineseCurrencyKey text not null,
-      $Currency_TargetSimplifiedChineseCurrencyKey text not null)''',
+      $Currency_TargetTraditionalChineseCurrencyKey text,
+      $Currency_TargetSimplifiedChineseCurrencyKey text,
+      $Currency_ImageKey text,
+      $Currency_IsMainCurrencyKey integer default 0,
+      $Currency_IsSecondaryCurrencyKey integer default 0)''',
       );
 
       await db.execute('''create table $AccountTable(
@@ -180,8 +187,8 @@ class DBUtil
       $Account_StatusKey integer default 1,
       $Account_CurrencyIdKey integer not null,
       $Account_EnglishCurrencyKey text not null,
-      $Account_SimplifiedChineseCurrency text not null,
-      $Account_TraditionalChineseCurrency text not null)''',
+      $Account_SimplifiedChineseCurrency text,
+      $Account_TraditionalChineseCurrency text)''',
       );
     });
 

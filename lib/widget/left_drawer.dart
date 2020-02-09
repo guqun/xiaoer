@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/router_util/navigator_util.dart';
 
 class LeftDrawer extends StatelessWidget {
   @override
@@ -41,6 +42,9 @@ class LeftDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.build),
                     title: const Text('币种管理'),
+                    onTap: (){
+                      NavigatorUtil.goCurrencyPage(context);
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.attach_money),

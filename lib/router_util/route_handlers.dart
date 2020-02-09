@@ -1,6 +1,7 @@
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/page/currrency_page.dart';
 import 'package:flutter_app/page/home_page.dart';
 import 'package:flutter_app/page/splash_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +17,11 @@ var homeHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return HomePage();
 });
+
+var currencyPageHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+      return CurrencyPage();
+    });
 //
 ///// 跳转到订单详情页
 //var productDetailPageHandler = new Handler(

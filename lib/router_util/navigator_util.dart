@@ -22,10 +22,10 @@ class NavigatorUtil {
   }
 //
 //  /// 跳转到商品详情页
-//  static void goProductDetailPage(BuildContext context, String uuid) {
-//    Application.router.navigateTo(context, Routes.productDetailPage + "?uuid=$uuid", replace: false);
-//  }
-//
+  static void goCurrencyPage(BuildContext context) {
+    Application.router.navigateTo(context, Routes.currencyPage, replace: false);
+  }
+
 //  static void goLoginAndRegisterPage(BuildContext context, {bool isClear = false})
 //  {
 //    if(isClear)

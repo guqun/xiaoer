@@ -1,0 +1,5 @@
+enum CustomSimpleDialogEnum
+{
+  first,
+  second
+}

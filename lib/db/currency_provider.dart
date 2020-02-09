@@ -19,6 +19,9 @@ class CurrencyProvider
   static final String IsNetDataKey = CurrencyAttr.IS_NET_DATA;
   static final String TargetSimplifiedChineseCurrencyKey = CurrencyAttr.TARGET_SIMPLIFIED_CHINESE_CURRENCY;
   static final String TargetTraditionalChineseCurrencyKey = CurrencyAttr.TARGET_TRADITIONAL_CHINESE_CURRENCY;
+  static final String IsMainCurrencyKey = CurrencyAttr.IS_MAIN_CURRENCY;
+  static final String IsSecondaryCurrencyKey = CurrencyAttr.IS_SECONDARY_CURRENCY;
+  static final String ImageKey = CurrencyAttr.IMAGE;
 
 
   static Future<List<CurrencyDB>> queryAll() async
@@ -32,20 +35,36 @@ class CurrencyProvider
     return currencyDBs;
   }
 
-  Future<CurrencyDB> insert(CurrencyDB currencyDB) async
+  static Future<CurrencyDB> queryById(int id) async
+  {
+    Database database = await DBUtil.getDB();
+    List<Map<String, dynamic>> collection = await database.query(CurrencyTable, where: '$IdKey = ?', whereArgs: [id]);
+    List<CurrencyDB> currencyDBs = new List();
+    collection.forEach((element){
+      currencyDBs.add(CurrencyDB.fromJson(element));
+    });
+    if (currencyDBs.length != 1) {
+      return null;
+    }
+    else {
+      return currencyDBs[0];
+    }
+  }
+
+  static Future<CurrencyDB> insert(CurrencyDB currencyDB) async
   {
     Database database = await DBUtil.getDB();
     currencyDB.id = await database.insert(CurrencyTable, currencyDB.toJson());
     return currencyDB;
   }
 
-  Future<int> delete(int id) async
+  static Future<int> delete(int id) async
   {
     Database database = await DBUtil.getDB();
     return await database.delete(CurrencyTable, where: '$IdKey = ?', whereArgs: [id]);
   }
 
-  Future<int> update(CurrencyDB currencyDB) async
+  static Future<int> update(CurrencyDB currencyDB) async
   {
     Database database = await DBUtil.getDB();
     return await database.update(CurrencyTable, currencyDB.toJson(), where: '$IdKey = ?', whereArgs: [currencyDB.id]);
@@ -63,5 +82,18 @@ class CurrencyProvider
       await batch.commit(noResult: true);
     });
 
+  }
+
+  static Future<void> updates(List<CurrencyDB> currencyDBs) async
+  {
+    Database database = await DBUtil.getDB();
+
+    await database.transaction((txn) async {
+      var batch = txn.batch();
+      currencyDBs.forEach((element){
+        batch.update(CurrencyTable, element.toJson(), where: '$IdKey = ?', whereArgs: [element.id]);
+      });
+      await batch.commit(noResult: true);
+    });
   }
 }

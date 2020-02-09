@@ -1,0 +1,5 @@
+enum CustomAlertDialogEnum
+{
+  cancel,
+  confirm
+}

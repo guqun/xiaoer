@@ -12,4 +12,7 @@ class CurrencyAttr
   static final IS_NET_DATA = 'isNetData';
   static final TARGET_SIMPLIFIED_CHINESE_CURRENCY = "targetSimplifiedChineseCurrency";
   static final TARGET_TRADITIONAL_CHINESE_CURRENCY = "TargetTraditionalChineseCurrency";
+  static final IS_MAIN_CURRENCY = "isMainCurrency";
+  static final IS_SECONDARY_CURRENCY = "isSecondaryCurrency";
+  static final IMAGE = "image";
 }

@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/application.dart';
 import 'package:flutter_app/bloc/splash_bloc/splash_bloc_export.dart';
 import 'package:flutter_app/const.dart';
 import 'package:flutter_app/db/account_provider.dart';
@@ -13,10 +14,20 @@ import 'package:flutter_app/db/dao/account_db.dart';
 import 'package:flutter_app/db/dao/currency_db.dart';
 import 'package:flutter_app/db/dao/subtype_db.dart';
 import 'package:flutter_app/db/subtype_provider.dart';
+import 'package:flutter_app/dio_util/basic_result.dart';
+import 'package:flutter_app/dio_util/http_currency_util.dart';
+import 'package:flutter_app/enum/http_result_enum.dart';
+import 'package:flutter_app/enum/http_type_enum.dart';
 import 'package:flutter_app/model/account_init_info.dart';
 import 'package:flutter_app/model/current_init_info.dart';
+import 'package:flutter_app/model/req/currency_req.dart';
+import 'package:flutter_app/model/response/currency_response.dart';
 import 'package:flutter_app/model/subtype_init_info.dart';
+import 'package:flutter_app/tool/time_tool.dart';
+import 'package:flutter_app/util/local_shared_preferences_util.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:quiver/strings.dart';
 
 class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
   final int duration = 5 * 1000;
@@ -43,20 +54,84 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
         List<AccountDB> test3 = await AccountProvider.queryAll();
         print("account table size is " + test3.length.toString());
 
-        if (delta > duration) {
-          yield SplashBlocInitializedState();
+
+        // 更新汇率
+        int lastUpdateTime = 0;
+        try {
+          lastUpdateTime = await LocalSharedPreferencesUtil.getUpdateCurrencyTime();
+          if (lastUpdateTime == null) {
+            lastUpdateTime = 0;
+          }
         }
-        else
+        catch(e) {
+          lastUpdateTime = 0;
+        }
+
+        List<CurrencyDB> currencyDBs = await CurrencyProvider.queryAll();
+
+        if (isBlank(Application.mainEnglishCurrency) || Application.mainCurrencyId== null || Application.mainCurrencyId == 0) {
+          Application.mainEnglishCurrency = currencyDBs[0].englishName;
+          Application.mainCurrencyId = currencyDBs[0].id;
+        }
+
+        String currencys = "";
+        currencyDBs.forEach((element){
+          if (!equalsIgnoreCase(element.englishName, Application.mainEnglishCurrency)) {
+            currencys = currencys + element.englishName + ",";
+          }
+        });
+        CurrencyDB mainCurrencyDB;
+        currencyDBs.forEach((element){
+          if (element.id == Application.mainCurrencyId) {
+            mainCurrencyDB = element;
+          }
+        });
+
+        currencyDBs.remove(mainCurrencyDB);
+
+        if (time > lastUpdateTime) {
+          // 更新汇率
+          CurrencyReq currencyReq = new CurrencyReq();
+          currencyReq.base = Application.mainEnglishCurrency;
+          currencyReq.symbols = currencys;
+          BasicResult basicResult = await HttpCurrencyUtil().request("", HttpType.get, params: currencyReq.toJson());
+          if (basicResult.httpResult == HttpResultEnum.success) {
+            print(basicResult.toString());
+            CurrencyResponse currencyResponse = CurrencyResponse.fromJson(basicResult.data);
+            Rates rates = currencyResponse.rates;
+            currencyDBs.forEach((element){
+              if(equalsIgnoreCase(element.englishName, "HKD")) {
+                  element.rate = rates.HKD;
+              }
+              if(equalsIgnoreCase(element.englishName, "USD")){
+                element.rate = rates.USD;
+              }
+              if(equalsIgnoreCase(element.englishName, "TWD")){
+                element.rate = rates.TWD;
+              }
+            });
+            await CurrencyProvider.updates(currencyDBs);
+            await LocalSharedPreferencesUtil.setUpdateCurrencyTime(TimeTool.getCurrentDayLastSecond());
+
+            List<CurrencyDB> test = await CurrencyProvider.queryAll();
+            print("rate update is success, and the lendth is:" + test.length.toString());
+          }  
+        }
+
+          if (delta > duration) {
+            yield SplashBlocInitializedState();
+          }
+          else
           {
             yield await Future.delayed(
-                 Duration(milliseconds: duration - delta)).then((_) {
-                   print("--------------duration---------");
-                   return SplashBlocInitializedState();
-                 });
+                Duration(milliseconds: duration - delta)).then((_) {
+              print("--------------duration---------");
+              return SplashBlocInitializedState();
+            });
           }
+        }
       }
     }
-  }
 
   @override
   SplashBlocState get initialState {
@@ -114,6 +189,9 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
         currencyDB.simplifiedChineseName = element.simplifiedChineseName;
         currencyDB.traditionalChineseName = element.traditionalChineseName;
         currencyDB.rate = element.rate;
+        currencyDB.image = element.image;
+        currencyDB.isMainCurrency = element.isMainCurrency;
+        currencyDB.isSecondaryCurrency = element.isSecondaryCurrency;
         currencyDB.createTime = new DateTime.now().millisecondsSinceEpoch;
         currencyDB.updateTime = new DateTime.now().millisecondsSinceEpoch;
         currencyDBs.add(currencyDB);
