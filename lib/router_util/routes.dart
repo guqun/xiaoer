@@ -6,6 +6,7 @@ class Routes {
   static String root = "/";
   static String homePage = "/HomePage";
   static String currencyPage = "/CurrencyPage";
+  static String editRatePage = "/EditRatePage";
 //  static String productDetailPage = "/ProductDetailPage";
 //  static String loginAndRegisterPage = "/LoginAndRegisterPage";
 
@@ -20,6 +21,6 @@ class Routes {
     router.define(root, handler: splashHandler);
     router.define(homePage, handler: homeHandler);
     router.define(currencyPage, handler: currencyPageHandler);
-//    router.define(loginAndRegisterPage, handler: loginAndRegisterHandler);
+    router.define(editRatePage, handler: editRatePageHandler);
   }
 }

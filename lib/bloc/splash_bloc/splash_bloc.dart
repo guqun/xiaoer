@@ -37,6 +37,11 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
       if (state is SplashBlocUnInitializedState) {
         int time = DateTime.now().millisecondsSinceEpoch;
 
+        bool isFirst = await LocalSharedPreferencesUtil.getIsFirst();
+        if (isFirst == null) {
+          isFirst = true;
+        }
+        Application.isFirst = isFirst;
         // 初始化数据库内容
         initDataBase();
 
@@ -69,9 +74,30 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
 
         List<CurrencyDB> currencyDBs = await CurrencyProvider.queryAll();
 
-        if (isBlank(Application.mainEnglishCurrency) || Application.mainCurrencyId== null || Application.mainCurrencyId == 0) {
+        if(Application.isFirst) {
           Application.mainEnglishCurrency = currencyDBs[0].englishName;
           Application.mainCurrencyId = currencyDBs[0].id;
+          Application.secondaryEnglishCurrency = currencyDBs[0].englishName;
+          Application.secondaryCurrencyId = currencyDBs[0].id;
+        }
+        else{
+          // 恢复application信息
+          int mainCurrencyId = await LocalSharedPreferencesUtil.getMainCurrcyId();
+          if (mainCurrencyId != null) {
+            Application.mainCurrencyId = mainCurrencyId;
+          }
+          String mainEnglishCurrency = await LocalSharedPreferencesUtil.getMainEnglishCurrency();
+          if (!isBlank(mainEnglishCurrency)) {
+            Application.mainEnglishCurrency = mainEnglishCurrency;
+          }
+          int secondaryCurrencyId = await LocalSharedPreferencesUtil.getSecondaryCurrencyId();
+          if (secondaryCurrencyId != null) {
+            Application.mainCurrencyId = secondaryCurrencyId;
+          }
+          String secondaryEnglishCurrency = await LocalSharedPreferencesUtil.getSecondaryEnglishCurrency();
+          if (!isBlank(mainEnglishCurrency)) {
+            Application.secondaryEnglishCurrency = secondaryEnglishCurrency;
+          }
         }
 
         String currencys = "";

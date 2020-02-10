@@ -9,6 +9,7 @@ class Application {
   static String mainEnglishCurrency;
   static String mainSimplifiedChineseCurrency;
   static String mainTraditionalChineseCurrency;
-
+  static int secondaryCurrencyId;
+  static String secondaryEnglishCurrency;
 //  static String updateCurrencyTime;
 }

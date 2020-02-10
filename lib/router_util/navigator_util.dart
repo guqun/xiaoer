@@ -16,22 +16,17 @@ class NavigatorUtil {
     Navigator.pop(context, result);
   }
 
-//  /// 跳转到主页面
   static void goHomePage(BuildContext context) {
     Application.router.navigateTo(context, Routes.homePage, replace: true);
   }
-//
-//  /// 跳转到商品详情页
   static void goCurrencyPage(BuildContext context) {
     Application.router.navigateTo(context, Routes.currencyPage, replace: false);
   }
 
-//  static void goLoginAndRegisterPage(BuildContext context, {bool isClear = false})
-//  {
-//    if(isClear)
-//      {
-//        Application.router.navigateTo(context, Routes.homePage, replace: true, clearStack: true);
-//      }
-//    Application.router.navigateTo(context, Routes.loginAndRegisterPage, replace: false);
-//  }
+  static Future goEditRatePage(BuildContext context, int currencyId, num curencyRate, String currencyName)
+  {
+    return Application.router.navigateTo(context,
+        Routes.editRatePage + "?currencyId=" + currencyId.toString() + "&currencyRate=" + curencyRate.toString() + "&currencyName=" + currencyName,
+        replace: false);
+  }
 }

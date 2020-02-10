@@ -42,21 +42,6 @@ class CurrencyBlocQueryAllSuccessState extends CurrencyBlocState
   }
 }
 
-class CurrencyBlocEditSuccessState extends CurrencyBlocState
-{
-  final double _rate;
-
-
-  CurrencyBlocEditSuccessState(this._rate);
-
-
-  double get rate => _rate;
-
-  @override
-  List<Object> get props {
-    return [_rate];
-  }
-}
 
 class CurrencyBlocFailedState extends CurrencyBlocState
 {
@@ -71,5 +56,21 @@ class CurrencyBlocFailedState extends CurrencyBlocState
   @override
   List<Object> get props {
     return [_message];
+  }
+}
+
+class CurrencyBlocChangeSecondarySuccessState extends CurrencyBlocState
+{
+  final List<CurrencyDB> _currencyDBs;
+
+
+  CurrencyBlocChangeSecondarySuccessState(this._currencyDBs);
+
+
+  List<CurrencyDB> get currencyDBs => _currencyDBs;
+
+  @override
+  List<Object> get props {
+    return [_currencyDBs];
   }
 }

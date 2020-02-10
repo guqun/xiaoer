@@ -16,22 +16,22 @@ class CurrencyBlocQueryAllEvent extends CurrencyBlocEvent
   }
 }
 
-class CurrencyBlocEditRateEvent extends CurrencyBlocEvent
+class CurrencyBlocChangeSecondaryEvent extends CurrencyBlocEvent
 {
+  int _selectedSecondaryId;
+  String _selectedSecondaryEnglishCurrency;
 
-  final int _currentId;
-  final double _rate;
-
-
-  CurrencyBlocEditRateEvent(this._currentId, this._rate);
+  int get selectedSecondaryId => _selectedSecondaryId;
 
 
-  double get rate => _rate;
+  String get selectedSecondaryEnglishCurrency =>
+      _selectedSecondaryEnglishCurrency;
 
-  int get currentId => _currentId;
+  CurrencyBlocChangeSecondaryEvent(this._selectedSecondaryId, this._selectedSecondaryEnglishCurrency);
 
   @override
   List<Object> get props {
-    return [];
+    return [_selectedSecondaryId];
   }
 }
+

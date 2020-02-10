@@ -82,4 +82,28 @@ class LocalSharedPreferencesUtil
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getInt(UPDATE_CURREMCY_TIME);
   }
+
+  static Future<void> setSecondaryCurrencyId(int secondaryCurrencyId) async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setInt(SECONDARY_CURRENCY_ID, secondaryCurrencyId);
+  }
+
+  static Future<int> getSecondaryCurrencyId() async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getInt(SECONDARY_CURRENCY_ID);
+  }
+
+  static Future<void> setSecondaryEnglishCurrency(String secondaryEnglishCurrency) async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString(SECONDART_ENGLISH_CURRENCY, secondaryEnglishCurrency);
+  }
+
+  static Future<String> getSecondaryEnglishCurrency() async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString(SECONDART_ENGLISH_CURRENCY);
+  }
 }

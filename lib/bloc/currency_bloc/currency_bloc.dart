@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_app/application.dart';
 import 'package:flutter_app/bloc/currency_bloc/currency_bloc_event.dart';
 import 'package:flutter_app/bloc/currency_bloc/currency_bloc_state.dart';
 import 'package:flutter_app/db/currency_provider.dart';
 import 'package:flutter_app/db/dao/currency_db.dart';
+import 'package:flutter_app/util/local_shared_preferences_util.dart';
 
 class CurrencyBloc extends Bloc<CurrencyBlocEvent, CurrencyBlocState>
 {
@@ -19,14 +21,25 @@ class CurrencyBloc extends Bloc<CurrencyBlocEvent, CurrencyBlocState>
             return new CurrencyBlocQueryAllSuccessState(currencyDBs);
           });
         }
-        if (event is CurrencyBlocEditRateEvent) {
-          if (event.currentId == null) {
-            yield new CurrencyBlocFailedState("id is null");
-          }
-          CurrencyDB currencyDB = await CurrencyProvider.queryById(event.currentId);
-          currencyDB.rate = event.rate;
-          await CurrencyProvider.update(currencyDB);
-          yield new CurrencyBlocEditSuccessState(event.rate);
+        if (event is CurrencyBlocChangeSecondaryEvent) {
+          List<CurrencyDB> currencyDBs = await CurrencyProvider.queryAll();
+          List<CurrencyDB> updates = new List();
+          currencyDBs.forEach((elemnet){
+            if (elemnet.id == event.selectedSecondaryId && elemnet.isSecondaryCurrency == false) {
+              elemnet.isSecondaryCurrency = true;
+              updates.add(elemnet);
+            }
+            if (elemnet.id != event.selectedSecondaryId && elemnet.isSecondaryCurrency == true) {
+              elemnet.isSecondaryCurrency = false;
+              updates.add(elemnet);
+            }
+          });
+          await CurrencyProvider.updates(updates);
+          await LocalSharedPreferencesUtil.setSecondaryCurrencyId(event.selectedSecondaryId);
+          await LocalSharedPreferencesUtil.setSecondaryEnglishCurrency(event.selectedSecondaryEnglishCurrency);
+          Application.secondaryEnglishCurrency = event.selectedSecondaryEnglishCurrency;
+          Application.secondaryCurrencyId = event.selectedSecondaryId;
+          yield CurrencyBlocChangeSecondarySuccessState(currencyDBs);
         }
       }catch(e){
         yield new CurrencyBlocFailedState("unkonwn exception!");

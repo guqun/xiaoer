@@ -2,6 +2,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/page/currrency_page.dart';
+import 'package:flutter_app/page/edit_rate_page.dart';
 import 'package:flutter_app/page/home_page.dart';
 import 'package:flutter_app/page/splash_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,19 +24,12 @@ var currencyPageHandler = new Handler(
       return CurrencyPage();
     });
 //
-///// 跳转到订单详情页
-//var productDetailPageHandler = new Handler(
-//    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-//      return BlocProvider<ProductDetailBloc>(
-//          builder: (context)
-//          {
-//            return ProductDetailBloc();
-//          },
-//        child: ProductDetailPage(params["uuid"]?.first),
-//      );
-//    });
-//
-//
+var editRatePageHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
+      return EditRatePage(int.parse(params["currencyId"]?.first), num.parse(params["currencyRate"]?.first).toDouble(), params["currencyName"]?.first);
+    });
+
+
 //var loginAndRegisterHandler = new Handler(
 //  handlerFunc: (BuildContext context, Map<String, List<String>> params)
 //  {
