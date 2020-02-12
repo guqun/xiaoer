@@ -1,4 +1,3 @@
-import 'dart:html';
 
 import 'package:flutter_app/db/record_attr.dart';
 
@@ -10,23 +9,28 @@ class RecordDB {
     int currentId; // 当前货币id
     int id;
     int mainCurrentId; // 当前主货币id
-    String mainCurrentAmount;
+    double mainCurrentAmount;
     String mainCurrentUnit;
     int periodicId;
     num rate;
     int recordType;
     int subType;
     String subTypeName;
-    int type;
+    int type; // 0-支出，1-收入，3-账户余额调整
     String typeName;
     int updateTime;
     String remark;
     int year;
     int month;
     int day;
+    int accountId; // 关联账户
+    String accountName;
+    bool isPeriod;
+    bool isAA;
 
     RecordDB({this.aaId, this.amount, this.createTime, this.currentId, this.currentUnit, this.id, this.mainCurrentId, this.mainCurrentAmount, this.mainCurrentUnit,
-        this.periodicId, this.rate, this.recordType, this.subType, this.subTypeName, this.type, this.typeName, this.updateTime, this.remark, this.year, this.month, this.day});
+        this.periodicId, this.rate, this.recordType, this.subType, this.subTypeName, this.type, this.typeName, this.updateTime, this.remark, this.year, this.month, this.day,
+    this.accountId, this.accountName, this.isPeriod, this.isAA});
 
     factory RecordDB.fromJson(Map<String, dynamic> json) {
         return RecordDB(
@@ -50,7 +54,11 @@ class RecordDB {
             remark: json[RecordAttr.REMARK],
             year: json[RecordAttr.YEAR],
             month: json[RecordAttr.MONTH],
-            day: json[RecordAttr.DAY]
+            day: json[RecordAttr.DAY],
+            accountId: json[RecordAttr.ACCOUNT_ID],
+            accountName: json[RecordAttr.ACCOUNT_NAME],
+            isPeriod: json[RecordAttr.IS_PERIOD] == 1 ? true : false,
+            isAA: json[RecordAttr.IS_AA] == 1 ? true : false
 
         );
     }
@@ -61,9 +69,11 @@ class RecordDB {
         data[RecordAttr.AMOUNT] = this.amount;
         data[RecordAttr.CREATE_TIME] = this.createTime;
         data[RecordAttr.CURRENT_UNIT] = this.currentUnit;
+        data[RecordAttr.CURRENT_ID] = this.currentId;
         data[RecordAttr.ID] = this.id;
         data[RecordAttr.MAIN_CURRENT_AMOUNT] = this.mainCurrentAmount;
         data[RecordAttr.MAIN_CURRENT_UNIT] = this.mainCurrentUnit;
+        data[RecordAttr.MAIN_CURRENT_ID] = this.mainCurrentId;
         data[RecordAttr.PERIODIC_ID] = this.periodicId;
         data[RecordAttr.RATE] = this.rate;
         data[RecordAttr.RECORD_TYPE] = this.recordType;
@@ -76,6 +86,10 @@ class RecordDB {
         data[RecordAttr.YEAR] = this.year;
         data[RecordAttr.MONTH] = this.month;
         data[RecordAttr.DAY] = this.day;
+        data[RecordAttr.IS_AA] = this.isAA == true ? 1 : 0;
+        data[RecordAttr.IS_PERIOD] = this.isPeriod == true ? 1 : 0;
+        data[RecordAttr.ACCOUNT_ID] = this.accountId;
+        data[RecordAttr.ACCOUNT_NAME] = this.accountName;
         return data;
     }
 }

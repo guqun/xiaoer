@@ -34,14 +34,16 @@ class Rates {
     num HKD;
     num TWD;
     num USD;
+    num CNY;
 
-    Rates({this.HKD, this.TWD, this.USD});
+    Rates({this.HKD, this.TWD, this.USD, this.CNY});
 
     factory Rates.fromJson(Map<String, dynamic> json) {
         return Rates(
             HKD: json['HKD'],
             TWD: json['TWD'],
             USD: json['USD'],
+            CNY: json['CNY']
         );
     }
 
@@ -50,6 +52,7 @@ class Rates {
         data['HKD'] = this.HKD;
         data['TWD'] = this.TWD;
         data['USD'] = this.USD;
+        data['CNY'] = this.CNY;
         return data;
     }
 }

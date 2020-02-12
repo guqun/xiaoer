@@ -12,7 +12,7 @@ class LoadingDialogWrapper
   LoadingDialogWrapper(BuildContext context)
   {
     _buildContext = context;
-    _loadingDialog = LoadingDialog(context, setShow);
+    _loadingDialog = LoadingDialog(_buildContext, setShow);
   }
 
   void show()
@@ -31,7 +31,7 @@ class LoadingDialogWrapper
   void dismiss()
   {
     if (_isShow) {
-      NavigatorUtil.goBack(_buildContext);
+      Navigator.pop(_buildContext);
       _isShow = false;
     }
   }
@@ -40,5 +40,8 @@ class LoadingDialogWrapper
   {
     _isShow = show;
   }
+
+  BuildContext get buildContext => _buildContext;
+
 
 }

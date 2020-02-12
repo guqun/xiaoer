@@ -3,6 +3,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/application.dart';
 import 'package:flutter_app/router_util/routes.dart';
+import 'package:flutter_app/tool/fluro_convert_utils.dart';
 
 class NavigatorUtil {
   /// 返回
@@ -27,6 +28,21 @@ class NavigatorUtil {
   {
     return Application.router.navigateTo(context,
         Routes.editRatePage + "?currencyId=" + currencyId.toString() + "&currencyRate=" + curencyRate.toString() + "&currencyName=" + currencyName,
+        replace: false);
+  }
+
+  static void goAccountPage(BuildContext context) {
+    Application.router.navigateTo(context, Routes.accountPage, replace: false);
+  }
+
+  static Future goAddAccountPage(BuildContext context) {
+    return Application.router.navigateTo(context, Routes.addAccountPage, replace: false);
+  }
+
+  static Future goEditAccountPage(BuildContext context, int id, String name, num amount)
+  {
+    return Application.router.navigateTo(context,
+        Routes.editAccountPage + "?id=" + id.toString() + "&name=" + FluroConvertUtils.fluroCnParamsEncode(name) + "&amount=" + amount.toString(),
         replace: false);
   }
 }

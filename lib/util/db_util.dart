@@ -37,6 +37,10 @@ class DBUtil
   static final String Record_YearKKey = RecordAttr.YEAR;
   static final String Record_MonthKey = RecordAttr.MONTH;
   static final String Record_DayKey = RecordAttr.DAY;
+  static final String Record_AccountIdKey = RecordAttr.ACCOUNT_ID;
+  static final String Record_AccountNameKey = RecordAttr.ACCOUNT_NAME;
+  static final String Record_IsPeriodKey = RecordAttr.IS_PERIOD;
+  static final String Record_IsAAKey = RecordAttr.IS_AA;
 
   // type table attr
   static final String Type_CreateTimeKey = TypeAttr.CREATE_TIME;
@@ -83,8 +87,10 @@ class DBUtil
   static final String Account_UpdateTimeKey = AccountAttr.UPDATE_TIME;
   static final String Account_CurrencyIdKey = AccountAttr.CURRENCY_ID;
   static final String Account_EnglishCurrencyKey = AccountAttr.ENGLISH_CURRENCY;
-  static final String Account_TraditionalChineseCurrency = AccountAttr.TRADITIONAL_CHINESE_CURRENCY;
-  static final String Account_SimplifiedChineseCurrency = AccountAttr.SIMPLIFIED_CHINESE_CURRENCY;
+  static final String Account_TraditionalChineseCurrencyKey = AccountAttr.TRADITIONAL_CHINESE_CURRENCY;
+  static final String Account_SimplifiedChineseCurrencyKey = AccountAttr.SIMPLIFIED_CHINESE_CURRENCY;
+  static final String Account_ImageKey = AccountAttr.IMAGE;
+
 
   static String _path;
   static Database _db;
@@ -128,17 +134,21 @@ class DBUtil
       $Record_MainCurrentIdKey integer not null,
       $Record_PeriodicIdKey integer,
       $Record_RateKey double not null,
-      $Record_RecordTypeKey integer not null,
+      $Record_RecordTypeKey integer,
       $Record_CreateTimeKey integer not null,
       $Record_UpdateTimeKey integer not null,
-      $Record_SubTypeNameKey text not null,
-      $Record_SubTypeKey integer not null,
-      $Record_TypeKey integer, 
+      $Record_SubTypeNameKey text,
+      $Record_SubTypeKey integer,
+      $Record_TypeKey integer not null, 
       $Record_TypeNameKey text,
       $Record_RemarkKey text,
       $Record_YearKKey integer not null,
       $Record_MonthKey integer not null,     
-      $Record_DayKey integer not null)''',
+      $Record_DayKey integer not null,
+      $Record_AccountIdKey integer,
+      $Record_AccountNameKey text,
+      $Record_IsAAKey integer,
+      $Record_IsPeriodKey integer)''',
       );
 
       await db.execute('''create table $TypeTable(
@@ -187,8 +197,9 @@ class DBUtil
       $Account_StatusKey integer default 1,
       $Account_CurrencyIdKey integer not null,
       $Account_EnglishCurrencyKey text not null,
-      $Account_SimplifiedChineseCurrency text,
-      $Account_TraditionalChineseCurrency text)''',
+      $Account_SimplifiedChineseCurrencyKey text,
+      $Account_TraditionalChineseCurrencyKey text,
+      $Account_ImageKey text)''',
       );
     });
 

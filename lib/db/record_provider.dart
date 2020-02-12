@@ -30,8 +30,13 @@ class RecordProvider
   static final String YearKey = RecordAttr.YEAR;
   static final String MonthKey = RecordAttr.MONTH;
   static final String DayKey = RecordAttr.DAY;
+  static final String AccountIdKey = RecordAttr.ACCOUNT_ID;
+  static final String AccountNameKey = RecordAttr.ACCOUNT_NAME;
+  static final String IsPeriodKey = RecordAttr.IS_PERIOD;
+  static final String IsAAKey = RecordAttr.IS_AA;
 
-  Future<List<RecordDB>> queryAll() async
+
+  static Future<List<RecordDB>> queryAll() async
   {
     Database database = await DBUtil.getDB();
     List<Map<String, dynamic>> collection = await database.query(RecordTable, orderBy: '$IdKey DESC');
@@ -42,22 +47,26 @@ class RecordProvider
     return records;
   }
 
-  Future<RecordDB> insert(RecordDB recordDB) async
+  static Future<RecordDB> insert(RecordDB recordDB) async
   {
     Database database = await DBUtil.getDB();
+    recordDB.createTime = DateTime.now().millisecondsSinceEpoch;
+    recordDB.updateTime = DateTime.now().millisecondsSinceEpoch;
     recordDB.id = await database.insert(RecordTable, recordDB.toJson());
     return recordDB;
   }
 
-  Future<int> delete(int id) async
+  static Future<int> delete(int id) async
   {
     Database database = await DBUtil.getDB();
     return await database.delete(RecordTable, where: '$IdKey = ?', whereArgs: [id]);
   }
 
-  Future<int> update(RecordDB recordDB) async
+  static Future<int> update(RecordDB recordDB) async
   {
     Database database = await DBUtil.getDB();
+    recordDB.updateTime = DateTime.now().millisecondsSinceEpoch;
     return await database.update(RecordTable, recordDB.toJson(), where: '$IdKey = ?', whereArgs: [recordDB.id]);
   }
+
 }

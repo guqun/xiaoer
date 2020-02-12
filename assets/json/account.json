@@ -5,8 +5,9 @@
     "name": "现金",
     "status": 1,
     "currencyId": 1,
-    "englishCurrency": "rmb",
+    "englishCurrency": "CNY",
     "traditionalChineseCurrency": "人民币",
-    "simplifiedChineseCurrency": "人民币"
+    "simplifiedChineseCurrency": "人民币",
+    "image": "cash.png"
   }]
 }

@@ -15,8 +15,9 @@ class AccountProvider
   static final String UpdateTimeKey = AccountAttr.UPDATE_TIME;
   static final String CurrencyIdKey = AccountAttr.CURRENCY_ID;
   static final String EnglishCurrencyKey = AccountAttr.ENGLISH_CURRENCY;
-  static final String TraditionalChineseCurrency = AccountAttr.TRADITIONAL_CHINESE_CURRENCY;
-  static final String SimplifiedChineseCurrency = AccountAttr.SIMPLIFIED_CHINESE_CURRENCY;
+  static final String TraditionalChineseCurrencyKey = AccountAttr.TRADITIONAL_CHINESE_CURRENCY;
+  static final String SimplifiedChineseCurrencyKey = AccountAttr.SIMPLIFIED_CHINESE_CURRENCY;
+  static final String ImageKey = AccountAttr.IMAGE;
 
 
   static Future<List<AccountDB>> queryAll() async
@@ -30,22 +31,41 @@ class AccountProvider
     return accountDBs;
   }
 
-  Future<AccountDB> insert(AccountDB accountDB) async
+  static Future<AccountDB> insert(AccountDB accountDB) async
   {
     Database database = await DBUtil.getDB();
+    accountDB.createTime = DateTime.now().millisecondsSinceEpoch;
+    accountDB.updateTime = DateTime.now().millisecondsSinceEpoch;
     accountDB.id = await database.insert(AccountTable, accountDB.toJson());
     return accountDB;
   }
 
-  Future<int> delete(int id) async
+  static Future<AccountDB> queryById(int id) async
+  {
+    Database database = await DBUtil.getDB();
+    List<Map<String, dynamic>> collection = await database.query(AccountTable, where: '$IdKey = ?', whereArgs: [id]);
+    List<AccountDB> currencyDBs = new List();
+    collection.forEach((element){
+      currencyDBs.add(AccountDB.fromJson(element));
+    });
+    if (currencyDBs.length != 1) {
+      return null;
+    }
+    else {
+      return currencyDBs[0];
+    }
+  }
+
+  static Future<int> delete(int id) async
   {
     Database database = await DBUtil.getDB();
     return await database.delete(AccountTable, where: '$IdKey = ?', whereArgs: [id]);
   }
 
-  Future<int> update(AccountDB accountDB) async
+  static Future<int> update(AccountDB accountDB) async
   {
     Database database = await DBUtil.getDB();
+    accountDB.updateTime = DateTime.now().millisecondsSinceEpoch;
     return await database.update(AccountTable, accountDB.toJson(), where: '$IdKey = ?', whereArgs: [accountDB.id]);
   }
 
@@ -57,6 +77,8 @@ class AccountProvider
     await database.transaction((txn) async {
       var batch = txn.batch();
       accountDBs.forEach((element){
+        element.createTime = DateTime.now().millisecondsSinceEpoch;
+        element.updateTime = DateTime.now().millisecondsSinceEpoch;
         batch.insert(AccountTable, element.toJson());
       });
       await batch.commit(noResult: true);

@@ -11,5 +11,5 @@ class Application {
   static String mainTraditionalChineseCurrency;
   static int secondaryCurrencyId;
   static String secondaryEnglishCurrency;
-//  static String updateCurrencyTime;
+  static double rate;
 }

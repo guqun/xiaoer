@@ -106,4 +106,17 @@ class LocalSharedPreferencesUtil
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getString(SECONDART_ENGLISH_CURRENCY);
   }
+
+
+  static Future<void> setRate(double rate) async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setDouble(RATE, rate);
+  }
+
+  static Future<double> getRate() async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getDouble(RATE);
+  }
 }

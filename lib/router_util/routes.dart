@@ -7,8 +7,10 @@ class Routes {
   static String homePage = "/HomePage";
   static String currencyPage = "/CurrencyPage";
   static String editRatePage = "/EditRatePage";
-//  static String productDetailPage = "/ProductDetailPage";
-//  static String loginAndRegisterPage = "/LoginAndRegisterPage";
+  static String accountPage = "/AccountPage";
+  static String addAccountPage = "/AddAccountPage";
+  static String editAccountPage = "/EditAccountPage";
+
 
   static void configureRoutes(Router router) {
 
@@ -22,5 +24,10 @@ class Routes {
     router.define(homePage, handler: homeHandler);
     router.define(currencyPage, handler: currencyPageHandler);
     router.define(editRatePage, handler: editRatePageHandler);
+    router.define(accountPage, handler: accountPageHandler);
+    router.define(addAccountPage, handler: addAccountPageHandler);
+    router.define(editAccountPage, handler: editAccountPageHandler);
+
+
   }
 }

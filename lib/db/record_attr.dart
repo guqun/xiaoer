@@ -21,4 +21,8 @@ class RecordAttr
   static final YEAR = "year";
   static final MONTH = "month";
   static final DAY = "day";
+  static final ACCOUNT_ID = "accountId";
+  static final ACCOUNT_NAME = "accountName";
+  static final IS_PERIOD = "isPeriod";
+  static final IS_AA = "isAA";
 }

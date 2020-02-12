@@ -79,6 +79,7 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
           Application.mainCurrencyId = currencyDBs[0].id;
           Application.secondaryEnglishCurrency = currencyDBs[0].englishName;
           Application.secondaryCurrencyId = currencyDBs[0].id;
+          Application.rate = currencyDBs[0].rate.toDouble();
         }
         else{
           // 恢复application信息
@@ -97,6 +98,10 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
           String secondaryEnglishCurrency = await LocalSharedPreferencesUtil.getSecondaryEnglishCurrency();
           if (!isBlank(mainEnglishCurrency)) {
             Application.secondaryEnglishCurrency = secondaryEnglishCurrency;
+          }
+          double rate = await LocalSharedPreferencesUtil.getRate();
+          if (rate != null) {
+            Application.rate = rate;
           }
         }
 
@@ -135,9 +140,19 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
               if(equalsIgnoreCase(element.englishName, "TWD")){
                 element.rate = rates.TWD;
               }
+              if(equalsIgnoreCase(element.englishName, "CNY")){
+                element.rate = rates.CNY;
+              }
+              if (Application.secondaryCurrencyId == element.id) {
+                Application.rate = element.rate;
+              }
             });
+            if (Application.mainCurrencyId == Application.secondaryCurrencyId) {
+              Application.rate = 1.0;
+            }
             await CurrencyProvider.updates(currencyDBs);
             await LocalSharedPreferencesUtil.setUpdateCurrencyTime(TimeTool.getCurrentDayLastSecond());
+            await LocalSharedPreferencesUtil.setRate(Application.rate);
 
             List<CurrencyDB> test = await CurrencyProvider.queryAll();
             print("rate update is success, and the lendth is:" + test.length.toString());
@@ -246,6 +261,7 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
         accountDB.status = element.status;
         accountDB.createTime = new DateTime.now().millisecondsSinceEpoch;
         accountDB.updateTime = new DateTime.now().millisecondsSinceEpoch;
+        accountDB.image = element.image;
         accountDBs.add(accountDB);
       });
       await AccountProvider.inserts(accountDBs);
