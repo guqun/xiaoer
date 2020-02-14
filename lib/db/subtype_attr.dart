@@ -8,4 +8,7 @@ class SubTypeAttr
   static final CREATE_TIME = "createTime";
   static final IS_USER_DEFINED = "isUserDefined";
   static final IS_PERIOD = "isPeriod";
+  static final COUNT = "count"; // 使用次数
+  static final RECORD_TYPE = "recordType";
+  static final IMAGE = "image";
 }

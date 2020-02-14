@@ -1,12 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_app/bloc/account_bloc/account_bloc_event.dart';
 import 'package:flutter_app/bloc/account_bloc/account_bloc_export.dart';
-import 'package:flutter_app/bloc/currency_bloc/currency_bloc_event.dart';
-import 'package:flutter_app/bloc/currency_bloc/currency_bloc_state.dart';
 import 'package:flutter_app/db/account_provider.dart';
-import 'package:flutter_app/db/currency_provider.dart';
 import 'package:flutter_app/db/dao/account_db.dart';
-import 'package:flutter_app/db/dao/currency_db.dart';
 
 class AccountBloc extends Bloc<AccountBlocEvent, AccountBlocState>
 {
@@ -24,7 +20,7 @@ class AccountBloc extends Bloc<AccountBlocEvent, AccountBlocState>
       }catch(e){
         yield new AccountBlocFailedState("unkonwn exception!");
       }
- 
+
     }
   }
 

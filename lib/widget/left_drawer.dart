@@ -37,7 +37,10 @@ class LeftDrawer extends StatelessWidget {
                 children: <Widget>[
                   ListTile(
                     leading: const Icon(Icons.add),
-                    title: const Text('类别管理'),
+                    title: const Text('分类管理'),
+                    onTap: (){
+                      NavigatorUtil.goCategoryPage(context);
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.build),
@@ -52,10 +55,6 @@ class LeftDrawer extends StatelessWidget {
                     onTap: (){
                       NavigatorUtil.goAccountPage(context);
                     },
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.account_circle),
-                    title: const Text('个人中心'),
                   ),
                 ],
               ),

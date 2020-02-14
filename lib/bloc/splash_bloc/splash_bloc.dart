@@ -204,6 +204,8 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
         subTypeDB.isUserDefined = element.isUserDefined;
         subTypeDB.createTime = new DateTime.now().millisecondsSinceEpoch;
         subTypeDB.updateTime = new DateTime.now().millisecondsSinceEpoch;
+        subTypeDB.image = element.image;
+        subTypeDB.recordType = element.recordType;
         subtyoeDBs.add(subTypeDB);
       });
       await SubTypeProvider.inserts(subtyoeDBs);

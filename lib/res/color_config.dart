@@ -9,5 +9,6 @@ class ColorConfig
   static const Color color_333333= Color(0xff333333);
   static const Color color_999999= Color(0xff999999);
   static const Color color_f9f9f9= Color(0xfff9f9f9);
+  static const Color color_9b9b9b= Color(0xff9b9b9b);
 
 }

@@ -97,22 +97,22 @@ class AddAccountRespository
   {
 
     if (id == null || id <= 0) {
-      return new DBResponse(false, "id exception");
+      return new DBResponse(false, message: "id exception");
     }
 
     // 更新账号
     AccountDB accountDB = await AccountProvider.queryById(id);
     if (accountDB == null) {
-      return new DBResponse(false, "account not exist");
+      return new DBResponse(false, message: "account not exist");
     }
 
     List<AccountDB> accountDBs = await AccountProvider.queryAll();
     
     if (accountDBs.length == 1) {
-      return new DBResponse(false, "there is only one account, could't delete");
+      return new DBResponse(false, message: "there is only one account, could't delete");
     }  
     
     AccountProvider.delete(id);
-    return DBResponse(true, "");
+    return DBResponse(true);
   }
 }

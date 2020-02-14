@@ -15,7 +15,10 @@ class SubTypeProvider
   static final String TypeNameKey = SubTypeAttr.TYPE_NAME;
   static final String UpdateTimeKey = SubTypeAttr.UPDATE_TIME;
   static final String IsUserDefinedKey = SubTypeAttr.IS_USER_DEFINED;
-  static final String isPeriod = SubTypeAttr.IS_PERIOD;
+  static final String IsPeriod = SubTypeAttr.IS_PERIOD;
+  static final String Count = SubTypeAttr.COUNT; // 使用次数
+  static final String RecordType = SubTypeAttr.RECORD_TYPE;
+  static final String Image = SubTypeAttr.IMAGE;
 
   static Future<List<SubTypeDB>> queryAll() async
   {
@@ -28,14 +31,25 @@ class SubTypeProvider
     return subTypeDBs;
   }
 
-  Future<SubTypeDB> insert(SubTypeDB subTypeDB) async
+  static Future<List<SubTypeDB>> queryByRecordType(int type) async
+  {
+    Database database = await DBUtil.getDB();
+    List<Map<String, dynamic>> collection = await database.query(SubTypeTable, where: '$RecordType = ?', whereArgs: [type]);
+    List<SubTypeDB> subTypeDBs = new List();
+    collection.forEach((element){
+      subTypeDBs.add(SubTypeDB.fromJson(element));
+    });
+    return subTypeDBs;
+  }
+
+  static Future<SubTypeDB> insert(SubTypeDB subTypeDB) async
   {
     Database database = await DBUtil.getDB();
     subTypeDB.id = await database.insert(SubTypeTable, subTypeDB.toJson());
     return subTypeDB;
   }
 
-  Future<int> delete(int id) async
+  static Future<int> delete(int id) async
   {
     Database database = await DBUtil.getDB();
     return await database.delete(SubTypeTable, where: '$IdKey = ?', whereArgs: [id]);

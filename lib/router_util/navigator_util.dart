@@ -45,4 +45,12 @@ class NavigatorUtil {
         Routes.editAccountPage + "?id=" + id.toString() + "&name=" + FluroConvertUtils.fluroCnParamsEncode(name) + "&amount=" + amount.toString(),
         replace: false);
   }
+
+  static Future goCategoryPage(BuildContext context) {
+    return Application.router.navigateTo(context, Routes.categoryPage, replace: false);
+  }
+
+  static Future goAddCategoryPage(BuildContext context) {
+    return Application.router.navigateTo(context, Routes.addCategoryPage, replace: false);
+  }
 }

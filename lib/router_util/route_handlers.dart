@@ -3,6 +3,8 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/page/account_page.dart';
 import 'package:flutter_app/page/add_account_page.dart';
+import 'package:flutter_app/page/add_category_page.dart';
+import 'package:flutter_app/page/category_page.dart';
 import 'package:flutter_app/page/currrency_page.dart';
 import 'package:flutter_app/page/edit_account_page.dart';
 import 'package:flutter_app/page/edit_rate_page.dart';
@@ -51,6 +53,20 @@ var editAccountPageHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params)
     {
       return EditAccountPage(int.parse(params["id"]?.first), FluroConvertUtils.fluroCnParamsDecode(params["name"]?.first), num.parse(params["amount"]?.first).toDouble());
+    }
+);
+
+var categoryPageHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params)
+    {
+      return CategoryPage();
+    }
+);
+
+var addCategoryPageHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params)
+    {
+      return AddCategoryPage();
     }
 );
 

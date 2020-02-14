@@ -3,21 +3,57 @@
   [
     {"name" : "早餐",
       "isUserDefined": false,
-      "isPeriod": false},
+      "isPeriod": false,
+      "image": "transport_icon.png",
+      "recordType": 0
+    },
     {"name" : "午餐",
       "isUserDefined": false,
-      "isPeriod": false},
+      "isPeriod": false,
+      "image": "transport_icon.png",
+      "recordType": 0
+    },
     {"name" : "晚餐",
       "isUserDefined": false,
-      "isPeriod": false},
+      "isPeriod": false,
+      "image": "transport_icon.png",
+      "recordType": 0
+
+    },
     {"name" : "零食",
       "isUserDefined": false,
-      "isPeriod": false},
+      "isPeriod": false,
+      "image": "transport_icon.png",
+      "recordType": 0
+
+    },
     {"name" : "出租车",
       "isUserDefined": false,
-      "isPeriod": false},
+      "isPeriod": false,
+      "image": "transport_icon.png",
+      "recordType": 0
+
+
+    },
     {"name" : "公交车-地铁",
       "isUserDefined": false,
-      "isPeriod": false}
+      "isPeriod": false,
+      "image": "transport_icon.png",
+      "recordType": 0
+
+    },
+    {"name" : "工资",
+      "isUserDefined": false,
+      "isPeriod": false,
+      "image": "transport_icon.png",
+      "recordType": 1
+    },
+
+    {"name" : "绩效收入",
+      "isUserDefined": false,
+      "isPeriod": false,
+      "image": "transport_icon.png",
+      "recordType": 1
+    }
   ]
 }

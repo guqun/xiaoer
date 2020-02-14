@@ -25,8 +25,12 @@ class SubTypeDB {
     int updateTime;
     bool isUserDefined;
     bool isPeriod;
+    int count; // 使用次数
+    int recordType;
+    String image;
 
-    SubTypeDB({this.createTime, this.id, this.name, this.typeId, this.typeName, this.updateTime, this.isUserDefined, this.isPeriod});
+    SubTypeDB({this.createTime, this.id, this.name, this.typeId, this.typeName, this.updateTime, this.isUserDefined, this.isPeriod,
+    this.count, this.recordType, this.image});
 
     factory SubTypeDB.fromJson(Map<String, dynamic> json) {
         return SubTypeDB(
@@ -37,7 +41,10 @@ class SubTypeDB {
             typeName: json[SubTypeAttr.TYPE_NAME],
             updateTime: json[SubTypeAttr.UPDATE_TIME],
             isUserDefined: json[SubTypeAttr.IS_USER_DEFINED] == 1 ? true : false,
-            isPeriod: json[SubTypeAttr.IS_PERIOD] == 1 ? true : false
+            isPeriod: json[SubTypeAttr.IS_PERIOD] == 1 ? true : false,
+            count: json[SubTypeAttr.COUNT],
+            recordType: json[SubTypeAttr.RECORD_TYPE],
+            image: json[SubTypeAttr.IMAGE]
         );
     }
 
@@ -51,6 +58,9 @@ class SubTypeDB {
         data[SubTypeAttr.UPDATE_TIME] = this.updateTime;
         data[SubTypeAttr.IS_USER_DEFINED] = this.isUserDefined == true ? 1 : 0;
         data[SubTypeAttr.IS_PERIOD] = this.isPeriod == true ? 1 : 0;
+        data[SubTypeAttr.COUNT] = this.count;
+        data[SubTypeAttr.RECORD_TYPE] = this.recordType;
+        data[SubTypeAttr.IMAGE] = this.image;
         return data;
     }
 }

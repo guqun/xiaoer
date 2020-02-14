@@ -19,25 +19,31 @@ class SubTypeInitInfo {
 }
 
 class SubtyeInit {
+    String image;
     bool isPeriod;
     bool isUserDefined;
     String name;
+    int recordType;
 
-    SubtyeInit({this.isPeriod, this.isUserDefined, this.name});
+    SubtyeInit({this.image, this.isPeriod, this.isUserDefined, this.name, this.recordType});
 
     factory SubtyeInit.fromJson(Map<String, dynamic> json) {
         return SubtyeInit(
+            image: json['image'],
             isPeriod: json['isPeriod'],
             isUserDefined: json['isUserDefined'],
             name: json['name'],
+            recordType: json['recordType'],
         );
     }
 
     Map<String, dynamic> toJson() {
         final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['image'] = this.image;
         data['isPeriod'] = this.isPeriod;
         data['isUserDefined'] = this.isUserDefined;
         data['name'] = this.name;
+        data['recordType'] = this.recordType;
         return data;
     }
 }
