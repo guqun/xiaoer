@@ -11,4 +11,5 @@ class AccountAttr
   static final TRADITIONAL_CHINESE_CURRENCY = "traditionalChineseCurrency";
   static final SIMPLIFIED_CHINESE_CURRENCY = "simplifiedChineseCurrency";
   static final IMAGE = "image";
+  static final IS_CURRENT = "isCurrent";
 }

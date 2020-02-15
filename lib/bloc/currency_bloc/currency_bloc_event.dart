@@ -18,8 +18,9 @@ class CurrencyBlocQueryAllEvent extends CurrencyBlocEvent
 
 class CurrencyBlocChangeSecondaryEvent extends CurrencyBlocEvent
 {
-  int _selectedSecondaryId;
-  String _selectedSecondaryEnglishCurrency;
+  final int _selectedSecondaryId;
+  final String _selectedSecondaryEnglishCurrency;
+  final String _selectedSecondaryImage;
 
   int get selectedSecondaryId => _selectedSecondaryId;
 
@@ -27,11 +28,16 @@ class CurrencyBlocChangeSecondaryEvent extends CurrencyBlocEvent
   String get selectedSecondaryEnglishCurrency =>
       _selectedSecondaryEnglishCurrency;
 
-  CurrencyBlocChangeSecondaryEvent(this._selectedSecondaryId, this._selectedSecondaryEnglishCurrency);
+
+  CurrencyBlocChangeSecondaryEvent(this._selectedSecondaryId,
+      this._selectedSecondaryEnglishCurrency, this._selectedSecondaryImage);
+
+
+  String get selectedSecondaryImage => _selectedSecondaryImage;
 
   @override
   List<Object> get props {
-    return [_selectedSecondaryId];
+    return [_selectedSecondaryId, _selectedSecondaryEnglishCurrency, _selectedSecondaryImage];
   }
 }
 

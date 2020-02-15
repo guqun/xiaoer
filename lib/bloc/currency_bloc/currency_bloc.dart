@@ -39,6 +39,7 @@ class CurrencyBloc extends Bloc<CurrencyBlocEvent, CurrencyBlocState>
           await LocalSharedPreferencesUtil.setSecondaryEnglishCurrency(event.selectedSecondaryEnglishCurrency);
           Application.secondaryEnglishCurrency = event.selectedSecondaryEnglishCurrency;
           Application.secondaryCurrencyId = event.selectedSecondaryId;
+          Application.secondaryEnglishCurrencyImage = event.selectedSecondaryImage;
           yield CurrencyBlocChangeSecondarySuccessState(currencyDBs);
         }
       }catch(e){

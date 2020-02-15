@@ -18,6 +18,7 @@ class AccountProvider
   static final String TraditionalChineseCurrencyKey = AccountAttr.TRADITIONAL_CHINESE_CURRENCY;
   static final String SimplifiedChineseCurrencyKey = AccountAttr.SIMPLIFIED_CHINESE_CURRENCY;
   static final String ImageKey = AccountAttr.IMAGE;
+  static final String IsCurrentKey = AccountAttr.IS_CURRENT;
 
 
   static Future<List<AccountDB>> queryAll() async

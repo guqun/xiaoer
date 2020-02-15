@@ -73,6 +73,7 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
         }
 
         List<CurrencyDB> currencyDBs = await CurrencyProvider.queryAll();
+        List<AccountDB> accountDBs = await AccountProvider.queryAll();
 
         if(Application.isFirst) {
           Application.mainEnglishCurrency = currencyDBs[0].englishName;
@@ -80,6 +81,10 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
           Application.secondaryEnglishCurrency = currencyDBs[0].englishName;
           Application.secondaryCurrencyId = currencyDBs[0].id;
           Application.rate = currencyDBs[0].rate.toDouble();
+          Application.accountId = accountDBs[0].id;
+          Application.accountName = accountDBs[0].name;
+          Application.secondaryEnglishCurrencyImage = currencyDBs[0].image;
+          Application.accountImage = accountDBs[0].image;
         }
         else{
           // 恢复application信息
@@ -102,6 +107,23 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
           double rate = await LocalSharedPreferencesUtil.getRate();
           if (rate != null) {
             Application.rate = rate;
+          }
+
+          int accountId = await LocalSharedPreferencesUtil.getAccountCurrencyId();
+          if (accountId != null) {
+            Application.accountId = accountId;
+          }
+          String accountName = await LocalSharedPreferencesUtil.getAccountName();
+          if (!isBlank(mainEnglishCurrency)) {
+            Application.accountName = accountName;
+          }
+          String secondaryEnglishCurrencyImage = await LocalSharedPreferencesUtil.getSecondaryEnglishCurrencyImage();
+          if (!isBlank(mainEnglishCurrency)) {
+            Application.secondaryEnglishCurrencyImage = secondaryEnglishCurrencyImage;
+          }
+          String accountImage = await LocalSharedPreferencesUtil.getAccountImage();
+          if (!isBlank(accountImage)) {
+            Application.accountImage = accountImage;
           }
         }
 

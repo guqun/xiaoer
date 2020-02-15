@@ -17,18 +17,29 @@ import 'package:fluttertoast/fluttertoast.dart';
 class CurrencyPage extends StatefulWidget
 {
 
+  bool _isPureSelect = false;
+
+
+  CurrencyPage(this._isPureSelect);
+
+  CurrencyPage.construct();
+
   @override
   State createState() {
-    return CurrencyPageState();
+    return CurrencyPageState(_isPureSelect);
   }
 }
 
 class CurrencyPageState extends State
 {
 
+  bool _isPureSelect = false;
   CurrencyBloc _currencyBloc;
   LoadingDialogWrapper _loadingDialogWrapper;
   List<CurrencyDB> _currencyDBs = new List();
+
+
+  CurrencyPageState(this._isPureSelect);
 
   @override
   void initState() {
@@ -84,9 +95,12 @@ class CurrencyPageState extends State
             }
             if (state is CurrencyBlocChangeSecondarySuccessState) {
               print("------GestureDetector-------------------4");
-
-              _currencyDBs.clear();
-              _currencyDBs.addAll(state.currencyDBs);
+              if (_isPureSelect) {
+                NavigatorUtil.goBackWithParams(context, true);
+              }else {
+                _currencyDBs.clear();
+                _currencyDBs.addAll(state.currencyDBs);
+              }
             }
             return Container(
               color: ColorConfig.color_f9f9f9,
@@ -125,7 +139,7 @@ class CurrencyPageState extends State
       onTap: (){
         if (!currencyDB.isSecondaryCurrency) {
           // 选择新的辅币
-          _currencyBloc.add(CurrencyBlocChangeSecondaryEvent(currencyDB.id, currencyDB.englishName));
+          _currencyBloc.add(CurrencyBlocChangeSecondaryEvent(currencyDB.id, currencyDB.englishName, currencyDB.image));
           print("------GestureDetector-------------------1");
         }
       },
@@ -148,7 +162,7 @@ class CurrencyPageState extends State
                 ),
                 Container(
                     margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                    child: GestureDetector(
+                    child: _isPureSelect ? Container() : GestureDetector(
                       onTap: (){
                         Map<String, dynamic> params = Map();
                         params.putIfAbsent("currencyBloc", (){ return _currencyBloc;});

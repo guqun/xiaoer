@@ -8,7 +8,7 @@ import 'package:flutter_app/enum/record_type.dart';
 import 'package:flutter_app/model/db_response.dart';
 import 'package:quiver/strings.dart';
 
-class AddAccountRespository
+class AccountRespository
 {
   static Future<bool> add(String name, double amount) async
   {
@@ -114,5 +114,43 @@ class AddAccountRespository
     
     AccountProvider.delete(id);
     return DBResponse(true);
+  }
+
+  static Future<DBResponse> selectCurrentAccount(int id) async
+  {
+    if (id == null || id <= 0) {
+      return DBResponse(false, message: "id exception!");
+    }
+    List<AccountDB> accountDBs = await AccountProvider.queryAll();
+    AccountDB newSelect;
+    AccountDB oldSelect;
+    for(int i = 0; i < accountDBs.length; i ++) {
+      if (accountDBs[i].id == id && accountDBs[i].isCurrent == false) {
+        accountDBs[i].isCurrent = true;
+        newSelect = accountDBs[i];
+        break;
+      }
+    }
+    for(int i = 0; i < accountDBs.length; i ++) {
+      if (accountDBs[i].id != id && accountDBs[i].isCurrent == true) {
+        accountDBs[i].isCurrent = false;
+        oldSelect = accountDBs[i];
+        break;
+      }
+    }
+    try{
+      if (oldSelect != null) {
+        await AccountProvider.update(oldSelect);
+      }
+      if (newSelect != null) {
+        await AccountProvider.update(newSelect);
+      }
+      return DBResponse(true);
+
+    }catch(e){
+      return DBResponse(false, message: "unkonow exception!");
+    }
+
+
   }
 }

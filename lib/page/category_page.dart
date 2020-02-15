@@ -245,61 +245,6 @@ class CategoryPageState extends State with TickerProviderStateMixin
               ),
             ),
 
-
-//            GestureDetector(
-//              onTap: (){
-//                setState(() {
-//                  _outcomeColor = ColorConfig.color_black;
-//                  _incomeColor = ColorConfig.color_999999;
-//                  _isOutcomeDiv = false;
-//                  _isIncomeDiv = true;
-//                });
-//              },
-//              child: Container(
-//                margin: EdgeInsets.fromLTRB(0, 0, 13, 0),
-//                child: Column(
-//                  mainAxisAlignment: MainAxisAlignment.center,
-//                  crossAxisAlignment: CrossAxisAlignment.center,
-//                  children: <Widget>[
-//                    Container(
-//                      margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-//                      child: Text("OUTCOME", style: TextStyle(color: _outcomeColor, fontSize: 17),),
-//                    ),
-//                    Offstage(
-//                      offstage: _isOutcomeDiv,
-//                      child: Container(color: ColorConfig.color_black, height: 2, width: 50,),
-//                    ),
-//                  ],
-//                ),
-//              ),
-//            ),
-//            GestureDetector(
-//              onTap: (){
-//                setState(() {
-//                  _outcomeColor = ColorConfig.color_999999;
-//                  _incomeColor = ColorConfig.color_black;
-//                  _isIncomeDiv = false;
-//                  _isOutcomeDiv = true;
-//                });
-//
-//              },
-//              child: Container(
-//                child: Column(
-//                  mainAxisAlignment: MainAxisAlignment.center,
-//                  crossAxisAlignment: CrossAxisAlignment.center,
-//                  children: <Widget>[
-//                    Container(
-//                      margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-//                      child: Text("INCOME", style: TextStyle(color: _incomeColor, fontSize: 17),),
-//                    ),
-//                    Offstage(
-//                      offstage: _isIncomeDiv,
-//                      child: Container(color: ColorConfig.color_black, height: 2, width: 50,),
-//                    ),
-//                  ],
-//                ),
-//              ),
-//            ),
             Expanded(child: Container(),),
             GestureDetector(
               onTap: (){

@@ -24,7 +24,7 @@ class AddAccountBloc extends Bloc<AddAccountBlocEvent, AddAccountBlocState>
           }
           String name = event.name;
           double amount = event.amount;
-          bool result = await AddAccountRespository.add(name, amount);
+          bool result = await AccountRespository.add(name, amount);
           if (result) {
             yield new AddAccountBlocQuerySuccessState();
           }

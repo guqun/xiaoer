@@ -46,14 +46,14 @@ class LeftDrawer extends StatelessWidget {
                     leading: const Icon(Icons.build),
                     title: const Text('币种管理'),
                     onTap: (){
-                      NavigatorUtil.goCurrencyPage(context);
+                      NavigatorUtil.goCurrencyPage(context, false);
                     },
                   ),
                   ListTile(
                     leading: const Icon(Icons.attach_money),
                     title: const Text('账户管理'),
                     onTap: (){
-                      NavigatorUtil.goAccountPage(context);
+                      NavigatorUtil.goAccountPage(context, false);
                     },
                   ),
                 ],

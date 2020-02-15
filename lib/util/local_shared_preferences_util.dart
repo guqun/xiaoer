@@ -119,4 +119,54 @@ class LocalSharedPreferencesUtil
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getDouble(RATE);
   }
+
+
+  static Future<void> setAccountId(int accountId) async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setInt(ACCOUNT_ID, accountId);
+  }
+
+  static Future<int> getAccountCurrencyId() async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getInt(ACCOUNT_ID);
+  }
+
+  static Future<void> setAccountName(String accountName) async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString(ACCOUNT_NAME, accountName);
+  }
+
+  static Future<String> getAccountName() async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString(ACCOUNT_NAME);
+  }
+
+  static Future<void> setSecondaryEnglishCurrencyImage(String secondaryEnglishCurrencyImage) async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString(SECONDART_ENGLISH_CURRENCY_IMAGE, secondaryEnglishCurrencyImage);
+  }
+
+  static Future<String> getSecondaryEnglishCurrencyImage() async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString(SECONDART_ENGLISH_CURRENCY_IMAGE);
+  }
+
+  static Future<void> setAccountImage(String accountImage) async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString(ACCOUNT_IMAGE, accountImage);
+  }
+
+  static Future<String> getAccountImage() async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString(ACCOUNT_IMAGE);
+  }
+
 }

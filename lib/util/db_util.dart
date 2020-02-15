@@ -93,6 +93,8 @@ class DBUtil
   static final String Account_TraditionalChineseCurrencyKey = AccountAttr.TRADITIONAL_CHINESE_CURRENCY;
   static final String Account_SimplifiedChineseCurrencyKey = AccountAttr.SIMPLIFIED_CHINESE_CURRENCY;
   static final String Account_ImageKey = AccountAttr.IMAGE;
+  static final String Account_IsCurrentKey = AccountAttr.IS_CURRENT;
+
 
 
   static String _path;
@@ -150,8 +152,8 @@ class DBUtil
       $Record_DayKey integer not null,
       $Record_AccountIdKey integer,
       $Record_AccountNameKey text,
-      $Record_IsAAKey integer,
-      $Record_IsPeriodKey integer)''',
+      $Record_IsAAKey integer default 0,
+      $Record_IsPeriodKey integer default 0)''',
       );
 
       await db.execute('''create table $TypeTable(
@@ -205,7 +207,8 @@ class DBUtil
       $Account_EnglishCurrencyKey text not null,
       $Account_SimplifiedChineseCurrencyKey text,
       $Account_TraditionalChineseCurrencyKey text,
-      $Account_ImageKey text)''',
+      $Account_ImageKey text,
+      $Account_IsCurrentKey integer default 0)''',
       );
     });
 

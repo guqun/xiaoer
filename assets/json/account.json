@@ -8,6 +8,7 @@
     "englishCurrency": "CNY",
     "traditionalChineseCurrency": "人民币",
     "simplifiedChineseCurrency": "人民币",
-    "image": "cash.png"
+    "image": "cash.png",
+    "isCurrent": 1
   }]
 }

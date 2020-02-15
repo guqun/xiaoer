@@ -27,7 +27,7 @@ class EditAccountBloc extends Bloc<EditAccountBlocEvent, EditAccountBlocState>
           }
           String name = event.name;
           double amount = event.amount;
-          bool result = await AddAccountRespository.edit(event.id, name, amount);
+          bool result = await AccountRespository.edit(event.id, name, amount);
           if (result) {
             yield new EditAccountBlocQuerySuccessState();
           }
@@ -41,7 +41,7 @@ class EditAccountBloc extends Bloc<EditAccountBlocEvent, EditAccountBlocState>
       if (event is EditAccountBlocDeleteEvent) {
         yield EditAccountBlocLoadingState();
         try {
-          DBResponse dbResponse = await AddAccountRespository.delete(event.id);
+          DBResponse dbResponse = await AccountRespository.delete(event.id);
           if (dbResponse.result) {
             yield EditAccountBlocDeleteSuccessState();
           }

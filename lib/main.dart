@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/application.dart';
 import 'package:flutter_app/bloc/bloc_delegate.dart';
-import 'package:flutter_app/page/home_page.dart';
+import 'package:flutter_app/bloc/record_bloc/record_bloc.dart';
 import 'package:flutter_app/page/splash_page.dart';
 import 'package:flutter_app/router_util/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,13 +18,23 @@ void main()
   Application.router = router;
   BlocSupervisor.delegate = CustomBlocDelegate();
 
-  runApp(MyApp());
+//  runApp(MyApp());
+
+  runApp(MultiBlocProvider(
+      providers: [
+        BlocProvider<RecordBloc>(
+          create: (context){
+            return RecordBloc();
+          },
+        ),],
+      child: MyApp()));
   if(Platform.isAndroid)
   {
     SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

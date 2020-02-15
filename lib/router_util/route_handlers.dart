@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/page/account_page.dart';
 import 'package:flutter_app/page/add_account_page.dart';
 import 'package:flutter_app/page/add_category_page.dart';
+import 'package:flutter_app/page/add_record_page.dart';
 import 'package:flutter_app/page/category_page.dart';
 import 'package:flutter_app/page/currrency_page.dart';
 import 'package:flutter_app/page/edit_account_page.dart';
@@ -27,7 +28,8 @@ var homeHandler = new Handler(
 
 var currencyPageHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return CurrencyPage();
+      bool isPureSelect = int.parse(params["isPureSelect"]?.first) == 0 ? false : true;
+      return CurrencyPage(isPureSelect);
     });
 //
 var editRatePageHandler = new Handler(
@@ -38,7 +40,8 @@ var editRatePageHandler = new Handler(
 var accountPageHandler = new Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params)
   {
-    return AccountPage();
+    bool isPureSelect = int.parse(params["isPureSelect"]?.first) == 0 ? false : true;
+    return AccountPage(isPureSelect);
   }
 );
 
@@ -67,6 +70,13 @@ var addCategoryPageHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params)
     {
       return AddCategoryPage();
+    }
+);
+
+var addRecordPageHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params)
+    {
+      return AddRecordPage();
     }
 );
 

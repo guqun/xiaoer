@@ -11,5 +11,10 @@ class Application {
   static String mainTraditionalChineseCurrency;
   static int secondaryCurrencyId;
   static String secondaryEnglishCurrency;
+  static String secondaryEnglishCurrencyImage;
   static double rate;
+
+  static int accountId;
+  static String accountName;
+  static String accountImage;
 }

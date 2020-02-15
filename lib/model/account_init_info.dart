@@ -23,12 +23,13 @@ class AccountInit {
     int currencyId;
     String englishCurrency;
     String image;
+    int isCurrent;
     String name;
     String simplifiedChineseCurrency;
     int status;
     String traditionalChineseCurrency;
 
-    AccountInit({this.amount, this.currencyId, this.englishCurrency, this.image, this.name, this.simplifiedChineseCurrency, this.status, this.traditionalChineseCurrency});
+    AccountInit({this.amount, this.currencyId, this.englishCurrency, this.image, this.isCurrent, this.name, this.simplifiedChineseCurrency, this.status, this.traditionalChineseCurrency});
 
     factory AccountInit.fromJson(Map<String, dynamic> json) {
         return AccountInit(
@@ -36,6 +37,7 @@ class AccountInit {
             currencyId: json['currencyId'],
             englishCurrency: json['englishCurrency'],
             image: json['image'],
+            isCurrent: json['isCurrent'],
             name: json['name'],
             simplifiedChineseCurrency: json['simplifiedChineseCurrency'],
             status: json['status'],
@@ -49,6 +51,7 @@ class AccountInit {
         data['currencyId'] = this.currencyId;
         data['englishCurrency'] = this.englishCurrency;
         data['image'] = this.image;
+        data['isCurrent'] = this.isCurrent;
         data['name'] = this.name;
         data['simplifiedChineseCurrency'] = this.simplifiedChineseCurrency;
         data['status'] = this.status;

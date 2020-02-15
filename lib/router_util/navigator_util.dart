@@ -20,8 +20,8 @@ class NavigatorUtil {
   static void goHomePage(BuildContext context) {
     Application.router.navigateTo(context, Routes.homePage, replace: true);
   }
-  static void goCurrencyPage(BuildContext context) {
-    Application.router.navigateTo(context, Routes.currencyPage, replace: false);
+  static Future goCurrencyPage(BuildContext context, bool isPureSelect) {
+    Application.router.navigateTo(context, Routes.currencyPage + "?isPureSelect=" + (isPureSelect == false ? 0 : 1).toString(), replace: false);
   }
 
   static Future goEditRatePage(BuildContext context, int currencyId, num curencyRate, String currencyName)
@@ -31,8 +31,8 @@ class NavigatorUtil {
         replace: false);
   }
 
-  static void goAccountPage(BuildContext context) {
-    Application.router.navigateTo(context, Routes.accountPage, replace: false);
+  static Future goAccountPage(BuildContext context, bool isPureSelect) {
+    return Application.router.navigateTo(context, Routes.accountPage + "?isPureSelect=" + (isPureSelect == false ? 0 : 1).toString(), replace: false);
   }
 
   static Future goAddAccountPage(BuildContext context) {
@@ -52,5 +52,9 @@ class NavigatorUtil {
 
   static Future goAddCategoryPage(BuildContext context) {
     return Application.router.navigateTo(context, Routes.addCategoryPage, replace: false);
+  }
+
+  static Future goRecordPage(BuildContext context) {
+    return Application.router.navigateTo(context, Routes.addRecordPage, replace: false);
   }
 }

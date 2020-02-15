@@ -32,7 +32,7 @@ class AddAccountPageState extends State
     _loadingDialogWrapper = new LoadingDialogWrapper(context);
     _addAccountBloc = new AddAccountBloc();
     _nameTextEditingController = new TextEditingController();
-    _amountTextEditingController = new TextEditingController(text: "0.0");
+    _amountTextEditingController = new TextEditingController(text: "0.00");
   }
 
   @override

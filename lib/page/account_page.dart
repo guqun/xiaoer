@@ -8,21 +8,33 @@ import 'package:flutter_app/res/color_config.dart';
 import 'package:flutter_app/router_util/navigator_util.dart';
 import 'package:flutter_app/widget/common/loading_dialog_wrapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AccountPage extends StatefulWidget
 {
+
+  bool _isPureSelect = false;
+
+
+  AccountPage(this._isPureSelect);
+
   @override
   State createState() {
-    return AccountPagesState();
+    return AccountPagesState(_isPureSelect);
   }
 }
 
 class AccountPagesState extends State
 {
 
+  bool _isPureSelect = false;
+
   LoadingDialogWrapper _loadingDialogWrapper;
   AccountBloc _accountBloc;
   List<AccountDB> _accountDBs = new List();
+
+
+  AccountPagesState(this._isPureSelect);
 
   @override
   void initState() {
@@ -56,6 +68,15 @@ class AccountPagesState extends State
             _accountDBs.clear();
             _accountDBs.addAll(state.accountDBs);
           }
+          if (state is AccountBlocSelectSuccessState && _isPureSelect) {
+              WidgetsBinding.instance.addPostFrameCallback((_){
+                NavigatorUtil.goBackWithParams(context, true);
+
+              });
+          }
+          if (state is AccountBlocFailedState) {
+            Fluttertoast.showToast(msg: state.message);
+          }
           return Scaffold(
             backgroundColor: ColorConfig.color_f9f9f9,
             appBar: new AppBar(
@@ -74,7 +95,7 @@ class AccountPagesState extends State
                       }
                     });
                   },
-                  child: Row(
+                  child: _isPureSelect ? Container() : Row(
                     children: <Widget>[
                       Container(
                         child: Image.asset(LOCAL_IMAGE + "add_icon.png", width: 23, height: 17,),
@@ -134,13 +155,19 @@ class AccountPagesState extends State
   Widget _getItemLayout(AccountDB accountDB) {
     return GestureDetector(
       onTap: (){
-        NavigatorUtil.goEditAccountPage(context, accountDB.id, accountDB.name, accountDB.amount).then((result){
-          if (result is bool) {
-            if (result) {
-              _accountBloc.add(new AccountBlocQueryAllEvent());
+        if (_isPureSelect) {
+          _accountBloc.add(new AccountBlocSelectEvent(accountDB.id, accountDB.name, accountDB.image));
+        }
+        else {
+          NavigatorUtil.goEditAccountPage(context, accountDB.id, accountDB.name, accountDB.amount).then((result){
+            if (result is bool) {
+              if (result) {
+                _accountBloc.add(new AccountBlocQueryAllEvent());
+              }
             }
-          }
-        });
+          });
+        }
+
       },
       child: Container(
         color: ColorConfig.color_white,
@@ -157,6 +184,7 @@ class AccountPagesState extends State
             Container(
               child: Text(accountDB.amount.toString() + " " + Application.mainEnglishCurrency, style: TextStyle(fontSize: 16, color: ColorConfig.color_333333)),
             ),
+            _isPureSelect ? Container() :
             Container(
               margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
               child: Icon(Icons.arrow_forward, color: ColorConfig.color_999999),

@@ -25,9 +25,10 @@ class AccountDB {
     String traditionalChineseCurrency;
     String simplifiedChineseCurrency;
     String image;
+    bool isCurrent;
 
     AccountDB({this.amount, this.createTime, this.id, this.name, this.status, this.updateTime,
-        this.currencyId, this.englishCurrency, this.simplifiedChineseCurrency, this.traditionalChineseCurrency, this.image});
+        this.currencyId, this.englishCurrency, this.simplifiedChineseCurrency, this.traditionalChineseCurrency, this.image, this.isCurrent});
 
     factory AccountDB.fromJson(Map<String, dynamic> json) {
         return AccountDB(
@@ -41,7 +42,9 @@ class AccountDB {
             englishCurrency: json[AccountAttr.ENGLISH_CURRENCY],
             simplifiedChineseCurrency: json[AccountAttr.SIMPLIFIED_CHINESE_CURRENCY],
             traditionalChineseCurrency: json[AccountAttr.TRADITIONAL_CHINESE_CURRENCY],
-            image: json[AccountAttr.IMAGE]
+            image: json[AccountAttr.IMAGE],
+            isCurrent: json[AccountAttr.IS_CURRENT] == 1 ? true : false,
+
         );
     }
 
@@ -58,6 +61,7 @@ class AccountDB {
         data[AccountAttr.SIMPLIFIED_CHINESE_CURRENCY] = this.simplifiedChineseCurrency;
         data[AccountAttr.TRADITIONAL_CHINESE_CURRENCY] = this.traditionalChineseCurrency;
         data[AccountAttr.IMAGE] = this.image;
+        data[AccountAttr.IS_CURRENT] = this.isCurrent == true ? 1 : 0;
         return data;
     }
 }

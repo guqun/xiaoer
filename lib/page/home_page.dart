@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/res/color_config.dart';
+import 'package:flutter_app/router_util/navigator_util.dart';
 import 'package:flutter_app/widget/left_drawer.dart';
 
 class HomePage extends StatefulWidget
@@ -46,7 +47,10 @@ class HomePageState extends State
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton( //悬浮按钮
-          child: Icon(Icons.add),
+        child: Icon(Icons.add),
+        onPressed: (){
+          NavigatorUtil.goRecordPage(context);
+        },
       ),
     );
   }

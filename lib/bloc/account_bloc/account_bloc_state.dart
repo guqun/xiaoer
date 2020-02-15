@@ -58,3 +58,10 @@ class AccountBlocFailedState extends AccountBlocState
     return [_message];
   }
 }
+class AccountBlocSelectSuccessState extends AccountBlocState
+{
+  @override
+  List<Object> get props {
+    return [];
+  }
+}
