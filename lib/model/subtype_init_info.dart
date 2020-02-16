@@ -24,8 +24,9 @@ class SubtyeInit {
     bool isUserDefined;
     String name;
     int recordType;
+    String selectedImage;
 
-    SubtyeInit({this.image, this.isPeriod, this.isUserDefined, this.name, this.recordType});
+    SubtyeInit({this.image, this.isPeriod, this.isUserDefined, this.name, this.recordType, this.selectedImage});
 
     factory SubtyeInit.fromJson(Map<String, dynamic> json) {
         return SubtyeInit(
@@ -34,6 +35,7 @@ class SubtyeInit {
             isUserDefined: json['isUserDefined'],
             name: json['name'],
             recordType: json['recordType'],
+            selectedImage: json['selectedImage'],
         );
     }
 
@@ -44,6 +46,7 @@ class SubtyeInit {
         data['isUserDefined'] = this.isUserDefined;
         data['name'] = this.name;
         data['recordType'] = this.recordType;
+        data['selectedImage'] = this.selectedImage;
         return data;
     }
 }

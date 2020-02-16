@@ -11,4 +11,5 @@ class SubTypeAttr
   static final COUNT = "count"; // 使用次数
   static final RECORD_TYPE = "recordType";
   static final IMAGE = "image";
+  static final SELECTED_IMAGE = "selectedImage";
 }

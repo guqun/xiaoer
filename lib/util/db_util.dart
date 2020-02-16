@@ -60,7 +60,9 @@ class DBUtil
   static final String SubType_IsPeriod = SubTypeAttr.IS_PERIOD;
   static final String SubType_Count = SubTypeAttr.COUNT; // 使用次数
   static final String SubType_RecordType = SubTypeAttr.RECORD_TYPE;
-  static final String SubType_Image = SubTypeAttr.IMAGE;
+  static final String SubType_ImageKey = SubTypeAttr.IMAGE;
+  static final String SubType_SelectedImageKey = SubTypeAttr.SELECTED_IMAGE;
+
 
 
   // currency table attr
@@ -144,7 +146,7 @@ class DBUtil
       $Record_UpdateTimeKey integer not null,
       $Record_SubTypeNameKey text,
       $Record_SubTypeKey integer,
-      $Record_TypeKey integer not null, 
+      $Record_TypeKey integer, 
       $Record_TypeNameKey text,
       $Record_RemarkKey text,
       $Record_YearKKey integer not null,
@@ -174,8 +176,9 @@ class DBUtil
       $SubType_IsUserDefinedKey integer default 1,
       $SubType_IsPeriod integer default 0,
       $SubType_Count integer default 0,
-      $SubType_Image text,
-      $SubType_RecordType int )''',
+      $SubType_ImageKey text,
+      $SubType_RecordType integer,
+      $SubType_SelectedImageKey text)''',
       );
 
       await db.execute('''create table $CurrencyTable(

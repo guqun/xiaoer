@@ -11,7 +11,7 @@ class RecordBlocEvent implements Equatable
   }
 }
 
-class RecordBlocQueryEvent extends RecordBlocEvent
+class RecordBlocAddEvent extends RecordBlocEvent
 {
   final int _recordType;
   final int _subType;
@@ -20,7 +20,7 @@ class RecordBlocQueryEvent extends RecordBlocEvent
   final String _remark;
 
 
-  RecordBlocQueryEvent(this._recordType, this._subType, this._subTypeName,
+  RecordBlocAddEvent(this._recordType, this._subType, this._subTypeName,
       this._amount, this._remark);
 
 

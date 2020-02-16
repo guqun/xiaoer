@@ -19,6 +19,7 @@ class SubTypeProvider
   static final String Count = SubTypeAttr.COUNT; // 使用次数
   static final String RecordType = SubTypeAttr.RECORD_TYPE;
   static final String Image = SubTypeAttr.IMAGE;
+  static final String SelectedImage = SubTypeAttr.SELECTED_IMAGE;
 
   static Future<List<SubTypeDB>> queryAll() async
   {

@@ -36,14 +36,15 @@ class AddRecordPageState extends State with TickerProviderStateMixin
   List<SubTypeDB> _incomes = new List();
   List<SubTypeDB> _outcomes = new List();
   double _width;
-
+  int _selectId = -1;
+  String _selectName = "";
 
   @override
   void initState() {
     _tabController = new TabController(length: 2, vsync: this);
     _loadingDialogWrapper = new LoadingDialogWrapper(context);
     _recordBloc = BlocProvider.of<RecordBloc>(context);
-    _amountTextEditingController = new TextEditingController(text: "0.00");
+    _amountTextEditingController = new TextEditingController();
     _remarkTextEditingController = new TextEditingController();
     _recordBloc.add(new RecordBlocQueryCategoryEvent());
     _tabController.addListener((){
@@ -74,7 +75,7 @@ class AddRecordPageState extends State with TickerProviderStateMixin
           }
         },
         builder: (context, state){
-          if (state is RecordBlocQuerySuccessState) {
+          if (state is RecordBlocAddSuccessState) {
             Fluttertoast.showToast(msg: "add success!");
             WidgetsBinding.instance.addPostFrameCallback((_){
               NavigatorUtil.goBack(context);
@@ -118,7 +119,7 @@ class AddRecordPageState extends State with TickerProviderStateMixin
                                   maxLength: 15,
                                   keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
                                   inputFormatters: [CustomDigitalInputFormatter(decimalRange: 2)],
-                                  decoration: InputDecoration(border: InputBorder.none, counterText: "", hintText: "0.00"),
+                                  decoration: InputDecoration(border: InputBorder.none, counterText: "", hintText: "0.00", hintStyle: TextStyle(color: ColorConfig.color_black)),
                                   controller: _amountTextEditingController,
                                   style: TextStyle(color: ColorConfig.color_black, fontSize: 15),),)),),
                           Container(
@@ -269,6 +270,25 @@ class AddRecordPageState extends State with TickerProviderStateMixin
             Expanded(child: Container(),),
             GestureDetector(
               onTap: (){
+                String amountStr = _amountTextEditingController.text;
+                if (isBlank(amountStr)) {
+                  Fluttertoast.showToast(msg: "please input amount!");
+                  return;
+                }  
+                double amount = double.parse(amountStr);
+                if (amount <= 0) {
+                  Fluttertoast.showToast(msg: "please input correct amount!");
+                  return;
+                }  
+                String remark = _remarkTextEditingController.text;
+                if (remark == null) {
+                  remark = "";
+                }
+                if (_selectId == -1) {
+                  Fluttertoast.showToast(msg: "please select categroy!");
+                  return;
+                }
+                _recordBloc.add(new RecordBlocAddEvent(_type, _selectId, _selectName, amount, remark));
               },
               child: Container(
                 child: Image.asset(LOCAL_IMAGE + "confirm_icon.png", width: 23, height: 17,),
@@ -322,28 +342,42 @@ class AddRecordPageState extends State with TickerProviderStateMixin
   }
 
   Widget _getItemWidget(SubTypeDB subTypeDB) {
-    return Container(
-      child: Stack(
-        alignment: Alignment.topLeft,
-        children: <Widget>[
-          Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
-                  width: 55,
-                  height: 55,
-                  child: Image.asset(LOCAL_IMAGE + subTypeDB.image),
-                ),
-                Container(
-                  child: Text(subTypeDB.name, style: TextStyle(fontSize: 12, color: ColorConfig.color_9b9b9b, ), maxLines: 1,),
-                )
-              ],
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          if (_selectId == subTypeDB.id) {
+            _selectId = -1;
+            _selectName = "";
+          }
+          else {
+            _selectId = subTypeDB.id;
+            _selectName = subTypeDB.name;
+          }
+        });
+      },
+      child: Container(
+        child: Stack(
+          alignment: Alignment.topLeft,
+          children: <Widget>[
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
+                    width: 55,
+                    height: 55,
+                    child: Image.asset(LOCAL_IMAGE + (_selectId == subTypeDB.id ? subTypeDB.selectedImage : subTypeDB.image)),
+                  ),
+                  Container(
+                    child: Text(subTypeDB.name, style: TextStyle(fontSize: 12, color: ColorConfig.color_9b9b9b, ), maxLines: 1,),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

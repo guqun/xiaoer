@@ -26,7 +26,7 @@ class RecordBlocLoadingState extends RecordBlocState
 }
 
 
-class RecordBlocQuerySuccessState extends RecordBlocState
+class RecordBlocAddSuccessState extends RecordBlocState
 {
 
   @override

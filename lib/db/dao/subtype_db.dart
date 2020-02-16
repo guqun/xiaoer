@@ -28,9 +28,10 @@ class SubTypeDB {
     int count; // 使用次数
     int recordType;
     String image;
+    String selectedImage;
 
     SubTypeDB({this.createTime, this.id, this.name, this.typeId, this.typeName, this.updateTime, this.isUserDefined, this.isPeriod,
-    this.count, this.recordType, this.image});
+    this.count, this.recordType, this.image, this.selectedImage});
 
     factory SubTypeDB.fromJson(Map<String, dynamic> json) {
         return SubTypeDB(
@@ -44,7 +45,8 @@ class SubTypeDB {
             isPeriod: json[SubTypeAttr.IS_PERIOD] == 1 ? true : false,
             count: json[SubTypeAttr.COUNT],
             recordType: json[SubTypeAttr.RECORD_TYPE],
-            image: json[SubTypeAttr.IMAGE]
+            image: json[SubTypeAttr.IMAGE],
+            selectedImage: json[SubTypeAttr.SELECTED_IMAGE]
         );
     }
 
@@ -61,6 +63,7 @@ class SubTypeDB {
         data[SubTypeAttr.COUNT] = this.count;
         data[SubTypeAttr.RECORD_TYPE] = this.recordType;
         data[SubTypeAttr.IMAGE] = this.image;
+        data[SubTypeAttr.SELECTED_IMAGE] = this.selectedImage;
         return data;
     }
 }

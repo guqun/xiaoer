@@ -18,7 +18,7 @@ class RecordBloc extends Bloc<RecordBlocEvent, RecordBlocState>
   @override
   Stream<RecordBlocState> mapEventToState(RecordBlocEvent event) async*{
     if (!(state is RecordBlocLoadingState)) {
-      if (event is RecordBlocQueryEvent) {
+      if (event is RecordBlocAddEvent) {
         yield RecordBlocLoadingState();
         try {
           if (isBlank(event.subTypeName) || event.amount == null || event.amount.compareTo(0.0) <= 0
@@ -33,10 +33,10 @@ class RecordBloc extends Bloc<RecordBlocEvent, RecordBlocState>
               Application.secondaryCurrencyId, Application.secondaryEnglishCurrency, Application.mainCurrencyId, Application.mainEnglishCurrency,
               event.amount * Application.rate, Application.rate, now.day, now.month, now.day, Application.accountId, Application.accountName);
           if (dbResponse.result) {
-            yield new RecordBlocQuerySuccessState();
+            yield new RecordBlocAddSuccessState();
           }
           else {
-            yield new RecordBlocFailedState("unknown exception!");
+            yield new RecordBlocFailedState(dbResponse.message);
           }
         } catch (e) {
           yield RecordBlocFailedState(e.toString());

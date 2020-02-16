@@ -29,7 +29,7 @@ class RecordRespository
       await RecordProvider.insert(recordDB);
       return DBResponse(true);
     }catch(e){
-      return DBResponse(false, message: "unknow exceptions!");
+      return DBResponse(false, message: e.toString());
     }
   }
 }

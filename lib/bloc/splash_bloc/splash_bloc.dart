@@ -43,7 +43,7 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
         }
         Application.isFirst = isFirst;
         // 初始化数据库内容
-        initDataBase();
+        await initDataBase();
 
         int delta = DateTime.now().millisecondsSinceEpoch - time;
         print("this is delta time:" + delta.toString());
@@ -228,6 +228,7 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
         subTypeDB.updateTime = new DateTime.now().millisecondsSinceEpoch;
         subTypeDB.image = element.image;
         subTypeDB.recordType = element.recordType;
+        subTypeDB.selectedImage = element.selectedImage;
         subtyoeDBs.add(subTypeDB);
       });
       await SubTypeProvider.inserts(subtyoeDBs);
