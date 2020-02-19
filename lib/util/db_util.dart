@@ -122,7 +122,7 @@ class DBUtil
     else
     {
       var databasesPath = await getDatabasesPath();
-      _path = databasesPath + 'xiaoer.db';
+      _path = databasesPath + 'twotiny.db';
       return _path;
     }
   }

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "592116666069",
+    "firebase_url": "https://twotiny-df6b5.firebaseio.com",
+    "project_id": "twotiny-df6b5",
+    "storage_bucket": "twotiny-df6b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592116666069:android:3b46148f4c8281e6819c5c",
+        "android_client_info": {
+          "package_name": "com.twotiny.application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592116666069-ra3cql6t838p4hckr70ij7cfrmjonk8f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzFMnnaRDeS2PjtRbLq5Sc2LZ2IKjUw-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592116666069-ra3cql6t838p4hckr70ij7cfrmjonk8f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

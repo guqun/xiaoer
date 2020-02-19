@@ -1,4 +1,4 @@
-package com.xiaoer.flutter_app
+package com.twotiny.application
 
 import android.os.Bundle
 
