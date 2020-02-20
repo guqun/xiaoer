@@ -1,5 +1,7 @@
 import 'package:flutter_app/db/account_attr.dart';
 import 'package:flutter_app/db/currency_attr.dart';
+import 'package:flutter_app/db/day_amount_attr.dart';
+import 'package:flutter_app/db/month_amount_attr.dart';
 import 'package:flutter_app/db/record_attr.dart';
 import 'package:flutter_app/db/subtype_attr.dart';
 import 'package:flutter_app/db/type_attr.dart';
@@ -13,6 +15,8 @@ class DBUtil
   static final String SubTypeTable = "subtype_table";
   static final String CurrencyTable = "currency_table";
   static final String AccountTable = "account_table";
+  static final String MonthAmountTable = "month_amount_table";
+  static final String DayAmountTable = "day_amount_table";
 
 
   // record table attr
@@ -98,6 +102,28 @@ class DBUtil
   static final String Account_IsCurrentKey = AccountAttr.IS_CURRENT;
 
 
+  // month amount attr
+  static final String Month_Amount_CreateTimeKey = MonthAmountAttr.CREATE_TIME;
+  static final String Month_Amount_IdKey = MonthAmountAttr.ID;
+  static final String Month_Amount_IncomeKey = MonthAmountAttr.INCOME;
+  static final String Month_Amount_MonthKey = MonthAmountAttr.MONTH;
+  static final String Month_Amount_OutcomeKey = MonthAmountAttr.OUTCOME;
+  static final String Month_Amount_UpdateTimeKey = MonthAmountAttr.UPDATE_TIME;
+  static final String Month_Amount_YearKey = MonthAmountAttr.YEAR;
+  static final String Month_Amount_MainCurrencyIdKey = DayAmountAttr.MAIN_CURRENCY_ID;
+  static final String Month_Amount_MainCurrencyNameKey = DayAmountAttr.MAIN_CURRENCY_NAME;
+
+  // day amount attr
+  static final String Day_Amount_CreateTimeKey = DayAmountAttr.CREATE_TIME;
+  static final String Day_Amount_IdKey = DayAmountAttr.ID;
+  static final String Day_Amount_IncomeKey = DayAmountAttr.INCOME;
+  static final String Day_Amount_MonthKey = DayAmountAttr.MONTH;
+  static final String Day_Amount_OutcomeKey = DayAmountAttr.OUTCOME;
+  static final String Day_Amount_UpdateTimeKey = DayAmountAttr.UPDATE_TIME;
+  static final String Day_Amount_YearKey = DayAmountAttr.YEAR;
+  static final String Day_Amount_DayKey = DayAmountAttr.DAY;
+  static final String Day_Amount_MainCurrencyIdKey = DayAmountAttr.MAIN_CURRENCY_ID;
+  static final String Day_Amount_MainCurrencyNameKey = DayAmountAttr.MAIN_CURRENCY_NAME;
 
   static String _path;
   static Database _db;
@@ -213,7 +239,36 @@ class DBUtil
       $Account_ImageKey text,
       $Account_IsCurrentKey integer default 0)''',
       );
+
+      await db.execute('''create table $MonthAmountTable(
+      $Month_Amount_IdKey integer primary key autoincrement,
+      $Month_Amount_IncomeKey double not null,
+      $Month_Amount_OutcomeKey double not null,
+      $Month_Amount_YearKey integer not null,
+      $Month_Amount_MonthKey integer not null,
+      $Month_Amount_CreateTimeKey integer not null,
+      $Month_Amount_UpdateTimeKey integer not null,
+      $Month_Amount_MainCurrencyIdKey integer not null,
+      $Month_Amount_MainCurrencyNameKey text not null''',
+      );
+
+      await db.execute('''create table $DayAmountTable(
+      $Day_Amount_IdKey integer primary key autoincrement,
+      $Day_Amount_IncomeKey double default 0,
+      $Day_Amount_OutcomeKey double default 0,
+      $Day_Amount_YearKey integer not null,
+      $Day_Amount_MonthKey integer not null,
+      $Day_Amount_DayKey integer not null,
+      $Day_Amount_CreateTimeKey integer not null,
+      $Day_Amount_UpdateTimeKey integer not null,
+      $Day_Amount_MainCurrencyIdKey integer not null,
+      $Day_Amount_MainCurrencyNameKey text not null''',
+      );
+
+
     });
+
+
 
   }
 

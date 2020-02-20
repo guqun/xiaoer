@@ -69,4 +69,16 @@ class RecordProvider
     return await database.update(RecordTable, recordDB.toJson(), where: '$IdKey = ?', whereArgs: [recordDB.id]);
   }
 
+  static Future<List<RecordDB>> queryByPage(int year, int month, int currentPage, int pageSize) async
+  {
+    Database database = await DBUtil.getDB();
+    List<Map<String, dynamic>> collection = await database.query(RecordTable, orderBy: '$CreateTimeKey', where: '$YearKey = ? and $MonthKey = ?',
+        whereArgs: [year, month], limit: 20, offset: currentPage * pageSize);
+    List<RecordDB> records = new List();
+    collection.forEach((element){
+      records.add(RecordDB.fromJson(element));
+    });
+    return records;
+  }
+
 }
