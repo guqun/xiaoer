@@ -125,6 +125,7 @@ class RecordRespository
       recordReq.remark = element.remark;
       recordReq.day = element.day;
       recordReq.amount = element.amount;
+      recordReq.recordType = element.recordType;
       recordReqs.add(recordReq);
     });
     return DBResponse(true, data: recordReqs);
@@ -134,7 +135,13 @@ class RecordRespository
     List<RecordDB> recordDBs = await RecordProvider.queryByPage(year, month, page, pageSize);
     List<RecordReq> recordReqs = new List();
     if (recordDBs.length == 0) {
-      return DBResponse(true, data: recordReqs);
+      DetailReq detailReq = new DetailReq();
+      detailReq.income = 0;
+      detailReq.outcome = 0;
+      detailReq.year = year;
+      detailReq.month = month;
+      detailReq.recordReqs = recordReqs;
+      return DBResponse(true, data: detailReq);
     }
     int currentDay = recordDBs[0].day;
     if (day != null) {
@@ -162,6 +169,9 @@ class RecordRespository
       recordReq.remark = element.remark;
       recordReq.day = element.day;
       recordReq.amount = element.amount;
+      recordReq.typeId = element.subType;
+      recordReq.typeName = element.subTypeName;
+      recordReq.recordType = element.recordType;
       recordReqs.add(recordReq);
     });
     DetailReq detailReq = new DetailReq();

@@ -10,6 +10,13 @@ class RecordReq
   bool _isFirstOfDay;
   double _incomeAmount;
   double _outcomeAmount;
+  int _recordType;
+
+  int get recordType => _recordType;
+
+  set recordType(int value) {
+    _recordType = value;
+  }
 
   int get year => _year;
 

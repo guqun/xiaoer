@@ -31,7 +31,7 @@ class RecordBloc extends Bloc<RecordBlocEvent, RecordBlocState>
 
           DBResponse dbResponse = await RecordRespository.add(event.recordType, event.subType, event.subTypeName, event.amount, event.mark,
               Application.secondaryCurrencyId, Application.secondaryEnglishCurrency, Application.mainCurrencyId, Application.mainEnglishCurrency,
-              event.amount * Application.rate, Application.rate, now.day, now.month, now.day, Application.accountId, Application.accountName);
+              event.amount * Application.rate, Application.rate, now.year, now.month, now.day, Application.accountId, Application.accountName);
           if (dbResponse.result) {
             yield new RecordBlocAddSuccessState();
           }

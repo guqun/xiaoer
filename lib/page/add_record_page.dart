@@ -77,9 +77,6 @@ class AddRecordPageState extends State with TickerProviderStateMixin
         builder: (context, state){
           if (state is RecordBlocAddSuccessState) {
             Fluttertoast.showToast(msg: "add success!");
-            WidgetsBinding.instance.addPostFrameCallback((_){
-              NavigatorUtil.goBack(context);
-            });
           }
           if (state is RecordBlocQueryCategorySuccessState) {
             _incomes = state.incomeCategories;
@@ -222,11 +219,17 @@ class AddRecordPageState extends State with TickerProviderStateMixin
           );
         },
         listener: (context, state){
-          if(state is AddAccountBlocLoadingState) {
+          if(state is RecordBlocLoadingState) {
               _loadingDialogWrapper.show();
           }
           else {
               _loadingDialogWrapper.dismiss();
+              if (state is RecordBlocAddSuccessState) {
+                WidgetsBinding.instance.addPostFrameCallback((_){
+//              FocusScope.of(context).requestFocus(FocusNode());
+                  NavigatorUtil.goBack(context);
+                });
+              }
           }
         });
   }

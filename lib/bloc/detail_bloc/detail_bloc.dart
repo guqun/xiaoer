@@ -36,14 +36,16 @@ class DetailBloc extends Bloc<DetailBlocEvent, DetailBlocState>
           _year = event.year;
           _month = event.month;
           _page = 0;
-          DBResponse dbResponse = await RecordRespository.queryByMonthAndYear(
+          DBResponse dbResponse = await RecordRespository.queryDetailByMonthAndYear(
               event.year, event.month, _page);
           if (dbResponse.result == true) {
             DetailReq detailReq = dbResponse.data;
             List<RecordReq> recordReqs = detailReq.recordReqs;
             _recordReqs.clear();
             _recordReqs.addAll(recordReqs);
-            _lastDay = _recordReqs.last.day;
+            if (_recordReqs.length > 0) {
+              _lastDay = _recordReqs.last.day;
+            }
             yield DetailBlocRefreshSuccessState(detailReq);
           } else {
             yield DetailBlocFailedState(dbResponse.message);

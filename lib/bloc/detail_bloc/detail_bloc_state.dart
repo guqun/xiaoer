@@ -32,6 +32,8 @@ class DetailBlocRefreshSuccessState extends DetailBlocState
   final DetailReq _detailReq;
 
 
+  DetailReq get detailReq => _detailReq;
+
   DetailBlocRefreshSuccessState(this._detailReq);
 
   @override
@@ -44,6 +46,8 @@ class DetailBlocLoadMoreSuccessState extends DetailBlocState
 {
   final List<RecordReq> _recordReqs;
 
+
+  List<RecordReq> get recordReqs => _recordReqs;
 
   DetailBlocLoadMoreSuccessState(this._recordReqs);
 

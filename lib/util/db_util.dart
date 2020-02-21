@@ -242,14 +242,14 @@ class DBUtil
 
       await db.execute('''create table $MonthAmountTable(
       $Month_Amount_IdKey integer primary key autoincrement,
-      $Month_Amount_IncomeKey double not null,
-      $Month_Amount_OutcomeKey double not null,
+      $Month_Amount_IncomeKey default 0,
+      $Month_Amount_OutcomeKey default 0,
       $Month_Amount_YearKey integer not null,
       $Month_Amount_MonthKey integer not null,
       $Month_Amount_CreateTimeKey integer not null,
       $Month_Amount_UpdateTimeKey integer not null,
       $Month_Amount_MainCurrencyIdKey integer not null,
-      $Month_Amount_MainCurrencyNameKey text not null''',
+      $Month_Amount_MainCurrencyNameKey text not null)''',
       );
 
       await db.execute('''create table $DayAmountTable(
@@ -262,7 +262,7 @@ class DBUtil
       $Day_Amount_CreateTimeKey integer not null,
       $Day_Amount_UpdateTimeKey integer not null,
       $Day_Amount_MainCurrencyIdKey integer not null,
-      $Day_Amount_MainCurrencyNameKey text not null''',
+      $Day_Amount_MainCurrencyNameKey text not null)''',
       );
 
 

@@ -24,6 +24,7 @@ class HomePageState extends State
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: ColorConfig.color_main_color,
         centerTitle: true,
         leading: Builder(builder: (context) {
