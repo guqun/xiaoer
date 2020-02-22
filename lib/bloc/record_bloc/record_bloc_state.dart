@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_app/db/dao/record_db.dart';
 import 'package:flutter_app/db/dao/subtype_db.dart';
 
 class RecordBlocState implements Equatable
@@ -69,4 +70,41 @@ class RecordBlocQueryCategorySuccessState extends RecordBlocState
   List<SubTypeDB> get outcomeCategories => _outcomeCategories;
 }
 
+class RecordBlocEditInfoQuerySuccessState extends RecordBlocState
+{
 
+  final RecordDB _recordDB;
+  final List<SubTypeDB> _incomes;
+  final List<SubTypeDB> _outcomes;
+
+  RecordBlocEditInfoQuerySuccessState(this._recordDB, this._incomes, this._outcomes);
+
+
+  RecordDB get recordDB => _recordDB;
+
+  @override
+  List<Object> get props {
+    return [_recordDB, _incomes, _outcomes];
+  }
+
+  List<SubTypeDB> get incomes => _incomes;
+
+  List<SubTypeDB> get outcomes => _outcomes;
+}
+class RecordBlocEditSuccessState extends RecordBlocState
+{
+
+  @override
+  List<Object> get props {
+    return [];
+  }
+}
+
+class RecordBlocDeleteSuccessState extends RecordBlocState
+{
+
+  @override
+  List<Object> get props {
+    return [];
+  }
+}

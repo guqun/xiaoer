@@ -1,5 +1,6 @@
 class RecordReq
 {
+  int _id;
   int _year;
   int _month;
   int _day;
@@ -11,6 +12,20 @@ class RecordReq
   double _incomeAmount;
   double _outcomeAmount;
   int _recordType;
+  int _createTime;
+
+
+  int get id => _id;
+
+  set id(int value) {
+    _id = value;
+  }
+
+  int get createTime => _createTime;
+
+  set createTime(int value) {
+    _createTime = value;
+  }
 
   int get recordType => _recordType;
 

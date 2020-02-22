@@ -31,14 +31,19 @@ class DetailBlocRefreshSuccessState extends DetailBlocState
 {
   final DetailReq _detailReq;
 
+  final bool _canLoadMore;
 
   DetailReq get detailReq => _detailReq;
 
-  DetailBlocRefreshSuccessState(this._detailReq);
+
+  bool get canLoadMore => _canLoadMore;
+
+
+  DetailBlocRefreshSuccessState(this._detailReq, this._canLoadMore);
 
   @override
   List<Object> get props {
-    return [_detailReq];
+    return [_detailReq, _canLoadMore];
   }
 }
 
@@ -46,14 +51,18 @@ class DetailBlocLoadMoreSuccessState extends DetailBlocState
 {
   final List<RecordReq> _recordReqs;
 
+  final bool _canLoadMore;
 
   List<RecordReq> get recordReqs => _recordReqs;
 
-  DetailBlocLoadMoreSuccessState(this._recordReqs);
+
+  bool get canLoadMore => _canLoadMore;
+
+  DetailBlocLoadMoreSuccessState(this._recordReqs, this._canLoadMore);
 
   @override
   List<Object> get props {
-    return [_recordReqs];
+    return [_recordReqs, _canLoadMore];
   }
 }
 

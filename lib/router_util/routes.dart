@@ -13,6 +13,7 @@ class Routes {
   static String categoryPage = "/categoryPage";
   static String addCategoryPage = "/addCategoryPage";
   static String addRecordPage = "/addRecordPage";
+  static String editRecordPage = "/editRecordPage";
 
 
   static void configureRoutes(Router router) {
@@ -33,5 +34,7 @@ class Routes {
     router.define(categoryPage, handler: categoryPageHandler);
     router.define(addCategoryPage, handler: addCategoryPageHandler);
     router.define(addRecordPage, handler: addRecordPageHandler);
+    router.define(editRecordPage, handler: editRecordPageHandler);
+
   }
 }

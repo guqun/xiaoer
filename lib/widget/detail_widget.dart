@@ -8,6 +8,7 @@ import 'package:flutter_app/const.dart';
 import 'package:flutter_app/enum/record_type.dart';
 import 'package:flutter_app/model/req/record_req.dart';
 import 'package:flutter_app/res/color_config.dart';
+import 'package:flutter_app/router_util/navigator_util.dart';
 import 'package:flutter_app/tool/time_tool.dart';
 import 'package:flutter_app/widget/common/loading_dialog_wrapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,9 +16,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class DetailWidget extends StatefulWidget
 {
+
+  DetailBloc _detailBloc;
+
+
+  DetailWidget(this._detailBloc);
+
   @override
   State createState() {
-    return new DetailWidgetState();
+    return new DetailWidgetState(_detailBloc);
   }
 }
 
@@ -36,17 +43,20 @@ class DetailWidgetState extends State
   bool _canDispathEvent = true;
   Completer<void> _refreshCompleter;
   double _height;
+  bool _isFirstInit = true;
+  bool _canLoadMore = true;
 
   @override
   void initState() {
     _refreshCompleter = Completer<void>();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
-    _detailBloc = new DetailBloc();
+//    _detailBloc = new DetailBloc();
     _loadingDialogWrapper = new LoadingDialogWrapper(context);
     DateTime dateTime = DateTime.now();
     _year = dateTime.year;
     _month = dateTime.month;
+
     _detailBloc.add(new DetailBlocRefreshEvent(_year, _month));
   }
 
@@ -54,10 +64,13 @@ class DetailWidgetState extends State
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (maxScroll - currentScroll <= _scrollThreshold) {
-      if (_canDispathEvent) {
-        _canDispathEvent = false;
-        _detailBloc.add(DetailBlocLoadMoreEvent());
+      if (_canLoadMore) {
+        if (_canDispathEvent) {
+          _canDispathEvent = false;
+          _detailBloc.add(DetailBlocLoadMoreEvent());
+        }
       }
+
     }
   }
 
@@ -85,6 +98,9 @@ class DetailWidgetState extends State
         },
         builder: (context, state){
           if (state is DetailBlocRefreshSuccessState) {
+            if (_isFirstInit) {
+              _isFirstInit = false;
+            }
             List<RecordReq> recodReqs = state.detailReq.recordReqs;
             _recordReqs.clear();
             _recordReqs.addAll(recodReqs);
@@ -93,11 +109,16 @@ class DetailWidgetState extends State
             _canDispathEvent = true;
             _refreshCompleter?.complete();
             _refreshCompleter = Completer();
+            _canLoadMore = state.canLoadMore;
+            _year = state.detailReq.year;
+            _month = state.detailReq.month;
           }
           if (state is DetailBlocLoadMoreSuccessState) {
             List<RecordReq> recodReqs = state.recordReqs;
+            _recordReqs.clear();
             _recordReqs.addAll(recodReqs);
             _canDispathEvent = true;
+            _canLoadMore = state.canLoadMore;
           }
           if (state is DetailBlocFailedState) {
             _refreshCompleter?.complete();
@@ -192,51 +213,58 @@ class DetailWidgetState extends State
                     ],
                   ),
                 ),
-//                RefreshIndicator(
-//                    color: Colors.red,
-//                    backgroundColor: Colors.blue,
-//                    child: _recordReqs.length == 0 ?
-//                    Center(
-////                      color: Colors.amber,
-//                        child: Container(
-//                          margin: EdgeInsets.fromLTRB(0, 95, 0, 0),
-//                          child: Column(
-//                            mainAxisAlignment: MainAxisAlignment.center,
-//                            crossAxisAlignment: CrossAxisAlignment.center,
-//                            children: <Widget>[
-//                              Container(
-//                                child: Image.asset(LOCAL_IMAGE + "coin_icon.png", width: 95, height: 70,),
-//                                margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-//                              ),
-//                              Container(
-//                                child: Text("no record, please click +", style: TextStyle(fontSize: 13, color: ColorConfig.color_cccccc),),)
-//                            ],
-//                          ),
-//                        )
-//                    ):
-                    Container(
-                      height: 560,
+                Container(
+                  height: 560,
+                  child: RefreshIndicator(
+                      color: ColorConfig.color_main_color,
+//                    backgroundColor: ColorConfig.color_main_color,
+                      child: _recordReqs.length == 0 ?
+                      Center(
+//                      color: Colors.amber,
+                          child: Container(
+                            height: 1000,
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  child: Image.asset(LOCAL_IMAGE + "coin_icon.png", width: 95, height: 70,),
+                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                                ),
+                                Container(
+                                  child: Text("no record, please click +", style: TextStyle(fontSize: 13, color: ColorConfig.color_cccccc),),)
+                              ],
+                            ),
+                          )
+                      ):
+                      Container(
+                        height: 560,
 //                      color: Colors.blue,
-                      child: ListView.separated(
-                          scrollDirection: Axis.vertical,
-                          controller: _scrollController,
-                          itemBuilder: (context, index){
-                            return _getItemWidget(_recordReqs[index]);
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Divider(height: 1, color: ColorConfig.color_eeeeee,);
-                          },
-                          itemCount: _recordReqs.length),
-                    ),
-//                    onRefresh: _handlerRefresh
-//                )
+                        child: ListView.separated(
+                          physics: new AlwaysScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            controller: _scrollController,
+                            itemBuilder: (context, index){
+                              return _getItemWidget(_recordReqs[index]);
+                            },
+                            separatorBuilder: (BuildContext context, int index) {
+                              return Container(child: Divider(height: 1, color: ColorConfig.color_eeeeee,), margin: EdgeInsets.fromLTRB(12, 0, 12, 0),);
+                            },
+                            itemCount: _recordReqs.length),
+                      ),
+                      onRefresh: _handlerRefresh
+                  ),
+                )
               ],
             ),
           ),);
         },
         listener: (context, state){
           if(state is DetailBlocLoadingState) {
-            _loadingDialogWrapper.show();
+            if (_isFirstInit) {
+              _loadingDialogWrapper.show();
+            }
           }
           else {
             _loadingDialogWrapper.dismiss();
@@ -253,63 +281,108 @@ class DetailWidgetState extends State
   }
   Widget _getItemWidget(RecordReq recordReq)
   {
-    return Container(
-      margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
-      child: Column(
-        children: <Widget>[
-          Container(
-            child:Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  child: Text(TimeTool.customFormatTime(DateTime(recordReq.year, recordReq.month, recordReq.day).millisecondsSinceEpoch),
-                  style: TextStyle(fontSize: 12, color: ColorConfig.color_999999),),
-                ),
-                Expanded(flex: 1, child: Container(),),
-                Container(
-                  child: Text("outcome "+ Application.mainEnglishCurrency + "：" + recordReq.outcomeAmount.toStringAsFixed(2),
-                    style: TextStyle(fontSize: 12, color: ColorConfig.color_999999),),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Text("income "+ Application.mainEnglishCurrency + "：" + recordReq.incomeAmount.toStringAsFixed(2),
-                    style: TextStyle(fontSize: 12, color: ColorConfig.color_999999),),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            color: ColorConfig.color_white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        child: Text(recordReq.typeName, style: TextStyle(fontSize: 16, color: ColorConfig.color_black),),
-                      ),
-                      Container(
-                        width: 220,
-                        margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                        child: Text(recordReq.remark == null ? "" : recordReq.remark, style: TextStyle(fontSize: 13, color: ColorConfig.color_999999), maxLines: 1,),
-                      )
-                    ],
+    return GestureDetector(
+      child: Container(
+        margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
+        child:
+        recordReq.isFirstOfDay == true ?
+        Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 19, 0, 10),
+              child:Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    child: Text(TimeTool.customFormatTime(recordReq.createTime),
+                      style: TextStyle(fontSize: 12, color: ColorConfig.color_999999),),
                   ),
-                ),
-                Expanded(child: Container()),
-                Container(
-                  child: _getItemAmount(recordReq)
-                )
-              ],
+                  Expanded(flex: 1, child: Container(),),
+                  Container(
+                    child: Text("outcome "+ Application.mainEnglishCurrency + "：" + recordReq.outcomeAmount.toStringAsFixed(2),
+                      style: TextStyle(fontSize: 12, color: ColorConfig.color_999999),),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child: Text("income "+ Application.mainEnglishCurrency + "：" + recordReq.incomeAmount.toStringAsFixed(2),
+                      style: TextStyle(fontSize: 12, color: ColorConfig.color_999999),),
+                  ),
+                ],
+              ),
             ),
-          )
-        ],
+            Container(
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+              color: ColorConfig.color_white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          child: Text(recordReq.typeName, style: TextStyle(fontSize: 16, color: ColorConfig.color_black),),
+                        ),
+                        Container(
+                          width: 220,
+                          margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
+                          child: Text(recordReq.remark == null ? "" : recordReq.remark, style: TextStyle(fontSize: 13, color: ColorConfig.color_999999), maxLines: 1,),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(child: Container()),
+                  Container(
+                      child: _getItemAmount(recordReq)
+                  )
+                ],
+              ),
+            )
+          ],
+        ) :
+        Container(
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+          color: ColorConfig.color_white,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      child: Text(recordReq.typeName, style: TextStyle(fontSize: 16, color: ColorConfig.color_black),),
+                    ),
+                    Container(
+                      width: 220,
+                      margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
+                      child: Text(recordReq.remark == null ? "" : recordReq.remark, style: TextStyle(fontSize: 13, color: ColorConfig.color_999999), maxLines: 1,),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(child: Container()),
+              Container(
+                  child: _getItemAmount(recordReq)
+              )
+            ],
+          ),
+        ),
       ),
+      onTap: (){
+        NavigatorUtil.goEditRecordPage(context, recordReq.id).then((result){
+          if (result is bool) {
+            if (result) {
+              _detailBloc.add(new DetailBlocRefreshEvent(_year, _month));
+            }
+          }
+        });
+      },
     );
   }
 
@@ -329,4 +402,6 @@ class DetailWidgetState extends State
     _scrollController.dispose();
     super.dispose();
   }
+
+  DetailWidgetState(this._detailBloc);
 }

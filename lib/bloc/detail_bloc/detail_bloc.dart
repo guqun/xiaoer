@@ -17,7 +17,7 @@ class DetailBloc extends Bloc<DetailBlocEvent, DetailBlocState>
 {
 
   List<RecordReq> _recordReqs = new List();
-  int _lastDay = -1;
+  int _lastTime = -1;
   int _year = -1;
   int _month = -1;
   int _page = 0;
@@ -44,26 +44,27 @@ class DetailBloc extends Bloc<DetailBlocEvent, DetailBlocState>
             _recordReqs.clear();
             _recordReqs.addAll(recordReqs);
             if (_recordReqs.length > 0) {
-              _lastDay = _recordReqs.last.day;
+              _lastTime = _recordReqs.last.createTime;
             }
-            yield DetailBlocRefreshSuccessState(detailReq);
+
+            yield DetailBlocRefreshSuccessState(detailReq, detailReq.recordReqs.length < 20 ? false : true);
           } else {
             yield DetailBlocFailedState(dbResponse.message);
           }
         } else {
           if (event is DetailBlocLoadMoreEvent) {
-            if (_year == -1 || _month == -1 || _lastDay == -1) {
+            if (_year == -1 || _month == -1 || _lastTime == -1) {
               yield new DetailBlocFailedState("system exception!");
               return;
             }
             _page ++;
             DBResponse dbResponse = await RecordRespository.queryByMonthAndYear(
-                _year, _month, _page);
+                _year, _month, _page, lastTime: _lastTime);
             if (dbResponse.result == true) {
               List<RecordReq> recordReqs = dbResponse.data;
               _recordReqs.addAll(recordReqs);
-              _lastDay = _recordReqs.last.day;
-              yield DetailBlocLoadMoreSuccessState(_recordReqs);
+              _lastTime = _recordReqs.last.createTime;
+              yield DetailBlocLoadMoreSuccessState(_recordReqs, recordReqs.length < 20 ? false : true);
             } else {
               yield DetailBlocFailedState(dbResponse.message);
             }

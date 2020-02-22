@@ -43,6 +43,21 @@ class SubTypeProvider
     return subTypeDBs;
   }
 
+  static Future<SubTypeDB> queryById(int id) async
+  {
+    Database database = await DBUtil.getDB();
+    List<Map<String, dynamic>> collection = await database.query(SubTypeTable, where: '$IdKey = ?', whereArgs: [id]);
+    List<SubTypeDB> subTypeDBs = new List();
+    collection.forEach((element){
+      subTypeDBs.add(SubTypeDB.fromJson(element));
+    });
+    if (subTypeDBs.length > 0) {
+      return subTypeDBs.first;
+    }else{
+      return null;
+    }
+  }
+
   static Future<SubTypeDB> insert(SubTypeDB subTypeDB) async
   {
     Database database = await DBUtil.getDB();

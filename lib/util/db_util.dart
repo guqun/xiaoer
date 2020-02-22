@@ -45,6 +45,8 @@ class DBUtil
   static final String Record_AccountNameKey = RecordAttr.ACCOUNT_NAME;
   static final String Record_IsPeriodKey = RecordAttr.IS_PERIOD;
   static final String Record_IsAAKey = RecordAttr.IS_AA;
+  static final String Record_CurrencyImageKey = RecordAttr.CURRECY_IMAGE;
+  static final String Record_AccountImageKey = RecordAttr.ACCOUNT_IMAGE;
 
   // type table attr
   static final String Type_CreateTimeKey = TypeAttr.CREATE_TIME;
@@ -181,7 +183,9 @@ class DBUtil
       $Record_AccountIdKey integer,
       $Record_AccountNameKey text,
       $Record_IsAAKey integer default 0,
-      $Record_IsPeriodKey integer default 0)''',
+      $Record_IsPeriodKey integer default 0,
+      $Record_AccountImageKey text not null,
+      $Record_CurrencyImageKey text not null)''',
       );
 
       await db.execute('''create table $TypeTable(

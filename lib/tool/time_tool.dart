@@ -12,13 +12,13 @@ class TimeTool
 
   static String formatTime(int time)
   {
-    DateTime dateTime = new DateTime.fromMicrosecondsSinceEpoch(time);
+    DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(time);
     return dateTime.year.toString() + "-" + dateTime.month.toString() + "-" + dateTime.day.toString();
   }
 
   static String customFormatTime(int time)
   {
-    DateTime dateTime = new DateTime.fromMicrosecondsSinceEpoch(time);
+    DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(time);
     DateTime nowDateTime = DateTime.now();
     DateTime todayLastDateTime = DateTime(nowDateTime.year, nowDateTime.month, nowDateTime.day, 23, 59, 59);
     Duration diff = todayLastDateTime.difference(dateTime);
@@ -28,6 +28,19 @@ class TimeTool
       return "yesterday";
     } else {
       return dateTime.year.toString() + "-" + dateTime.month.toString() + "-" + dateTime.day.toString();
+    }
+  }
+
+  static bool isSameDay(int standard, int other)
+  {
+    DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(standard);
+    DateTime otherTime = new DateTime.fromMillisecondsSinceEpoch(other);
+    DateTime standardDateTime = DateTime(dateTime.year, dateTime.month, dateTime.day, 23, 59, 59);
+    Duration diff = standardDateTime.difference(otherTime);
+    if (diff < Duration(days: 1) && diff > Duration(seconds: 0)) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

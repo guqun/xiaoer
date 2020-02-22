@@ -141,6 +141,10 @@ class CurrencyPageState extends State
           // 选择新的辅币
           _currencyBloc.add(CurrencyBlocChangeSecondaryEvent(currencyDB.id, currencyDB.englishName, currencyDB.image));
           print("------GestureDetector-------------------1");
+        } else {
+          if (_isPureSelect) {
+            NavigatorUtil.goBackWithParams(context, true);
+          }
         }
       },
       child: Container(

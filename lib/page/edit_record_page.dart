@@ -1,31 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/application.dart';
-import 'package:flutter_app/bloc/add_account_bloc/add_account_bloc_export.dart';
 import 'package:flutter_app/bloc/record_bloc/record_bloc.dart';
 import 'package:flutter_app/bloc/record_bloc/record_bloc_export.dart';
 import 'package:flutter_app/const.dart';
 import 'package:flutter_app/custom/CustomDigitalInputFormatter.dart';
+import 'package:flutter_app/db/dao/record_db.dart';
 import 'package:flutter_app/db/dao/subtype_db.dart';
 import 'package:flutter_app/enum/record_type.dart';
 import 'package:flutter_app/res/color_config.dart';
 import 'package:flutter_app/router_util/navigator_util.dart';
+import 'package:flutter_app/widget/common/dialog_tool.dart';
 import 'package:flutter_app/widget/common/loading_dialog_wrapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quiver/strings.dart';
 
-class AddRecordPage extends StatefulWidget
+class EditRecordPage extends StatefulWidget
 {
+  final int _id;
+
+
+  EditRecordPage(this._id);
 
   @override
   State createState() {
-    return AddRecordPageState();
+    return EditRecordPageState(_id);
   }
 }
 
-class AddRecordPageState extends State with TickerProviderStateMixin
+class EditRecordPageState extends State with TickerProviderStateMixin
 {
+
+  final int _id;
 
   LoadingDialogWrapper _loadingDialogWrapper;
   RecordBloc _recordBloc;
@@ -39,6 +46,10 @@ class AddRecordPageState extends State with TickerProviderStateMixin
   int _selectId = -1;
   String _selectName = "";
 
+  RecordDB _recordDB;
+
+
+  EditRecordPageState(this._id);
 
   @override
   void initState() {
@@ -47,7 +58,7 @@ class AddRecordPageState extends State with TickerProviderStateMixin
     _recordBloc = BlocProvider.of<RecordBloc>(context);
     _amountTextEditingController = new TextEditingController();
     _remarkTextEditingController = new TextEditingController();
-    _recordBloc.add(new RecordBlocQueryCategoryEvent());
+    _recordBloc.add(new RecordBlocEditInfoQueryEvent(_id));
     _tabController.addListener((){
       _type = _tabController.index;
       print("AddRecordPageState----index:" + _tabController.index.toString());
@@ -76,12 +87,27 @@ class AddRecordPageState extends State with TickerProviderStateMixin
           }
         },
         builder: (context, state){
-          if (state is RecordBlocAddSuccessState) {
-            Fluttertoast.showToast(msg: "add success!");
+          if (state is RecordBlocEditSuccessState) {
+            Fluttertoast.showToast(msg: "edit success!");
+          }
+          if (state is RecordBlocDeleteSuccessState) {
+            Fluttertoast.showToast(msg: "delete success!");
           }
           if (state is RecordBlocQueryCategorySuccessState) {
             _incomes = state.incomeCategories;
             _outcomes = state.outcomeCategories;
+          }
+          if (state is RecordBlocEditInfoQuerySuccessState) {
+            RecordDB recordDB = state.recordDB;
+            _incomes = state.incomes;
+            _outcomes = state.outcomes;
+            _amountTextEditingController.text = recordDB.amount.toString();
+            _remarkTextEditingController.text = recordDB.remark == null ? "" : recordDB.remark;
+            _type = recordDB.recordType;
+            _tabController.index = _type;
+            _selectId = recordDB.subType;
+            _recordDB = recordDB;
+            _selectName = recordDB.subTypeName;
           }
           if (state is RecordBlocFailedState) {
             Fluttertoast.showToast(msg: state.message);
@@ -89,7 +115,7 @@ class AddRecordPageState extends State with TickerProviderStateMixin
           return Scaffold(
               backgroundColor: ColorConfig.color_f9f9f9,
               appBar: _getCustomAppBar(),
-              body: Container(
+              body: _recordDB == null ? Container() : Container(
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -101,7 +127,7 @@ class AddRecordPageState extends State with TickerProviderStateMixin
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            child: Text("AMOUNT(" + Application.secondaryEnglishCurrency + ")"),
+                            child: Text("AMOUNT(" + _recordDB.currentUnit + ")"),
                             margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
                           ),
                           Container(
@@ -111,24 +137,27 @@ class AddRecordPageState extends State with TickerProviderStateMixin
                             height: 35,
                           ),
                           Container(
-                              child: Expanded(
+                            child: Expanded(
                                 child: Container(
                                   child: TextField(
-                                  maxLength: 15,
-                                  keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
-                                  inputFormatters: [CustomDigitalInputFormatter(decimalRange: 2)],
-                                  decoration: InputDecoration(border: InputBorder.none, counterText: "", hintText: "0.00", hintStyle: TextStyle(color: ColorConfig.color_black)),
-                                  controller: _amountTextEditingController,
-                                  style: TextStyle(color: ColorConfig.color_black, fontSize: 15),),)),),
+                                    maxLength: 15,
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
+                                    inputFormatters: [CustomDigitalInputFormatter(decimalRange: 2)],
+                                    decoration: InputDecoration(border: InputBorder.none, counterText: "", hintText: "0.00", hintStyle: TextStyle(color: ColorConfig.color_black)),
+                                    controller: _amountTextEditingController,
+                                    style: TextStyle(color: ColorConfig.color_black, fontSize: 15),),)),),
                           Container(
                             margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            child: Image.asset(LOCAL_IMAGE + Application.secondaryEnglishCurrencyImage, width: 24, height: 24,),
+                            child: Image.asset(LOCAL_IMAGE + _recordDB.currencyImage, width: 24, height: 24,),
                           ),
                           GestureDetector(
                             onTap: (){
                               NavigatorUtil.goCurrencyPage(context, true).then((result){
                                 if (result is bool) {
                                   if (result == true) {
+                                    _recordDB.currencyImage = Application.secondaryEnglishCurrencyImage;
+                                    _recordDB.currentUnit = Application.secondaryEnglishCurrency;
+                                    _recordDB.currentId = Application.secondaryCurrencyId;
                                     setState(() {
 
                                     });
@@ -153,8 +182,11 @@ class AddRecordPageState extends State with TickerProviderStateMixin
                         NavigatorUtil.goAccountPage(context, true).then((result){
                           if (result is bool) {
                             if (result == true) {
-                                setState(() {
-                                });
+                              _recordDB.accountName = Application.accountName;
+                              _recordDB.accountImage = Application.accountImage;
+                              _recordDB.accountId = Application.accountId;
+                              setState(() {
+                              });
                             }
                           }
                         });
@@ -170,8 +202,8 @@ class AddRecordPageState extends State with TickerProviderStateMixin
                           children: <Widget>[
                             Container(
                               margin: EdgeInsets.fromLTRB(0, 0, 14, 0),
-                              child: Image.asset(LOCAL_IMAGE + Application.accountImage, width: 24, height: 24,),),
-                            Container(child: Text(Application.accountName, style: TextStyle(fontSize: 16, color: ColorConfig.color_black),),),
+                              child: Image.asset(LOCAL_IMAGE + _recordDB.accountImage, width: 24, height: 24,),),
+                            Container(child: Text(_recordDB.accountName, style: TextStyle(fontSize: 16, color: ColorConfig.color_black),),),
                             Expanded(child: Container(), flex: 1,),
                             Container(
                               margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -204,15 +236,31 @@ class AddRecordPageState extends State with TickerProviderStateMixin
                         padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
                         color: ColorConfig.color_white,
                         child: Divider(height: 1, color: ColorConfig.color_999999,)),
-                    Expanded(child:
-                      Container(
-                        color: ColorConfig.color_white,
+                    Expanded(
+                      child: Container(
+//                        color: ColorConfig.color_white,
                         child: TabBarView(
-                          controller: _tabController,
-                          children: _getTabBarViews()
-                      ),
+                            controller: _tabController,
+                            children: _getTabBarViews()
+                          ),
+                        ),
                     ),
-                    )
+                    GestureDetector(
+                          onTap: (){
+                            DialogTool.showCustomAlertDialog(context, "", "are you sure ?", (){
+                              print("delete id is (record):" + _recordDB.id.toString());
+                              print("delete id is (record---):" + _id.toString());
+
+                              _recordBloc.add(new RecordBlocDeleteEvent(_recordDB.id));
+                            }, null);
+                          },
+                          child: Container(
+                            width: _width,
+                            height: 46,
+                            color: ColorConfig.color_white,
+                            child: Center(child: Text("DELETE", style: TextStyle(fontSize: 17, color: ColorConfig.color_main_color),),),
+                          )),
+
 
                   ],
                 ),
@@ -225,9 +273,13 @@ class AddRecordPageState extends State with TickerProviderStateMixin
           }
           else {
               _loadingDialogWrapper.dismiss();
-              if (state is RecordBlocAddSuccessState) {
+              if (state is RecordBlocEditSuccessState) {
                 WidgetsBinding.instance.addPostFrameCallback((_){
-//              FocusScope.of(context).requestFocus(FocusNode());
+                  NavigatorUtil.goBackWithParams(context, true);
+                });
+              }
+              if (state is RecordBlocDeleteSuccessState) {
+                WidgetsBinding.instance.addPostFrameCallback((_){
                   NavigatorUtil.goBackWithParams(context, true);
                 });
               }
@@ -292,7 +344,11 @@ class AddRecordPageState extends State with TickerProviderStateMixin
                   Fluttertoast.showToast(msg: "please select categroy!");
                   return;
                 }
-                _recordBloc.add(new RecordBlocAddEvent(_type, _selectId, _selectName, amount, remark));
+                _recordDB.amount = amount;
+                _recordDB.remark = remark;
+                _recordDB.subTypeName = _selectName;
+                _recordDB.subType = _selectId;
+                _recordBloc.add(new RecordBlocEditEvent(_recordDB));
               },
               child: Container(
                 child: Image.asset(LOCAL_IMAGE + "confirm_icon.png", width: 23, height: 17,),

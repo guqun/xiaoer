@@ -25,4 +25,6 @@ class RecordAttr
   static final ACCOUNT_NAME = "accountName";
   static final IS_PERIOD = "isPeriod";
   static final IS_AA = "isAA";
+  static final CURRECY_IMAGE = "currencyImage";
+  static final ACCOUNT_IMAGE = "accountImage";
 }

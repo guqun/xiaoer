@@ -32,6 +32,23 @@ class CategoryRespository
     }
   }
 
+  static Future<DBResponse> getById(int id) async
+  {
+    try{
+      if (id == null || id <= 0) {
+        return DBResponse(false, message: "id exception!");
+      }
+      SubTypeDB subTypeDB = await SubTypeProvider.queryById(id);
+      if (subTypeDB == null) {
+        return DBResponse(false, message: "no data!");
+      }
+      return DBResponse(true, data: subTypeDB);
+    }
+    catch(e){
+      return DBResponse(false, message: "unknown exception!");
+    }
+  }
+
   static Future<DBResponse> add(String name, int type) async
   {
     if (isBlank(name) || type == null) {

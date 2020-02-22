@@ -27,10 +27,12 @@ class RecordDB {
     String accountName;
     bool isPeriod;
     bool isAA;
+    String currencyImage;
+    String accountImage;
 
     RecordDB({this.aaId, this.amount, this.createTime, this.currentId, this.currentUnit, this.id, this.mainCurrentId, this.mainCurrentAmount, this.mainCurrentUnit,
         this.periodicId, this.rate, this.recordType, this.subType, this.subTypeName, this.type, this.typeName, this.updateTime, this.remark, this.year, this.month, this.day,
-    this.accountId, this.accountName, this.isPeriod, this.isAA});
+    this.accountId, this.accountName, this.isPeriod, this.isAA, this.currencyImage, this.accountImage});
 
     factory RecordDB.fromJson(Map<String, dynamic> json) {
         return RecordDB(
@@ -58,7 +60,9 @@ class RecordDB {
             accountId: json[RecordAttr.ACCOUNT_ID],
             accountName: json[RecordAttr.ACCOUNT_NAME],
             isPeriod: json[RecordAttr.IS_PERIOD] == 1 ? true : false,
-            isAA: json[RecordAttr.IS_AA] == 1 ? true : false
+            isAA: json[RecordAttr.IS_AA] == 1 ? true : false,
+            currencyImage: json[RecordAttr.CURRECY_IMAGE],
+            accountImage: json[RecordAttr.ACCOUNT_IMAGE]
 
         );
     }
@@ -90,6 +94,8 @@ class RecordDB {
         data[RecordAttr.IS_PERIOD] = this.isPeriod == true ? 1 : 0;
         data[RecordAttr.ACCOUNT_ID] = this.accountId;
         data[RecordAttr.ACCOUNT_NAME] = this.accountName;
+        data[RecordAttr.ACCOUNT_IMAGE] = this.accountImage;
+        data[RecordAttr.CURRECY_IMAGE] = this.currencyImage;
         return data;
     }
 }

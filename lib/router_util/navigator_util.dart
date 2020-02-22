@@ -57,4 +57,8 @@ class NavigatorUtil {
   static Future goRecordPage(BuildContext context) {
     return Application.router.navigateTo(context, Routes.addRecordPage, replace: false);
   }
+
+  static Future goEditRecordPage(BuildContext context, int id) {
+    return Application.router.navigateTo(context, Routes.editRecordPage + "?id=" + id.toString(), replace: false);
+  }
 }
