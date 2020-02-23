@@ -375,13 +375,15 @@ class DetailWidgetState extends State
         ),
       ),
       onTap: (){
-        NavigatorUtil.goEditRecordPage(context, recordReq.id).then((result){
-          if (result is bool) {
-            if (result) {
-              _detailBloc.add(new DetailBlocRefreshEvent(_year, _month));
+        if (recordReq.recordType != RecordTypeEnum.BALANCE_CHANGE) {
+          NavigatorUtil.goEditRecordPage(context, recordReq.id).then((result){
+            if (result is bool) {
+              if (result) {
+                _detailBloc.add(new DetailBlocRefreshEvent(_year, _month));
+              }
             }
-          }
-        });
+          });
+        }
       },
     );
   }

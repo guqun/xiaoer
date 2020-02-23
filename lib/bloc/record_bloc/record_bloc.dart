@@ -65,6 +65,7 @@ class RecordBloc extends Bloc<RecordBlocEvent, RecordBlocState>
           yield new RecordBlocFailedState(dbResponse.message);
         }
       } else if (event is RecordBlocEditEvent) {
+        event.recordDB.mainCurrentAmount = event.recordDB.amount * Application.rate;
         DBResponse dbResponse = await RecordRespository.update(event.recordDB);
         if (!dbResponse.result) {
           yield new RecordBlocFailedState(dbResponse.message);

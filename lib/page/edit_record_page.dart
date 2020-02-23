@@ -97,18 +97,18 @@ class EditRecordPageState extends State with TickerProviderStateMixin
             _incomes = state.incomeCategories;
             _outcomes = state.outcomeCategories;
           }
-          if (state is RecordBlocEditInfoQuerySuccessState) {
-            RecordDB recordDB = state.recordDB;
-            _incomes = state.incomes;
-            _outcomes = state.outcomes;
-            _amountTextEditingController.text = recordDB.amount.toString();
-            _remarkTextEditingController.text = recordDB.remark == null ? "" : recordDB.remark;
-            _type = recordDB.recordType;
-            _tabController.index = _type;
-            _selectId = recordDB.subType;
-            _recordDB = recordDB;
-            _selectName = recordDB.subTypeName;
-          }
+//          if (state is RecordBlocEditInfoQuerySuccessState) {
+//            RecordDB recordDB = state.recordDB;
+//            _incomes = state.incomes;
+//            _outcomes = state.outcomes;
+//            _amountTextEditingController.text = recordDB.amount.toString();
+//            _remarkTextEditingController.text = recordDB.remark == null ? "" : recordDB.remark;
+//            _type = recordDB.recordType;
+//            _tabController.index = _type;
+//            _selectId = recordDB.subType;
+//            _recordDB = recordDB;
+//            _selectName = recordDB.subTypeName;
+//          }
           if (state is RecordBlocFailedState) {
             Fluttertoast.showToast(msg: state.message);
           }
@@ -284,6 +284,18 @@ class EditRecordPageState extends State with TickerProviderStateMixin
                 });
               }
           }
+          if (state is RecordBlocEditInfoQuerySuccessState) {
+            RecordDB recordDB = state.recordDB;
+            _incomes = state.incomes;
+            _outcomes = state.outcomes;
+            _amountTextEditingController.text = recordDB.amount.toString();
+            _remarkTextEditingController.text = recordDB.remark == null ? "" : recordDB.remark;
+            _type = recordDB.recordType;
+            _tabController.index = _type;
+            _selectId = recordDB.subType;
+            _recordDB = recordDB;
+            _selectName = recordDB.subTypeName;
+          }
         });
   }
 
@@ -348,6 +360,7 @@ class EditRecordPageState extends State with TickerProviderStateMixin
                 _recordDB.remark = remark;
                 _recordDB.subTypeName = _selectName;
                 _recordDB.subType = _selectId;
+                _recordDB.recordType = _tabController.index;
                 _recordBloc.add(new RecordBlocEditEvent(_recordDB));
               },
               child: Container(

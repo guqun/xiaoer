@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter_app/db/dao/day_amount_db.dart';
 import 'package:flutter_app/db/dao/month_amount_db.dart';
@@ -229,10 +230,39 @@ class RecordRespository
     }
   }
 
+  // when recordDB is changebalance，don't change dayamountdb and monthamountdb
   static Future<DBResponse> update(RecordDB recordDB) async
   {
     try{
+      RecordDB oldRecordDB = await RecordProvider.getById(recordDB.id);
+      if (oldRecordDB == null) {
+        return DBResponse(false, message: "Don't find recorddb!");
+      }
+      int year = oldRecordDB.year;
+      int month = oldRecordDB.month;
+      int day = oldRecordDB.day;
+      MonthAmountDB monthAmountDB = await MonthAmountProvider.queryByYearAndMonth(year, month);
+      DayAmountDB dayAmountDB = await DayAmountProvider.queryByYearAndMonthAndDay(year, month, day);
+      if (monthAmountDB == null || dayAmountDB == null) {
+        return DBResponse(false, message: "dayamount or monthamount exceptions!");
+      }
       await RecordProvider.update(recordDB);
+      if (oldRecordDB.recordType == RecordTypeEnum.INCOME) {
+        monthAmountDB.income -= oldRecordDB.mainCurrentAmount;
+        dayAmountDB.income -= oldRecordDB.mainCurrentAmount;
+      } else if (oldRecordDB.recordType == RecordTypeEnum.OUTCOME) {
+        monthAmountDB.outcome -= oldRecordDB.mainCurrentAmount;
+        dayAmountDB.outcome -= oldRecordDB.mainCurrentAmount;
+      }
+      if (recordDB.recordType == RecordTypeEnum.INCOME) {
+        monthAmountDB.income += recordDB.mainCurrentAmount;
+        dayAmountDB.income += recordDB.mainCurrentAmount;
+      } else if (recordDB.recordType == RecordTypeEnum.OUTCOME) {
+        monthAmountDB.outcome += recordDB.mainCurrentAmount;
+        dayAmountDB.outcome += recordDB.mainCurrentAmount;
+      }
+      await MonthAmountProvider.update(monthAmountDB);
+      await DayAmountProvider.update(dayAmountDB);
       return DBResponse(true);
     }catch(e){
       return DBResponse(false, message: e.toString());
@@ -245,7 +275,32 @@ class RecordRespository
       return DBResponse(false, message: "id exception!");
     }
     try{
+      RecordDB oldRecordDB = await RecordProvider.getById(id);
+      if (oldRecordDB == null) {
+        return DBResponse(false, message: "Don't find recorddb!");
+      }
+      int year = oldRecordDB.year;
+      int month = oldRecordDB.month;
+      int day = oldRecordDB.day;
+      MonthAmountDB monthAmountDB = await MonthAmountProvider.queryByYearAndMonth(year, month);
+      DayAmountDB dayAmountDB = await DayAmountProvider.queryByYearAndMonthAndDay(year, month, day);
+      if (monthAmountDB == null || dayAmountDB == null) {
+        return DBResponse(false, message: "dayamount or monthamount exceptions!");
+      }
+
       await RecordProvider.delete(id);
+
+      if (oldRecordDB.recordType == RecordTypeEnum.INCOME) {
+        monthAmountDB.income -= oldRecordDB.mainCurrentAmount;
+        dayAmountDB.income -= oldRecordDB.mainCurrentAmount;
+      } else if (oldRecordDB.recordType == RecordTypeEnum.OUTCOME) {
+        monthAmountDB.outcome -= oldRecordDB.mainCurrentAmount;
+        dayAmountDB.outcome -= oldRecordDB.mainCurrentAmount;
+      }
+
+      await MonthAmountProvider.update(monthAmountDB);
+      await DayAmountProvider.update(dayAmountDB);
+
       return DBResponse(true);
     }catch(e){
       return DBResponse(false, message: e.toString());
