@@ -17,4 +17,6 @@ class Application {
   static int accountId;
   static String accountName;
   static String accountImage;
+
+  static bool isSetMainCurrency;
 }

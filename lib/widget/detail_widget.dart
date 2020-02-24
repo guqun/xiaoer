@@ -13,6 +13,7 @@ import 'package:flutter_app/tool/time_tool.dart';
 import 'package:flutter_app/widget/common/loading_dialog_wrapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class DetailWidget extends StatefulWidget
 {
@@ -45,6 +46,7 @@ class DetailWidgetState extends State
   double _height;
   bool _isFirstInit = true;
   bool _canLoadMore = true;
+  DateTime _selectedDate;
 
   @override
   void initState() {
@@ -53,10 +55,9 @@ class DetailWidgetState extends State
     _scrollController.addListener(_onScroll);
 //    _detailBloc = new DetailBloc();
     _loadingDialogWrapper = new LoadingDialogWrapper(context);
-    DateTime dateTime = DateTime.now();
-    _year = dateTime.year;
-    _month = dateTime.month;
-
+    _selectedDate = DateTime.now();
+    _year = _selectedDate.year;
+    _month = _selectedDate.month;
     _detailBloc.add(new DetailBlocRefreshEvent(_year, _month));
   }
 
@@ -97,35 +98,6 @@ class DetailWidgetState extends State
           }
         },
         builder: (context, state){
-          if (state is DetailBlocRefreshSuccessState) {
-            if (_isFirstInit) {
-              _isFirstInit = false;
-            }
-            List<RecordReq> recodReqs = state.detailReq.recordReqs;
-            _recordReqs.clear();
-            _recordReqs.addAll(recodReqs);
-            _income = state.detailReq.income;
-            _outcome = state.detailReq.outcome;
-            _canDispathEvent = true;
-            _refreshCompleter?.complete();
-            _refreshCompleter = Completer();
-            _canLoadMore = state.canLoadMore;
-            _year = state.detailReq.year;
-            _month = state.detailReq.month;
-          }
-          if (state is DetailBlocLoadMoreSuccessState) {
-            List<RecordReq> recodReqs = state.recordReqs;
-            _recordReqs.clear();
-            _recordReqs.addAll(recodReqs);
-            _canDispathEvent = true;
-            _canLoadMore = state.canLoadMore;
-          }
-          if (state is DetailBlocFailedState) {
-            _refreshCompleter?.complete();
-            _refreshCompleter = Completer();
-            _canDispathEvent = true;
-            Fluttertoast.showToast(msg: state.message);
-          }
           return SingleChildScrollView(
             physics: NeverScrollableScrollPhysics(),
             child: Container(
@@ -142,37 +114,49 @@ class DetailWidgetState extends State
                     children: <Widget>[
                       GestureDetector(
                         onTap: (){
-
+                          showMonthPicker(
+                              context: context,
+                              firstDate: DateTime(DateTime.now().year - 10, 0),
+                              lastDate: DateTime(DateTime.now().year + 0, DateTime.now().month),
+                              initialDate: _selectedDate)
+                              .then((date) {
+                            if (date != null) {
+                              setState(() {
+                                _selectedDate = date;
+                                _year = _selectedDate.year;
+                                _month = _selectedDate.month;
+                                _detailBloc.add(DetailBlocRefreshEvent(_year, _month));
+                              });
+                            }
+                          });
                         },
-                        child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                child: Text(_year.toString() + "Y", style: TextStyle(fontSize: 12, color: ColorConfig.color_333333),),
-                              ),
-                              Container(
-                                  padding: EdgeInsets.fromLTRB(0, 18, 0, 0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      Text.rich(
-                                          TextSpan(
-                                              text: _month.toString(),
-                                              style: TextStyle(fontSize: 24, color: ColorConfig.color_333333),
-                                              children: <TextSpan>[TextSpan(text: "M", style: TextStyle(fontSize: 12)),]
-                                          )),
-                                      Container(
-                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                        child: Image.asset(LOCAL_IMAGE + "expand_icon.png", width: 12, height: 7,),
-                                      )
-                                    ],
-                                  )
-                              )
-                            ],
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              child: Text(_year.toString() + "Y", style: TextStyle(fontSize: 12, color: ColorConfig.color_333333),),
+                            ),
+                            Container(
+                                padding: EdgeInsets.fromLTRB(0, 18, 0, 0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    Text.rich(
+                                        TextSpan(
+                                            text: _month.toString(),
+                                            style: TextStyle(fontSize: 24, color: ColorConfig.color_333333),
+                                            children: <TextSpan>[TextSpan(text: "M", style: TextStyle(fontSize: 12)),]
+                                        )),
+                                    Container(
+                                      margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                      child: Image.asset(LOCAL_IMAGE + "expand_icon.png", width: 12, height: 7,),
+                                    )
+                                  ],
+                                )
+                            )
+                          ],
                         ),
                       ),
                       Container(
@@ -261,15 +245,44 @@ class DetailWidgetState extends State
           ),);
         },
         listener: (context, state){
+          if (state is DetailBlocRefreshSuccessState) {
+            if (_isFirstInit) {
+              _isFirstInit = false;
+              _loadingDialogWrapper.dismiss();
+            }
+            List<RecordReq> recodReqs = state.detailReq.recordReqs;
+            _recordReqs.clear();
+            _recordReqs.addAll(recodReqs);
+            _income = state.detailReq.income;
+            _outcome = state.detailReq.outcome;
+            _canDispathEvent = true;
+            _refreshCompleter?.complete();
+            _refreshCompleter = Completer();
+            _canLoadMore = state.canLoadMore;
+            _year = state.detailReq.year;
+            _month = state.detailReq.month;
+          }
+          if (state is DetailBlocLoadMoreSuccessState) {
+            List<RecordReq> recodReqs = state.recordReqs;
+            _recordReqs.clear();
+            _recordReqs.addAll(recodReqs);
+            _canDispathEvent = true;
+            _canLoadMore = state.canLoadMore;
+          }
+          if (state is DetailBlocFailedState) {
+            _refreshCompleter?.complete();
+            _refreshCompleter = Completer();
+            _canDispathEvent = true;
+            Fluttertoast.showToast(msg: state.message);
+          }
           if(state is DetailBlocLoadingState) {
             if (_isFirstInit) {
               _loadingDialogWrapper.show();
             }
           }
-          else {
-            _loadingDialogWrapper.dismiss();
-
-          }
+//          else {
+//            _loadingDialogWrapper.dismiss();
+//          }
         });
 
   }
@@ -393,7 +406,7 @@ class DetailWidgetState extends State
     if (recordReq.recordType == RecordTypeEnum.INCOME) {
       return Text("+" + recordReq.amount.toStringAsFixed(2), style: TextStyle(fontSize: 18, color: ColorConfig.color_33c15d),);
     } else if (recordReq.recordType == RecordTypeEnum.OUTCOME) {
-      return Text("+" + recordReq.amount.toStringAsFixed(2), style: TextStyle(fontSize: 18, color: ColorConfig.color_ff0000),);
+      return Text("-" + recordReq.amount.toStringAsFixed(2), style: TextStyle(fontSize: 18, color: ColorConfig.color_ff0000),);
     } else {
       return Text(recordReq.amount.toStringAsFixed(2), style: TextStyle(fontSize: 18, color: Colors.blue),);
     }

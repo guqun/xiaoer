@@ -23,3 +23,5 @@ const String ACCOUNT_IMAGE = "accountImage";
 const String UPDATE_CURREMCY_TIME = "updateCurrencyTime";
 
 const HTTP_CURRENCY_URL = "https://fixer-fixer-currency-v1.p.rapidapi.com/latest";
+
+const String IS_SET_MAIN_CURRENCY = "isSetMainCurrency";

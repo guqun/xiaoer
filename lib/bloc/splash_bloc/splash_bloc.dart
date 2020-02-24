@@ -42,6 +42,13 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
           isFirst = true;
         }
         Application.isFirst = isFirst;
+
+        if(await LocalSharedPreferencesUtil.containIsSetMainCurrency() == true){
+          Application.isSetMainCurrency = await LocalSharedPreferencesUtil.getIsSetMainCurrency();
+        }else{
+          Application.isSetMainCurrency = false;
+        }
+
         // 初始化数据库内容
         await initDataBase();
 

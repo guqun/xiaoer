@@ -6,7 +6,7 @@ import 'package:flutter_app/page/add_account_page.dart';
 import 'package:flutter_app/page/add_category_page.dart';
 import 'package:flutter_app/page/add_record_page.dart';
 import 'package:flutter_app/page/category_page.dart';
-import 'package:flutter_app/page/currrency_page.dart';
+import 'package:flutter_app/page/currency_page.dart';
 import 'package:flutter_app/page/edit_account_page.dart';
 import 'package:flutter_app/page/edit_rate_page.dart';
 import 'package:flutter_app/page/edit_record_page.dart';

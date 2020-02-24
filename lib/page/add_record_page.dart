@@ -79,10 +79,6 @@ class AddRecordPageState extends State with TickerProviderStateMixin
           if (state is RecordBlocAddSuccessState) {
             Fluttertoast.showToast(msg: "add success!");
           }
-          if (state is RecordBlocQueryCategorySuccessState) {
-            _incomes = state.incomeCategories;
-            _outcomes = state.outcomeCategories;
-          }
           if (state is RecordBlocFailedState) {
             Fluttertoast.showToast(msg: state.message);
           }
@@ -220,6 +216,10 @@ class AddRecordPageState extends State with TickerProviderStateMixin
           );
         },
         listener: (context, state){
+          if (state is RecordBlocQueryCategorySuccessState) {
+            _incomes = state.incomeCategories;
+            _outcomes = state.outcomeCategories;
+          }
           if(state is RecordBlocLoadingState) {
               _loadingDialogWrapper.show();
           }

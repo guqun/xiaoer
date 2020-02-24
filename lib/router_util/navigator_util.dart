@@ -21,7 +21,7 @@ class NavigatorUtil {
     Application.router.navigateTo(context, Routes.homePage, replace: true);
   }
   static Future goCurrencyPage(BuildContext context, bool isPureSelect) {
-    Application.router.navigateTo(context, Routes.currencyPage + "?isPureSelect=" + (isPureSelect == false ? 0 : 1).toString(), replace: false);
+    return Application.router.navigateTo(context, Routes.currencyPage + "?isPureSelect=" + (isPureSelect == false ? 0 : 1).toString(), replace: false);
   }
 
   static Future goEditRatePage(BuildContext context, int currencyId, num curencyRate, String currencyName)

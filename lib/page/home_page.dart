@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/application.dart';
 import 'package:flutter_app/bloc/detail_bloc/detail_bloc_export.dart';
 import 'package:flutter_app/const.dart';
 import 'package:flutter_app/res/color_config.dart';
 import 'package:flutter_app/router_util/navigator_util.dart';
+import 'package:flutter_app/util/local_shared_preferences_util.dart';
 import 'package:flutter_app/widget/chart_widget.dart';
 import 'package:flutter_app/widget/detail_widget.dart';
+import 'package:flutter_app/widget/dialog/select_main_currency_dialog.dart';
 import 'package:flutter_app/widget/left_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,6 +30,18 @@ class HomePageState extends State
   @override
   void initState() {
     _detailBloc = new DetailBloc();
+
+    WidgetsBinding.instance.addPostFrameCallback((_){
+    if (Application.isSetMainCurrency == false) {
+      showSelectMainCurrency(context: context).then((result){
+        if (result is bool) {
+          if (result == true) {
+            _detailBloc.add(new DetailBlocRefreshEvent(DateTime.now().year, DateTime.now().month));
+          }
+        }
+      });
+    }
+    });
   }
 
   @override
@@ -110,13 +125,24 @@ class HomePageState extends State
         backgroundColor: ColorConfig.color_main_color,// 浮按钮
         child: Image.asset(LOCAL_IMAGE + "add_home.png", width: 47, height: 47,),
         onPressed: (){
-          NavigatorUtil.goRecordPage(context).then((result){
-            if (result is bool) {
-              if (result == true) {
-               _detailBloc.add(DetailBlocRefreshEvent(DateTime.now().year, DateTime.now().month));
+          if (Application.isSetMainCurrency == false) {
+            showSelectMainCurrency(context: context).then((result){
+              if (result is bool) {
+                if (result == true) {
+                  _detailBloc.add(new DetailBlocRefreshEvent(DateTime.now().year, DateTime.now().month));
+                }
               }
-            }
-          });
+            });
+          }
+          else{
+            NavigatorUtil.goRecordPage(context).then((result){
+              if (result is bool) {
+                if (result == true) {
+                  _detailBloc.add(DetailBlocRefreshEvent(DateTime.now().year, DateTime.now().month));
+                }
+              }
+            });
+          }
         },
       ),
       body: Stack(

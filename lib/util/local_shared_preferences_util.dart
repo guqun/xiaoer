@@ -169,4 +169,22 @@ class LocalSharedPreferencesUtil
     return sharedPreferences.getString(ACCOUNT_IMAGE);
   }
 
+
+  static Future<void> setIsSetMainCurrency(bool isSetMainCurrency) async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setBool(IS_SET_MAIN_CURRENCY, isSetMainCurrency);
+  }
+
+  static Future<bool> getIsSetMainCurrency() async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getBool(IS_SET_MAIN_CURRENCY);
+  }
+  static Future<bool> containIsSetMainCurrency() async
+  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.containsKey(IS_SET_MAIN_CURRENCY);
+  }
+
 }

@@ -53,6 +53,26 @@ class CurrencyPageState extends State
     return BlocListener<CurrencyBloc, CurrencyBlocState>(
       bloc: _currencyBloc,
       listener: (context, state){
+
+        if (state is CurrencyBlocQueryAllSuccessState) {
+          print("------GestureDetector-------------------3");
+
+          _currencyDBs.clear();
+          _currencyDBs.addAll(state.currencyDBs);
+        }
+        if (state is CurrencyBlocChangeSecondarySuccessState) {
+          print("------GestureDetector-------------------4");
+          if (_isPureSelect) {
+            WidgetsBinding.instance.addPostFrameCallback((_){
+              NavigatorUtil.goBackWithParams(context, true);
+            });
+          }else {
+            _currencyDBs.clear();
+            _currencyDBs.addAll(state.currencyDBs);
+          }
+        }
+
+
         if(state is CurrencyBlocLoadingState) {
           WidgetsBinding.instance.addPostFrameCallback((_){
             _loadingDialogWrapper.show();
@@ -87,21 +107,6 @@ class CurrencyPageState extends State
           },
           bloc: _currencyBloc,
           builder: (context, state){
-            if (state is CurrencyBlocQueryAllSuccessState) {
-              print("------GestureDetector-------------------3");
-
-              _currencyDBs.clear();
-              _currencyDBs.addAll(state.currencyDBs);
-            }
-            if (state is CurrencyBlocChangeSecondarySuccessState) {
-              print("------GestureDetector-------------------4");
-              if (_isPureSelect) {
-                NavigatorUtil.goBackWithParams(context, true);
-              }else {
-                _currencyDBs.clear();
-                _currencyDBs.addAll(state.currencyDBs);
-              }
-            }
             return Container(
               color: ColorConfig.color_f9f9f9,
               margin: EdgeInsets.fromLTRB(0, 12, 0, 12),

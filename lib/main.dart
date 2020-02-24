@@ -10,6 +10,8 @@ import 'package:flutter_app/application.dart';
 import 'package:flutter_app/bloc/bloc_delegate.dart';
 import 'package:flutter_app/bloc/record_bloc/record_bloc.dart';
 import 'package:flutter_app/page/splash_page.dart';
+import 'package:flutter_app/res/color_config.dart';
+import 'package:flutter_app/res/custom_material_color.dart';
 import 'package:flutter_app/router_util/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,8 +52,10 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),
       ],
+
       title: 'Flutter Demo',
       theme: ThemeData(
+          primarySwatch: CustomMaterialColor.main_color
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
