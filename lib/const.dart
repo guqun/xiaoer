@@ -8,6 +8,7 @@ const String MAIN_CURRENCY_ID = "mainCurrencyId";
 const String MAIN_ENGLISH_CURRENCY = "mainEnglishCurrency";
 const String MAIN_SIMPLIFIED_CHINESE_CURRENCY = "mainSimplifiedChineseCurrency";
 const String MAIN_TRADITIONAL_CHINESE_CURRENCY = "mainTraditionalChineseCurrency";
+const String MAIN_CURRENCY_IMAGE = "mainCurrencyImage";
 
 const String SECONDARY_CURRENCY_ID = "secondaryCurrencyId";
 const String SECONDART_ENGLISH_CURRENCY = "secondaryEnglishCurrency";

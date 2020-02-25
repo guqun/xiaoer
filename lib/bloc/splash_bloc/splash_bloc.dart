@@ -87,6 +87,8 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
           Application.mainCurrencyId = currencyDBs[0].id;
           Application.secondaryEnglishCurrency = currencyDBs[0].englishName;
           Application.secondaryCurrencyId = currencyDBs[0].id;
+          Application.secondaryEnglishCurrencyImage = currencyDBs[0].image;
+          Application.mainCurrencyImage = currencyDBs[0].image;
           Application.rate = currencyDBs[0].rate.toDouble();
           Application.accountId = accountDBs[0].id;
           Application.accountName = accountDBs[0].name;
@@ -121,13 +123,20 @@ class SplashBloc extends Bloc<SplashBlocEvent, SplashBlocState> {
             Application.accountId = accountId;
           }
           String accountName = await LocalSharedPreferencesUtil.getAccountName();
-          if (!isBlank(mainEnglishCurrency)) {
+          if (!isBlank(accountName)) {
             Application.accountName = accountName;
           }
           String secondaryEnglishCurrencyImage = await LocalSharedPreferencesUtil.getSecondaryEnglishCurrencyImage();
-          if (!isBlank(mainEnglishCurrency)) {
+          if (!isBlank(secondaryEnglishCurrencyImage)) {
             Application.secondaryEnglishCurrencyImage = secondaryEnglishCurrencyImage;
           }
+
+          String mainCurrencyImage = await LocalSharedPreferencesUtil.getMainCurrencyImage();
+          if (!isBlank(mainCurrencyImage)) {
+            Application.mainCurrencyImage = mainCurrencyImage;
+          }
+
+
           String accountImage = await LocalSharedPreferencesUtil.getAccountImage();
           if (!isBlank(accountImage)) {
             Application.accountImage = accountImage;

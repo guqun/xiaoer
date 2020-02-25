@@ -1,4 +1,5 @@
 import 'package:flutter_app/db/account_attr.dart';
+import 'package:flutter_app/db/category_statistics_attr.dart';
 import 'package:flutter_app/db/currency_attr.dart';
 import 'package:flutter_app/db/day_amount_attr.dart';
 import 'package:flutter_app/db/month_amount_attr.dart';
@@ -17,6 +18,7 @@ class DBUtil
   static final String AccountTable = "account_table";
   static final String MonthAmountTable = "month_amount_table";
   static final String DayAmountTable = "day_amount_table";
+  static final String CategoryStatisticsTable = "category_statistics_table";
 
 
   // record table attr
@@ -126,6 +128,23 @@ class DBUtil
   static final String Day_Amount_DayKey = DayAmountAttr.DAY;
   static final String Day_Amount_MainCurrencyIdKey = DayAmountAttr.MAIN_CURRENCY_ID;
   static final String Day_Amount_MainCurrencyNameKey = DayAmountAttr.MAIN_CURRENCY_NAME;
+
+
+  // category statistics
+  static final String Category_Statistics_AmountKey = CategoryStatisticsAttr.AMOUNT;
+  static final String Category_Statistics_CreateTimeKey = CategoryStatisticsAttr.CREATE_TIME;
+  static final String Category_Statistics_CurrencyKey = CategoryStatisticsAttr.CURRENCY;
+  static final String Category_Statistics_CurrencyIdKey = CategoryStatisticsAttr.CURRENCY_ID;
+  static final String Category_Statistics_CurrencyImageKey = CategoryStatisticsAttr.CURRENCY_IMAGE;
+  static final String Category_Statistics_IdKey = CategoryStatisticsAttr.ID;
+  static final String Category_Statistics_MonthKey = CategoryStatisticsAttr.MONTH;
+  static final String Category_Statistics_RecordTypeKey = CategoryStatisticsAttr.RECORD_TYPE;
+  static final String Category_Statistics_SubtypeIdKey = CategoryStatisticsAttr.SUBTYPE_ID;
+  static final String Category_Statistics_SubtypeNameKey = CategoryStatisticsAttr.SUBTYPE_NAME;
+  static final String Category_Statistics_UpdateTimeKey = CategoryStatisticsAttr.UPDATE_TIME;
+  static final String Category_Statistics_YearKey = CategoryStatisticsAttr.YEAR;
+  static final String Category_Statistics_CountKey = CategoryStatisticsAttr.COUNT;
+
 
   static String _path;
   static Database _db;
@@ -269,6 +288,22 @@ class DBUtil
       $Day_Amount_MainCurrencyNameKey text not null)''',
       );
 
+
+      await db.execute('''create table $CategoryStatisticsTable(
+      $Category_Statistics_IdKey integer primary key autoincrement,
+      $Category_Statistics_AmountKey double default 0,
+      $Category_Statistics_CountKey integer default 0,
+      $Category_Statistics_RecordTypeKey integer not null,
+      $Category_Statistics_YearKey integer not null,
+      $Category_Statistics_MonthKey integer not null,
+      $Category_Statistics_SubtypeIdKey integer not null,
+      $Category_Statistics_CreateTimeKey integer not null,
+      $Category_Statistics_UpdateTimeKey integer not null,
+      $Category_Statistics_CurrencyIdKey integer not null,
+      $Category_Statistics_CurrencyKey text not null,
+      $Category_Statistics_CurrencyImageKey text not null,
+      $Category_Statistics_SubtypeNameKey text not null)''',
+      );
 
     });
 

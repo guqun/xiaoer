@@ -12,6 +12,7 @@ class Application {
   static int secondaryCurrencyId;
   static String secondaryEnglishCurrency;
   static String secondaryEnglishCurrencyImage;
+  static String mainCurrencyImage;
   static double rate;
 
   static int accountId;

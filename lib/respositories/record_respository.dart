@@ -1,6 +1,9 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:flutter_app/application.dart';
+import 'package:flutter_app/db/category_statistics_provider.dart';
+import 'package:flutter_app/db/dao/category_statistics_db.dart';
 import 'package:flutter_app/db/dao/day_amount_db.dart';
 import 'package:flutter_app/db/dao/month_amount_db.dart';
 import 'package:flutter_app/db/dao/record_db.dart';
@@ -90,6 +93,30 @@ class RecordRespository
         }
         await DayAmountProvider.update(dayAmountDB);
       }
+
+      // category statistics
+      CategoryStatisticsDB categoryStatisticsDB = await CategoryStatisticsProvider.queryByYearAndMonthAndId(year, month, subType);
+      if (categoryStatisticsDB == null) {
+        // insert new data
+        CategoryStatisticsDB categoryStatisticsDB = new CategoryStatisticsDB();
+        categoryStatisticsDB.count = 1;
+        categoryStatisticsDB.month = month;
+        categoryStatisticsDB.year = year;
+        categoryStatisticsDB.recordType = recordType;
+        categoryStatisticsDB.amount = mainCurrencyAmount;
+        categoryStatisticsDB.currencyImage = Application.mainCurrencyImage;
+        categoryStatisticsDB.currency = Application.mainEnglishCurrency;
+        categoryStatisticsDB.currencyId = Application.mainCurrencyId;
+        categoryStatisticsDB.subTypeId = subType;
+        categoryStatisticsDB.subTypeName = subTypeName;
+        await CategoryStatisticsProvider.insert(categoryStatisticsDB);
+      }else{
+        // update data
+        categoryStatisticsDB.amount += mainCurrencyAmount;
+        categoryStatisticsDB.count += 1;
+        await CategoryStatisticsProvider.update(categoryStatisticsDB);
+      }
+
       return DBResponse(true);
     }catch(e){
       return DBResponse(false, message: e.toString());
@@ -263,6 +290,32 @@ class RecordRespository
       }
       await MonthAmountProvider.update(monthAmountDB);
       await DayAmountProvider.update(dayAmountDB);
+
+
+      CategoryStatisticsDB categoryStatisticsDB = await CategoryStatisticsProvider.queryByYearAndMonthAndId(year, month, recordDB.subType);
+      if (categoryStatisticsDB == null) {
+        // insert new data
+        CategoryStatisticsDB categoryStatisticsDB = new CategoryStatisticsDB();
+        categoryStatisticsDB.count = 1;
+        categoryStatisticsDB.month = month;
+        categoryStatisticsDB.year = year;
+        categoryStatisticsDB.recordType = recordDB.recordType;
+        categoryStatisticsDB.amount = recordDB.mainCurrentAmount;
+        categoryStatisticsDB.currencyImage = Application.mainCurrencyImage;
+        categoryStatisticsDB.currency = Application.mainEnglishCurrency;
+        categoryStatisticsDB.currencyId = Application.mainCurrencyId;
+        categoryStatisticsDB.subTypeId = recordDB.subType;
+        categoryStatisticsDB.subTypeName = recordDB.subTypeName;
+        await CategoryStatisticsProvider.insert(categoryStatisticsDB);
+      }else{
+        // update data
+        categoryStatisticsDB.amount -= oldRecordDB.mainCurrentAmount;
+        categoryStatisticsDB.amount += recordDB.mainCurrentAmount;
+        await CategoryStatisticsProvider.update(categoryStatisticsDB);
+      }
+
+
+
       return DBResponse(true);
     }catch(e){
       return DBResponse(false, message: e.toString());
@@ -300,6 +353,22 @@ class RecordRespository
 
       await MonthAmountProvider.update(monthAmountDB);
       await DayAmountProvider.update(dayAmountDB);
+
+
+      CategoryStatisticsDB categoryStatisticsDB = await CategoryStatisticsProvider.queryByYearAndMonthAndId(year, month, oldRecordDB.subType);
+      if (categoryStatisticsDB == null) {
+        return DBResponse(true);
+      }else{
+        // update data
+        categoryStatisticsDB.amount -= oldRecordDB.mainCurrentAmount;
+        categoryStatisticsDB.count -= 1;
+        if (categoryStatisticsDB.count > 0) {
+          await CategoryStatisticsProvider.update(categoryStatisticsDB);
+        }else{
+          await CategoryStatisticsProvider.delete(categoryStatisticsDB.id);
+        }
+      }
+
 
       return DBResponse(true);
     }catch(e){

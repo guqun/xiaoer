@@ -111,6 +111,7 @@ class SelectMainCurrencyBloc extends Bloc<SelectMainCurrencyBlocEvent, SelectMai
           Application.secondaryCurrencyId = selectCurrency.id;
           Application.secondaryEnglishCurrency = selectCurrency.englishName;
           Application.secondaryEnglishCurrencyImage = selectCurrency.image;
+          Application.mainCurrencyImage = selectCurrency.image;
           Application.rate = 1.0;
           Application.isSetMainCurrency = true;
 
@@ -122,6 +123,7 @@ class SelectMainCurrencyBloc extends Bloc<SelectMainCurrencyBlocEvent, SelectMai
           await LocalSharedPreferencesUtil.setUpdateCurrencyTime(TimeTool.getCurrentDayLastSecond());
           await LocalSharedPreferencesUtil.setRate(Application.rate);
           await LocalSharedPreferencesUtil.setIsSetMainCurrency(true);
+          await LocalSharedPreferencesUtil.setMainCurrencyImage(selectCurrency.image);
 
 
           yield new SelectMainCurrencyBlocSelectSuccessState();

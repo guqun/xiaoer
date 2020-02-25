@@ -72,7 +72,7 @@ class SelectMainCurrencyDialogState extends State
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    decoration: BoxDecoration(image: DecorationImage(image: AssetImage(LOCAL_IMAGE + "select_main_currency_head.png"))),
+                    decoration: BoxDecoration(image: DecorationImage(image: AssetImage(LOCAL_IMAGE + "select_main_currency_head.png"), fit: BoxFit.fill)),
                     width: 310,
                     height: 120,
                     child: Column(
@@ -107,7 +107,6 @@ class SelectMainCurrencyDialogState extends State
                   Container(
                       width: 310,
                       height: 71,
-                      decoration: BoxDecoration(boxShadow: ),
                       child: GestureDetector(
                         onTap: (){
                           DialogTool.showCustomAlertDialog(context, "", "are you sure ?", (){
