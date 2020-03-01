@@ -31,6 +31,13 @@ class TimeTool
     }
   }
 
+  static String customFormatTime_YYYY_MM(int time)
+  {
+    DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(time);
+    int month = dateTime.month;
+    return dateTime.year.toString() + "." + (month < 10 ? '0$month' : month.toString());
+  }
+
   static bool isSameDay(int standard, int other)
   {
     DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(standard);

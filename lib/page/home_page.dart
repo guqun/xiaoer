@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/application.dart';
+import 'package:flutter_app/bloc/chart_bloc/chart_bloc.dart';
+import 'package:flutter_app/bloc/chart_bloc/chart_bloc_event.dart';
 import 'package:flutter_app/bloc/detail_bloc/detail_bloc_export.dart';
 import 'package:flutter_app/const.dart';
 import 'package:flutter_app/res/color_config.dart';
@@ -25,12 +27,12 @@ class HomePageState extends State
 
   bool _switchWidget = true;
   DetailBloc _detailBloc;
-
+  ChartBloc _chartBloc;
 
   @override
   void initState() {
     _detailBloc = new DetailBloc();
-
+    _chartBloc = new ChartBloc();
     WidgetsBinding.instance.addPostFrameCallback((_){
     if (Application.isSetMainCurrency == false) {
       showSelectMainCurrency(context: context).then((result){
@@ -139,6 +141,7 @@ class HomePageState extends State
               if (result is bool) {
                 if (result == true) {
                   _detailBloc.add(DetailBlocRefreshEvent(DateTime.now().year, DateTime.now().month));
+                  _chartBloc.add(ChartBlocRefreshEvent(DateTime.now().year, DateTime.now().month));
                 }
               }
             });
@@ -153,7 +156,7 @@ class HomePageState extends State
           ),
           Offstage(
             offstage: _switchWidget,
-            child: ChartWidget(),
+            child: ChartWidget(_chartBloc),
           ),
 
         ],

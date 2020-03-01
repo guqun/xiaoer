@@ -64,4 +64,15 @@ class DayAmountProvider {
     }
     return null;
   }
+
+  static Future<List<DayAmountDB>> queryByYearAndMonth(int year, int month) async
+  {
+    Database database = await DBUtil.getDB();
+    List<Map<String, dynamic>> collection = await database.query(DayAmountTable, where: '$YearKey = ? and $MonthKey = ?', whereArgs: [year, month]);
+    List<DayAmountDB> dayAmountDBs = new List();
+    collection.forEach((element){
+      dayAmountDBs.add(DayAmountDB.fromJson(element));
+    });
+    return dayAmountDBs;
+  }
 }

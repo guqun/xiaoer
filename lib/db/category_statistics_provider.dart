@@ -101,4 +101,16 @@ class CategoryStatisticsProvider
     }
     return null;
   }
+
+  static Future<List<CategoryStatisticsDB>> queryByYearAndMonthAndRecordType(int year, int month, int recordType) async
+  {
+    Database database = await DBUtil.getDB();
+    List<Map<String, dynamic>> collection = await database.query(CategoryStatisticTable, where: '$YearKey = ? and $MonthKey = ? and $RecordTypeKey = ?', whereArgs: [year, month, recordType]);
+    List<CategoryStatisticsDB> monthAmountDBs = new List();
+    collection.forEach((element){
+      monthAmountDBs.add(CategoryStatisticsDB.fromJson(element));
+    });
+
+    return monthAmountDBs;
+  }
 }

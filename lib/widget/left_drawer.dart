@@ -18,6 +18,7 @@ class LeftDrawer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
+                margin: EdgeInsets.fromLTRB(0, 0, 0, 9),
                 padding: EdgeInsets.fromLTRB(38, 70, 0, 0),
                 decoration: BoxDecoration(
                     image: DecorationImage(image: AssetImage(LOCAL_IMAGE + "drawer_bg.png"), fit: BoxFit.fill)),

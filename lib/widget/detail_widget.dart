@@ -176,7 +176,7 @@ class DetailWidgetState extends State
                             Container(
                                 width: 150,
                                 padding: EdgeInsets.fromLTRB(0, 18, 0, 0),
-                                child: Text(_outcome.toStringAsPrecision(7), style: TextStyle(fontSize: 24, color: ColorConfig.color_333333), maxLines: 1,)),
+                                child: Text(_outcome.toStringAsFixed(2), style: TextStyle(fontSize: 24, color: ColorConfig.color_333333), maxLines: 1,)),
                           ],),
                       ),
                       Container(
@@ -191,7 +191,7 @@ class DetailWidgetState extends State
                             Container(
                                 width: 150,
                                 padding: EdgeInsets.fromLTRB(0, 18, 0, 0),
-                                child: Text(_income.toStringAsPrecision(7), style: TextStyle(fontSize: 24, color: ColorConfig.color_333333), maxLines: 1,)),
+                                child: Text(_income.toStringAsFixed(2), style: TextStyle(fontSize: 24, color: ColorConfig.color_333333), maxLines: 1,)),
                           ],),
                       ),
                     ],
