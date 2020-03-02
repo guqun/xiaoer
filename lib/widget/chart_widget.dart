@@ -291,7 +291,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                                 (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? Container() : Container(
                                     height: (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.outcomeCategoryStatisticsDBs.length * 60).toDouble(),
                                     child: charts.BarChart(
-                                      _createRangeData(_chartReq.outcomeCategoryStatisticsDBs),
+                                      _createRangeData(_chartReq.outcomeCategoryStatisticsDBs, true),
                                       animate: true,
                                       vertical: false,
                                       // Set a bar label decorator.
@@ -310,7 +310,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                                 Container(
                                 height: (_chartReq == null || _chartReq.incomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.incomeCategoryStatisticsDBs.length * 60).toDouble(),
                                 child: charts.BarChart(
-                                  _createRangeData(_chartReq.incomeCategoryStatisticsDBs),
+                                  _createRangeData(_chartReq.incomeCategoryStatisticsDBs, false),
                                   animate: true,
                                   vertical: false,
                                   // Set a bar label decorator.
@@ -397,7 +397,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
     ];
   }
 
-  List<charts.Series<AmountRange, String>> _createRangeData(List<CategoryStatisticsDB> categoryStatisticsDBs) {
+  List<charts.Series<AmountRange, String>> _createRangeData(List<CategoryStatisticsDB> categoryStatisticsDBs, bool isOutcome) {
     List<AmountRange> amountRanges = new List();
     for(int i = 0; i < categoryStatisticsDBs.length; i ++){
       AmountRange amountRange = new AmountRange(categoryStatisticsDBs[i].subTypeName, categoryStatisticsDBs[i].amount);
@@ -406,6 +406,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
     return [
       new charts.Series<AmountRange, String>(
           id: 'AmountRange',
+          colorFn: (_, __) => isOutcome ? charts.Color(r: 0x51, g: 0xa5, b: 0xde) : charts.Color(r: 0x76, g: 0xdd, b: 0xfb),
           domainFn: (AmountRange sales, _) => sales.name,
           measureFn: (AmountRange sales, _) => sales.amount,
           data: amountRanges,
