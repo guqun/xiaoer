@@ -6,6 +6,7 @@ import 'package:flutter_app/const.dart';
 import 'package:flutter_app/enum/record_type.dart';
 import 'package:flutter_app/res/color_config.dart';
 import 'package:flutter_app/router_util/navigator_util.dart';
+import 'package:flutter_app/widget/common/dialog_tool.dart';
 import 'package:flutter_app/widget/common/loading_dialog_wrapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -96,8 +97,43 @@ class AddCategoryPageState extends State
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    GestureDetector(
+                      onTap: (){
+                        DialogTool.showCustomSimpleDialog(context, "please select type", "outcome", "income", (){
+                          setState(() {
+                            _type = RecordTypeEnum.OUTCOME;
+                          });
+                        }, (){
+                          setState(() {
+                            _type = RecordTypeEnum.INCOME;
+                          });
+                        });
+                      },
+                      child: Container(
+                        color: ColorConfig.color_white,
+                        padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              child: Text("Category", style: TextStyle(fontSize: 17, color: ColorConfig.color_333333),),
+                            ),
+                            Expanded(child: Container()),
+                            Container(
+                              child: Text(_type == RecordTypeEnum.OUTCOME ? "outcome" : "income", style: TextStyle(fontSize: 15, color: ColorConfig.color_999999),),
+                            ),
+                            Icon(Icons.keyboard_arrow_right),
+                          ],
+                        ),
+                      ),
+                    ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(12, 6, 12, 6),
+                        padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                        color: ColorConfig.color_white,
+                        child: Divider(height: 1, color: ColorConfig.color_999999,)),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(12, 22, 12, 22),
                       color: ColorConfig.color_white,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -116,10 +152,6 @@ class AddCategoryPageState extends State
                                   style: TextStyle(color: ColorConfig.color_black, fontSize: 15),),)),
                         ],
                       ),),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                        color: ColorConfig.color_white,
-                        child: Divider(height: 1, color: ColorConfig.color_999999,)),
                     Container(
                         padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
                         color: ColorConfig.color_white,

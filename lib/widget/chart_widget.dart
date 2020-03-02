@@ -8,6 +8,7 @@ import 'package:flutter_app/bloc/chart_bloc/chart_bloc_event.dart';
 import 'package:flutter_app/bloc/chart_bloc/chart_bloc_export.dart';
 import 'package:flutter_app/bloc/detail_bloc/detail_bloc_export.dart';
 import 'package:flutter_app/const.dart';
+import 'package:flutter_app/db/dao/category_statistics_db.dart';
 import 'package:flutter_app/model/req/chart_req.dart';
 import 'package:flutter_app/res/color_config.dart';
 import 'package:flutter_app/tool/time_tool.dart';
@@ -30,10 +31,10 @@ class ChartWidget extends StatefulWidget
   }
 }
 
-class ChartWidgetState extends State
+class ChartWidgetState extends State with TickerProviderStateMixin
 {
-  int _startDay = 1;
-  int _endDay = 1;
+//  int _startDay = 1;
+//  int _endDay = 1;
   double _width;
   double _height;
   DateTime _selectedDate;
@@ -42,11 +43,12 @@ class ChartWidgetState extends State
   final ChartBloc _chartBloc;
 
   ChartReq _chartReq;
-
+  TabController _tabController;
   ChartWidgetState(this._chartBloc);
 
   @override
   void initState() {
+    _tabController = new TabController(length: 2, vsync: this);
     _selectedDate = DateTime.now();
     _loadingDialogWrapper = new LoadingDialogWrapper(context);
     _chartBloc.add(new ChartBlocRefreshEvent(_selectedDate.year, _selectedDate.month));
@@ -80,7 +82,7 @@ class ChartWidgetState extends State
         },
         builder: (context, state){
           return SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+//            physics: NeverScrollableScrollPhysics(),
             child: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -249,7 +251,7 @@ class ChartWidgetState extends State
                     margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
                     height: 155,
                     child: charts.TimeSeriesChart(
-                      _createSampleData(_chartReq),
+                      _createAmountData(_chartReq),
                       primaryMeasureAxis: charts.NumericAxisSpec( // 交叉轴的配置，参数参考主轴配置
                           showAxisLine: false, // 显示轴线
                           tickProviderSpec: charts.BasicNumericTickProviderSpec(
@@ -262,10 +264,70 @@ class ChartWidgetState extends State
                     )
                   ),
                   Container(
+                    margin: EdgeInsets.all(12),
                     color: ColorConfig.color_white,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
+                        Container(
+                          child: TabBar(
+                              indicatorSize: TabBarIndicatorSize.label,
+                            isScrollable: false,
+                            unselectedLabelColor: ColorConfig.color_999999,
+                            labelColor: ColorConfig.color_black,
+                            indicatorColor: ColorConfig.color_main_color,
+                            controller: _tabController,
+                            tabs: [
+                              Tab(text: "OUTCOME RANK"),
+                              Tab(text: "INCOME RANK"),]),
+                              padding: EdgeInsets.fromLTRB(0, 14, 0, 0),
+                        ),
+                        Container(
+                          height: _getChartHeight(_chartReq),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                          child: TabBarView(
+                              children: [
+                                (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? Container() : Container(
+                                    height: (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.outcomeCategoryStatisticsDBs.length * 60).toDouble(),
+                                    child: charts.BarChart(
+                                      _createRangeData(_chartReq.outcomeCategoryStatisticsDBs),
+                                      animate: true,
+                                      vertical: false,
+                                      // Set a bar label decorator.
+                                      // Example configuring different styles for inside/outside:
+                                      //       barRendererDecorator: new charts.BarLabelDecorator(
+                                      //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
+                                      //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
+                                      barRendererDecorator: new charts.BarLabelDecorator<String>(),
+                                      // Hide domain axis.
+                                      domainAxis:
+                                      new charts.OrdinalAxisSpec(renderSpec: new charts.NoneRenderSpec()),
+                                    ),
+                            ),
+                                (_chartReq == null || _chartReq.incomeCategoryStatisticsDBs == null) ?
+                                Container() :
+                                Container(
+                                height: (_chartReq == null || _chartReq.incomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.incomeCategoryStatisticsDBs.length * 60).toDouble(),
+                                child: charts.BarChart(
+                                  _createRangeData(_chartReq.incomeCategoryStatisticsDBs),
+                                  animate: true,
+                                  vertical: false,
+                                  // Set a bar label decorator.
+                                  // Example configuring different styles for inside/outside:
+                                  //       barRendererDecorator: new charts.BarLabelDecorator(
+                                  //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
+                                  //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
+                                  barRendererDecorator: new charts.BarLabelDecorator<String>(),
+                                  // Hide domain axis.
+                                  domainAxis:
+                                  new charts.OrdinalAxisSpec(renderSpec: new charts.NoneRenderSpec()),
+                                ),
+                            )
+                              ],
+                          controller: _tabController,),
 
+                        )
                       ],
                     ),
                   )
@@ -278,9 +340,6 @@ class ChartWidgetState extends State
             _chartReq = state.chartReq;
             _dayMonth = DateUtil().daysInMonth(_selectedDate.month, _selectedDate.year);
             if (_chartReq != null && _chartReq.dayAmountDBs != null) {
-              _startDay = _chartReq.dayAmountDBs.first.day;
-              _endDay = _chartReq.dayAmountDBs.last.day;
-              print("----_startDay:" + _startDay.toString() + "------_endDay:" + _endDay.toString());
             }
           }
           if (state is DetailBlocFailedState) {
@@ -294,7 +353,7 @@ class ChartWidgetState extends State
           }
         });
   }
-  List<charts.Series<LinearAmount, DateTime>> _createSampleData(ChartReq chartReq) {
+  List<charts.Series<LinearAmount, DateTime>> _createAmountData(ChartReq chartReq) {
 
     if (chartReq == null || chartReq.dayAmountDBs == null) {
       return new List();
@@ -338,14 +397,42 @@ class ChartWidgetState extends State
     ];
   }
 
+  List<charts.Series<AmountRange, String>> _createRangeData(List<CategoryStatisticsDB> categoryStatisticsDBs) {
+    List<AmountRange> amountRanges = new List();
+    for(int i = 0; i < categoryStatisticsDBs.length; i ++){
+      AmountRange amountRange = new AmountRange(categoryStatisticsDBs[i].subTypeName, categoryStatisticsDBs[i].amount);
+      amountRanges.add(amountRange);
+    }
+    return [
+      new charts.Series<AmountRange, String>(
+          id: 'AmountRange',
+          domainFn: (AmountRange sales, _) => sales.name,
+          measureFn: (AmountRange sales, _) => sales.amount,
+          data: amountRanges,
+          labelAccessorFn: (AmountRange sales, _) =>
+          '${sales.name}')
+    ];
+  }
+
+  _getChartHeight(ChartReq chartReq)
+  {
+    double h1 = (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.outcomeCategoryStatisticsDBs.length * 60).toDouble();
+    double h2 = (_chartReq == null || _chartReq.incomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.incomeCategoryStatisticsDBs.length * 60).toDouble();
+    return h1 > h2 ? h1 : h2;
+  }
 }
 
-/// Sample linear data type.
+class AmountRange {
+  final String name;
+  final double amount;
+
+  AmountRange(this.name, this.amount);
+
+
+}
 class LinearAmount {
   final DateTime day;
   double amount;
 
   LinearAmount(this.day, this.amount);
-
-
 }

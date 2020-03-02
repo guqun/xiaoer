@@ -34,8 +34,8 @@ class ChartRespository
       chartReq.dayAmountDBs = dayAmountDBs;
       chartReq.incomeAmount = monthAmountDB.income == null ? 0 : monthAmountDB.income;
       chartReq.outcomeAmount = monthAmountDB.outcome == null ? 0 : monthAmountDB.outcome;
-      chartReq.incomeCategoryStatisticsDBs = incomeCategoryStatisticsDBs;
-      chartReq.outcomeCategoryStatisticsDBs = outcomeCategoryStatisticsDBs;
+      chartReq.incomeCategoryStatisticsDBs = incomeCategoryStatisticsDBs.length > 5 ? incomeCategoryStatisticsDBs.sublist(0, 5) : incomeCategoryStatisticsDBs;
+      chartReq.outcomeCategoryStatisticsDBs = outcomeCategoryStatisticsDBs.length > 5 ? outcomeCategoryStatisticsDBs.sublist(0, 5) : outcomeCategoryStatisticsDBs;
       if (monthAmountDB == null || lastMonthAmountDB == null) {
         if (monthAmountDB == null && lastMonthAmountDB != null) {
           chartReq.incomeChange = AmountVaryEnum.DOWN;
