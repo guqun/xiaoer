@@ -9,6 +9,7 @@ import 'package:flutter_app/bloc/chart_bloc/chart_bloc_export.dart';
 import 'package:flutter_app/bloc/detail_bloc/detail_bloc_export.dart';
 import 'package:flutter_app/const.dart';
 import 'package:flutter_app/db/dao/category_statistics_db.dart';
+import 'package:flutter_app/enum/amount_vary_enum.dart';
 import 'package:flutter_app/model/req/chart_req.dart';
 import 'package:flutter_app/res/color_config.dart';
 import 'package:flutter_app/tool/time_tool.dart';
@@ -163,8 +164,9 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                                             children: <Widget>[
                                               Container(
                                                 child: Text("compare last", style: TextStyle(fontSize: 12, color: ColorConfig.color_a9a9a9),),
+                                                margin: EdgeInsets.fromLTRB(0, 0, 3, 0),
                                               ),
-                                              Image.asset(LOCAL_IMAGE + "expand_icon.png", width: 17, height: 9,)
+                                              Image.asset(_chartReq == null ? LOCAL_IMAGE + "up.png" : LOCAL_IMAGE + _getImageName(_chartReq.outcomeChange), width: 17, height: 9,)
                                             ],
                                           )
                                         ],
@@ -206,8 +208,9 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                                               children: <Widget>[
                                                 Container(
                                                   child: Text("compare last", style: TextStyle(fontSize: 12, color: ColorConfig.color_a9a9a9),),
+                                                  margin: EdgeInsets.fromLTRB(0, 0, 3, 0),
                                                 ),
-                                                Image.asset(LOCAL_IMAGE + "expand_icon.png", width: 17, height: 9,)
+                                                Image.asset(_chartReq == null ? LOCAL_IMAGE + "up.png" : LOCAL_IMAGE + _getImageName(_chartReq.incomeChange), width: 17, height: 9,)
                                               ],
                                             )
                                           ],
@@ -421,6 +424,17 @@ class ChartWidgetState extends State with TickerProviderStateMixin
     double h2 = (_chartReq == null || _chartReq.incomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.incomeCategoryStatisticsDBs.length * 70).toDouble();
     return h1 > h2 ? h1 : h2;
   }
+
+  String _getImageName(int change)
+  {
+    if (change == AmountVaryEnum.UP) {
+      return "up.png";
+    } else if (change == AmountVaryEnum.DOWN) {
+      return "down.png";
+    }  else{
+      return "up.png";
+    }
+  }
 }
 
 class AmountRange {
@@ -437,3 +451,4 @@ class LinearAmount {
 
   LinearAmount(this.day, this.amount);
 }
+
