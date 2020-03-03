@@ -133,7 +133,7 @@ class CategoryPageState extends State with TickerProviderStateMixin
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             mainAxisSpacing: 19,
             crossAxisCount: 4,
-            childAspectRatio: 0.74,
+            childAspectRatio: 0.6,
             crossAxisSpacing: 34,
           ),
           itemBuilder: (context, index){
@@ -150,7 +150,7 @@ class CategoryPageState extends State with TickerProviderStateMixin
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             mainAxisSpacing: 19,
             crossAxisCount: 4,
-            childAspectRatio: 0.74,
+            childAspectRatio: 0.6,
             crossAxisSpacing: 34,
           ),
           itemBuilder: (context, index){
@@ -174,7 +174,7 @@ class CategoryPageState extends State with TickerProviderStateMixin
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
+                  margin: EdgeInsets.fromLTRB(0, 0, 5, 8),
                   width: 55,
                   height: 55,
                   child: Image.asset(LOCAL_IMAGE + subTypeDB.image),

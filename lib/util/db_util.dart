@@ -8,7 +8,7 @@ import 'package:flutter_app/db/subtype_attr.dart';
 import 'package:flutter_app/db/type_attr.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:quiver/strings.dart';
-
+import 'package:path/path.dart' as p;
 class DBUtil
 {
   static final String RecordTable = "record_table";
@@ -169,7 +169,7 @@ class DBUtil
     else
     {
       var databasesPath = await getDatabasesPath();
-      _path = databasesPath + 'twotiny.db';
+      _path = p.join(databasesPath, 'twotiny.db');
       return _path;
     }
   }

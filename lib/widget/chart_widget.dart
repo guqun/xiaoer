@@ -289,7 +289,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                           child: TabBarView(
                               children: [
                                 (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? Container() : Container(
-                                    height: (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.outcomeCategoryStatisticsDBs.length * 60).toDouble(),
+//                                    height: (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.outcomeCategoryStatisticsDBs.length * 70).toDouble(),
                                     child: charts.BarChart(
                                       _createRangeData(_chartReq.outcomeCategoryStatisticsDBs, true),
                                       animate: true,
@@ -308,7 +308,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                                 (_chartReq == null || _chartReq.incomeCategoryStatisticsDBs == null) ?
                                 Container() :
                                 Container(
-                                height: (_chartReq == null || _chartReq.incomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.incomeCategoryStatisticsDBs.length * 60).toDouble(),
+//                                height: (_chartReq == null || _chartReq.incomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.incomeCategoryStatisticsDBs.length * 70).toDouble(),
                                 child: charts.BarChart(
                                   _createRangeData(_chartReq.incomeCategoryStatisticsDBs, false),
                                   animate: true,
@@ -417,8 +417,8 @@ class ChartWidgetState extends State with TickerProviderStateMixin
 
   _getChartHeight(ChartReq chartReq)
   {
-    double h1 = (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.outcomeCategoryStatisticsDBs.length * 60).toDouble();
-    double h2 = (_chartReq == null || _chartReq.incomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.incomeCategoryStatisticsDBs.length * 60).toDouble();
+    double h1 = (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.outcomeCategoryStatisticsDBs.length * 70).toDouble();
+    double h2 = (_chartReq == null || _chartReq.incomeCategoryStatisticsDBs == null) ? 0 : (_chartReq.incomeCategoryStatisticsDBs.length * 70).toDouble();
     return h1 > h2 ? h1 : h2;
   }
 }

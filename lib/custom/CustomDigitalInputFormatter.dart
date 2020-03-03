@@ -4,8 +4,9 @@ class CustomDigitalInputFormatter extends TextInputFormatter
 {
 
   final int decimalRange;//小数点保留位数
+  final int integerRange;
 
-  CustomDigitalInputFormatter({this.decimalRange = 6})
+  CustomDigitalInputFormatter({this.decimalRange = 6, this.integerRange = 7})
       : assert(decimalRange == null || decimalRange > 0);
 
 
@@ -30,13 +31,19 @@ class CustomDigitalInputFormatter extends TextInputFormatter
       nValue = '0.';
     } else if (nValue.contains('.')) {
       //来验证小数点位置
-      if (nValue.substring(nValue.indexOf('.') + 1).length > decimalRange) {
+      print("string:" + nValue.substring(0, nValue.indexOf('.')) + "--length:" + nValue.substring(0, nValue.indexOf('.')).length.toString());
+      if (nValue.substring(nValue.indexOf('.') + 1).length > decimalRange || nValue.substring(0, nValue.indexOf('.')).length > integerRange) {
         nValue = oldValue.text;
       } else {
         if (nValue.split('.').length > 2) { //多个小数点，去掉后面的
           List<String> split = nValue.split('.');
           nValue = split[0] + '.' + split[1];
         }
+      }
+    } else{
+      print("string:" + nValue+ "--length:" + nValue.length.toString());
+      if (nValue.length > integerRange) {
+        nValue = oldValue.text;
       }
     }
 

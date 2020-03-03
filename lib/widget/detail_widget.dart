@@ -165,7 +165,7 @@ class DetailWidgetState extends State
                         height: 40,
                         color: ColorConfig.color_f5af00,
                       ),
-                      Container(
+                      Expanded(child: Container(
                         child:Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,13 +174,13 @@ class DetailWidgetState extends State
                               child: Text("OUTCOME", style: TextStyle(fontSize: 15, color: ColorConfig.color_333333),),
                             ),
                             Container(
-                                width: 150,
+                                width: 100,
                                 padding: EdgeInsets.fromLTRB(0, 18, 0, 0),
                                 child: Text(_outcome.toStringAsFixed(2), style: TextStyle(fontSize: 24, color: ColorConfig.color_333333), maxLines: 1,)),
                           ],),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      )),
+                      Expanded(child: Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child:Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,11 +189,11 @@ class DetailWidgetState extends State
                               child: Text("INCOME", style: TextStyle(fontSize: 15, color: ColorConfig.color_333333),),
                             ),
                             Container(
-                                width: 150,
+                                width: 100,
                                 padding: EdgeInsets.fromLTRB(0, 18, 0, 0),
                                 child: Text(_income.toStringAsFixed(2), style: TextStyle(fontSize: 24, color: ColorConfig.color_333333), maxLines: 1,)),
                           ],),
-                      ),
+                      )),
                     ],
                   ),
                 ),
@@ -340,7 +340,7 @@ class DetailWidgetState extends State
                           child: Text(recordReq.typeName, style: TextStyle(fontSize: 16, color: ColorConfig.color_black),),
                         ),
                         Container(
-                          width: 220,
+                          width: 150,
                           margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
                           child: Text(recordReq.remark == null ? "" : recordReq.remark, style: TextStyle(fontSize: 13, color: ColorConfig.color_999999), maxLines: 1,),
                         )
@@ -372,7 +372,7 @@ class DetailWidgetState extends State
                       child: Text(recordReq.typeName, style: TextStyle(fontSize: 16, color: ColorConfig.color_black),),
                     ),
                     Container(
-                      width: 220,
+                      width: 150,
                       margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
                       child: Text(recordReq.remark == null ? "" : recordReq.remark, style: TextStyle(fontSize: 13, color: ColorConfig.color_999999), maxLines: 1,),
                     )
