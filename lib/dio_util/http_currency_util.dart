@@ -23,8 +23,8 @@ class HttpCurrencyUtil {
       options.baseUrl = HTTP_CURRENCY_URL;
       options.receiveTimeout = 1000 * 30;
       options.connectTimeout = 1000 * 30;
-      options.headers["x-rapidapi-host"] = "xxxxx";
-      options.headers["x-rapidapi-key"] = "xxxxxxx";
+      options.headers["x-rapidapi-host"] = "fixer-fixer-currency-v1.p.rapidapi.com";
+      options.headers["x-rapidapi-key"] = "ded206d1bbmsh14ce6bf1f0e1b22p1d325ajsn258d501611b0";
       _client = new Dio(options);
       _client.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
       _client.interceptors.add(new InterceptorsWrapper(onRequest: (options){

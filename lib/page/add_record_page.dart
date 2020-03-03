@@ -267,7 +267,7 @@ class AddRecordPageState extends State with TickerProviderStateMixin
                   indicatorColor: ColorConfig.color_black,
                   controller: _tabController,
                   indicatorPadding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  tabs: [Tab(text: "OUTCOME"), Tab(text: "INCOME"),]
+                  tabs: [Tab(text: "EXPENSES"), Tab(text: "INCOME"),]
               ),
             ),
 

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_app/bloc/edit_account_bloc/edit_account_bloc_export.dart';
 import 'package:flutter_app/model/db_response.dart';
-import 'package:flutter_app/respositories/account_respository.dart';
+import 'package:flutter_app/repositories/account_respository.dart';
 import 'package:quiver/strings.dart';
 
 class EditAccountBloc extends Bloc<EditAccountBlocEvent, EditAccountBlocState>

@@ -4,8 +4,8 @@ import 'package:flutter_app/bloc/record_bloc/record_bloc_export.dart';
 import 'package:flutter_app/db/dao/record_db.dart';
 import 'package:flutter_app/db/dao/subtype_db.dart';
 import 'package:flutter_app/model/db_response.dart';
-import 'package:flutter_app/respositories/category_respository.dart';
-import 'package:flutter_app/respositories/record_respository.dart';
+import 'package:flutter_app/repositories/category_respository.dart';
+import 'package:flutter_app/repositories/record_respository.dart';
 import 'package:quiver/strings.dart';
 
 class RecordBloc extends Bloc<RecordBlocEvent, RecordBlocState>

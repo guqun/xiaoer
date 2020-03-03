@@ -149,7 +149,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Container(
-                                            child: Text("OUTCOME", style: TextStyle(fontSize: 14, color: ColorConfig.color_666666),),
+                                            child: Text("EXPENSES", style: TextStyle(fontSize: 14, color: ColorConfig.color_666666),),
                                           ),
                                           Container(
                                             width: 180,
@@ -232,7 +232,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                           decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: ColorConfig.color_51A5DE),
                         ),
                         Container(
-                          child: Text("outcome", style: TextStyle(fontSize: 12, color: ColorConfig.color_666666),),
+                          child: Text("expenses", style: TextStyle(fontSize: 12, color: ColorConfig.color_666666),),
                         ),
                         Container(
                           margin: EdgeInsets.fromLTRB(20, 0, 6, 0),
@@ -279,7 +279,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                             indicatorColor: ColorConfig.color_main_color,
                             controller: _tabController,
                             tabs: [
-                              Tab(text: "OUTCOME RANK"),
+                              Tab(text: "EXPENSES RANK"),
                               Tab(text: "INCOME RANK"),]),
                               padding: EdgeInsets.fromLTRB(0, 14, 0, 0),
                         ),

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_app/bloc/add_account_bloc/add_account_bloc_event.dart';
 import 'package:flutter_app/bloc/add_account_bloc/add_account_bloc_export.dart';
-import 'package:flutter_app/respositories/account_respository.dart';
+import 'package:flutter_app/repositories/account_respository.dart';
 import 'package:quiver/strings.dart';
 
 class AddAccountBloc extends Bloc<AddAccountBlocEvent, AddAccountBlocState>

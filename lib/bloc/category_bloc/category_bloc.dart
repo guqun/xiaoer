@@ -3,7 +3,7 @@ import 'package:flutter_app/bloc/category_bloc/category_bloc_event.dart';
 import 'package:flutter_app/bloc/category_bloc/category_bloc_export.dart';
 import 'package:flutter_app/db/dao/subtype_db.dart';
 import 'package:flutter_app/model/db_response.dart';
-import 'package:flutter_app/respositories/category_respository.dart';
+import 'package:flutter_app/repositories/category_respository.dart';
 
 
 class CategoryBloc extends Bloc<CategoryBlocEvent, CategoryBlocState>

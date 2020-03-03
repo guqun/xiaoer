@@ -171,7 +171,7 @@ class DetailWidgetState extends State
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              child: Text("OUTCOME", style: TextStyle(fontSize: 15, color: ColorConfig.color_333333),),
+                              child: Text("EXPENSES", style: TextStyle(fontSize: 15, color: ColorConfig.color_333333),),
                             ),
                             Container(
                                 width: 100,
@@ -313,7 +313,7 @@ class DetailWidgetState extends State
                   ),
                   Expanded(flex: 1, child: Container(),),
                   Container(
-                    child: Text("outcome "+ Application.mainEnglishCurrency + "：" + recordReq.outcomeAmount.toStringAsFixed(2),
+                    child: Text("expenses "+ Application.mainEnglishCurrency + "：" + recordReq.outcomeAmount.toStringAsFixed(2),
                       style: TextStyle(fontSize: 12, color: ColorConfig.color_999999),),
                   ),
                   Container(

@@ -6,8 +6,8 @@ import 'package:flutter_app/model/db_response.dart';
 import 'package:flutter_app/model/req/chart_req.dart';
 import 'package:flutter_app/model/req/detail_req.dart';
 import 'package:flutter_app/model/req/record_req.dart';
-import 'package:flutter_app/respositories/chart_repository.dart';
-import 'package:flutter_app/respositories/record_respository.dart';
+import 'package:flutter_app/repositories/chart_repository.dart';
+import 'package:flutter_app/repositories/record_respository.dart';
 
 class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState>
 {

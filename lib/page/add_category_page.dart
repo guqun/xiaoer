@@ -99,7 +99,7 @@ class AddCategoryPageState extends State
                   children: <Widget>[
                     GestureDetector(
                       onTap: (){
-                        DialogTool.showCustomSimpleDialog(context, "please select type", "outcome", "income", (){
+                        DialogTool.showCustomSimpleDialog(context, "please select type", "expenses", "income", (){
                           setState(() {
                             _type = RecordTypeEnum.OUTCOME;
                           });
@@ -121,7 +121,7 @@ class AddCategoryPageState extends State
                             ),
                             Expanded(child: Container()),
                             Container(
-                              child: Text(_type == RecordTypeEnum.OUTCOME ? "outcome" : "income", style: TextStyle(fontSize: 15, color: ColorConfig.color_999999),),
+                              child: Text(_type == RecordTypeEnum.OUTCOME ? "expenses" : "income", style: TextStyle(fontSize: 15, color: ColorConfig.color_999999),),
                             ),
                             Icon(Icons.keyboard_arrow_right),
                           ],

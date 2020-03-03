@@ -5,7 +5,7 @@ import 'package:flutter_app/bloc/account_bloc/account_bloc_export.dart';
 import 'package:flutter_app/db/account_provider.dart';
 import 'package:flutter_app/db/dao/account_db.dart';
 import 'package:flutter_app/model/db_response.dart';
-import 'package:flutter_app/respositories/account_respository.dart';
+import 'package:flutter_app/repositories/account_respository.dart';
 import 'package:flutter_app/util/local_shared_preferences_util.dart';
 
 class AccountBloc extends Bloc<AccountBlocEvent, AccountBlocState>

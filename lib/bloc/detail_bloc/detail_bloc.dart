@@ -10,7 +10,7 @@ import 'package:flutter_app/db/dao/record_db.dart';
 import 'package:flutter_app/model/db_response.dart';
 import 'package:flutter_app/model/req/detail_req.dart';
 import 'package:flutter_app/model/req/record_req.dart';
-import 'package:flutter_app/respositories/record_respository.dart';
+import 'package:flutter_app/repositories/record_respository.dart';
 import 'package:flutter_app/util/local_shared_preferences_util.dart';
 
 class DetailBloc extends Bloc<DetailBlocEvent, DetailBlocState>
