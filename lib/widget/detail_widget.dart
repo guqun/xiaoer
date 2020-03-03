@@ -176,7 +176,10 @@ class DetailWidgetState extends State
                             Container(
                                 width: 100,
                                 padding: EdgeInsets.fromLTRB(0, 18, 0, 0),
-                                child: Text(_outcome.toStringAsFixed(2), style: TextStyle(fontSize: 24, color: ColorConfig.color_333333), maxLines: 1,)),
+                                child: Text(
+                                  _outcome.toStringAsFixed(2),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 24, color: ColorConfig.color_333333), maxLines: 1,)),
                           ],),
                       )),
                       Expanded(child: Container(
@@ -191,7 +194,11 @@ class DetailWidgetState extends State
                             Container(
                                 width: 100,
                                 padding: EdgeInsets.fromLTRB(0, 18, 0, 0),
-                                child: Text(_income.toStringAsFixed(2), style: TextStyle(fontSize: 24, color: ColorConfig.color_333333), maxLines: 1,)),
+                                child:
+                                Text(
+                                  _income.toStringAsFixed(2),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 24, color: ColorConfig.color_333333), maxLines: 1,)),
                           ],),
                       )),
                     ],
@@ -342,7 +349,7 @@ class DetailWidgetState extends State
                         Container(
                           width: 150,
                           margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                          child: Text(recordReq.remark == null ? "" : recordReq.remark, style: TextStyle(fontSize: 13, color: ColorConfig.color_999999), maxLines: 1,),
+                          child: Text(recordReq.remark == null ? "" : recordReq.remark, style: TextStyle(fontSize: 13, color: ColorConfig.color_999999), maxLines: 1,overflow: TextOverflow.ellipsis),
                         )
                       ],
                     ),
@@ -374,7 +381,7 @@ class DetailWidgetState extends State
                     Container(
                       width: 150,
                       margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                      child: Text(recordReq.remark == null ? "" : recordReq.remark, style: TextStyle(fontSize: 13, color: ColorConfig.color_999999), maxLines: 1,),
+                      child: Text(recordReq.remark == null ? "" : recordReq.remark, style: TextStyle(fontSize: 13, color: ColorConfig.color_999999), maxLines: 1, overflow: TextOverflow.ellipsis),
                     )
                   ],
                 ),
@@ -404,11 +411,11 @@ class DetailWidgetState extends State
   Widget _getItemAmount(RecordReq recordReq)
   {
     if (recordReq.recordType == RecordTypeEnum.INCOME) {
-      return Text("+" + recordReq.amount.toStringAsFixed(2), style: TextStyle(fontSize: 18, color: ColorConfig.color_33c15d),);
+      return Text("+" + recordReq.amount.toStringAsFixed(2), style: TextStyle(fontSize: 18, color: ColorConfig.color_33c15d), overflow: TextOverflow.ellipsis,);
     } else if (recordReq.recordType == RecordTypeEnum.OUTCOME) {
-      return Text("-" + recordReq.amount.toStringAsFixed(2), style: TextStyle(fontSize: 18, color: ColorConfig.color_ff0000),);
+      return Text("-" + recordReq.amount.toStringAsFixed(2), style: TextStyle(fontSize: 18, color: ColorConfig.color_ff0000), overflow: TextOverflow.ellipsis);
     } else {
-      return Text(recordReq.amount.toStringAsFixed(2), style: TextStyle(fontSize: 18, color: Colors.blue),);
+      return Text(recordReq.amount.toStringAsFixed(2), style: TextStyle(fontSize: 18, color: Colors.blue), overflow: TextOverflow.ellipsis);
     }
   }
 

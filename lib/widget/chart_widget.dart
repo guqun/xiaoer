@@ -156,6 +156,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                                             width: 180,
                                             margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                                             child: Text((_chartReq != null && _chartReq.outcomeAmount != null) ? _chartReq.outcomeAmount.toStringAsFixed(2) : "0",
+                                              overflow: TextOverflow.ellipsis,
                                               style: TextStyle(fontSize: 30, color: ColorConfig.color_333333), maxLines: 1,),
                                           ),
                                           Row(
@@ -200,7 +201,9 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                                             Container(
                                               width: 180,
                                               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                              child: Text((_chartReq != null && _chartReq.incomeAmount != null) ? _chartReq.incomeAmount.toStringAsFixed(2) : "0", style: TextStyle(fontSize: 30, color: ColorConfig.color_333333),),
+                                              child: Text((_chartReq != null && _chartReq.incomeAmount != null) ? _chartReq.incomeAmount.toStringAsFixed(2) : "0",
+                                                  overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(fontSize: 30, color: ColorConfig.color_333333),),
                                             ),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.start,

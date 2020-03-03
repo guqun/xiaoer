@@ -39,7 +39,6 @@ class AddRecordPageState extends State with TickerProviderStateMixin
   int _selectId = -1;
   String _selectName = "";
 
-
   @override
   void initState() {
     _tabController = new TabController(length: 2, vsync: this);
@@ -110,12 +109,12 @@ class AddRecordPageState extends State with TickerProviderStateMixin
                               child: Expanded(
                                 child: Container(
                                   child: TextField(
-                                  maxLength: 15,
-                                  keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
-                                  inputFormatters: [CustomDigitalInputFormatter(decimalRange: 2)],
-                                  decoration: InputDecoration(border: InputBorder.none, counterText: "", hintText: "0.00", hintStyle: TextStyle(color: ColorConfig.color_black)),
-                                  controller: _amountTextEditingController,
-                                  style: TextStyle(color: ColorConfig.color_black, fontSize: 15),),)),),
+                                    autofocus: true,
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
+                                    inputFormatters: [CustomDigitalInputFormatter(decimalRange: 2)],
+                                    decoration: InputDecoration(border: InputBorder.none, counterText: "", hintText: "0.00", hintStyle: TextStyle(color: ColorConfig.color_black)),
+                                    controller: _amountTextEditingController,
+                                    style: TextStyle(color: ColorConfig.color_black, fontSize: 15),),)),),
                           Container(
                             margin: EdgeInsets.fromLTRB(0, 0, 8, 0),
                             child: Image.asset(LOCAL_IMAGE + Application.secondaryEnglishCurrencyImage, width: 24, height: 24,),
@@ -191,6 +190,8 @@ class AddRecordPageState extends State with TickerProviderStateMixin
 
                               child: Expanded(
                                 child: TextField(
+                                  maxLines: 1,
+                                  maxLength: 20,
                                   decoration: InputDecoration(border: InputBorder.none, counterText: "", hintText: "please input remark"),
                                   controller: _remarkTextEditingController,
                                   style: TextStyle(color: ColorConfig.color_black, fontSize: 15),),)),
