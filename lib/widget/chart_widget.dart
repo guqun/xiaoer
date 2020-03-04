@@ -133,12 +133,13 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                         Expanded(
                           flex: 1,
                           child: Container(
+                            padding: EdgeInsets.all(0),
                             decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(6)), color: ColorConfig.color_white),
                             height: 117,
                             child: Stack(
                               children: <Widget>[
                                 Positioned(
-                                  right: 0,
+                                  right: -7,
                                     top: 0,
                                     child: Container(child: Image.asset(LOCAL_IMAGE + "chart_bg.png", width: 77, height: 69,)),),
                                 Positioned(
@@ -184,7 +185,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                               child: Stack(
                                 children: <Widget>[
                                   Positioned(
-                                      right: 0,
+                                      right: -7,
                                       top: 0,
                                       child: Image.asset(LOCAL_IMAGE + "chart_bg.png", width: 77, height: 69,)),
                                   Positioned(

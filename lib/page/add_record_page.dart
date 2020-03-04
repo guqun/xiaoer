@@ -314,9 +314,9 @@ class AddRecordPageState extends State with TickerProviderStateMixin
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisSpacing: 19,
+            mainAxisSpacing: 6,
             crossAxisCount: 4,
-            childAspectRatio: 0.60,
+            childAspectRatio: 0.55,
             crossAxisSpacing: 34,
           ),
           itemBuilder: (context, index){
@@ -331,9 +331,9 @@ class AddRecordPageState extends State with TickerProviderStateMixin
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisSpacing: 19,
+            mainAxisSpacing: 6,
             crossAxisCount: 4,
-            childAspectRatio: 0.6,
+            childAspectRatio: 0.55,
             crossAxisSpacing: 34,
           ),
           itemBuilder: (context, index){
@@ -370,7 +370,7 @@ class AddRecordPageState extends State with TickerProviderStateMixin
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
                     width: 55,
                     height: 55,
                     child: Image.asset(LOCAL_IMAGE + (_selectId == subTypeDB.id ? subTypeDB.selectedImage : subTypeDB.image)),
