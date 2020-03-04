@@ -55,7 +55,7 @@ class HomePageState extends State
         centerTitle: true,
         leading: Builder(builder: (context) {
           return IconButton(
-            icon: Icon(Icons.dashboard, color: ColorConfig.color_main_color),
+            icon: Image.asset(LOCAL_IMAGE + "drawer_icon.png", width: 19, height: 19,),
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },

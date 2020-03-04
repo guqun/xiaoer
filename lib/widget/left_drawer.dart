@@ -42,39 +42,39 @@ class LeftDrawer extends StatelessWidget {
                 child: ListView(
                   children: <Widget>[
                     ListTile(
-                      leading: const Icon(Icons.add),
-                      title: const Text('分类管理'),
+                      leading: Image.asset(LOCAL_IMAGE + "category_manage_icon.png", width: 42, height: 42,),
+                      title: const Text('Categroy Manage'),
                       trailing: Icon(Icons.keyboard_arrow_right),
                       onTap: (){
                         NavigatorUtil.goCategoryPage(context);
                       },
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                      margin: EdgeInsets.fromLTRB(16, 12, 16, 12),
                       child: Divider(height: 1, color: ColorConfig.color_cccccc,),
                     ),
                     ListTile(
-                      leading: const Icon(Icons.build),
+                      leading: Image.asset(LOCAL_IMAGE + "currency_manage_icon.png", width: 42, height: 42,),
                       trailing: Icon(Icons.keyboard_arrow_right),
-                      title: const Text('币种管理'),
+                      title: const Text('Currency Manage'),
                       onTap: (){
                         NavigatorUtil.goCurrencyPage(context, false);
                       },
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                      margin: EdgeInsets.fromLTRB(16, 12, 16, 12),
                       child: Divider(height: 1, color: ColorConfig.color_cccccc,),
                     ),
                     ListTile(
-                      leading: const Icon(Icons.attach_money),
+                      leading: Image.asset(LOCAL_IMAGE + "account_manage_icon.png", width: 42, height: 42,),
                       trailing: Icon(Icons.keyboard_arrow_right),
-                      title: const Text('账户管理'),
+                      title: const Text('Account Manage'),
                       onTap: (){
                         NavigatorUtil.goAccountPage(context, false);
                       },
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                      margin: EdgeInsets.fromLTRB(16, 12, 16, 12),
                       child: Divider(height: 1, color: ColorConfig.color_cccccc,),
                     ),
                   ],

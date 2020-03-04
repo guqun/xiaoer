@@ -133,15 +133,14 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                         Expanded(
                           flex: 1,
                           child: Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 6, 0),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(6)), color: ColorConfig.color_white),
                             height: 117,
-                            color: ColorConfig.color_white,
                             child: Stack(
                               children: <Widget>[
                                 Positioned(
                                   right: 0,
                                     top: 0,
-                                    child: Image.asset(LOCAL_IMAGE + "expand_icon.png", width: 77, height: 69,)),
+                                    child: Container(child: Image.asset(LOCAL_IMAGE + "chart_bg.png", width: 77, height: 69,)),),
                                 Positioned(
                                     child: Container(
                                       padding: EdgeInsets.all(15),
@@ -167,7 +166,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                                                 child: Text("compare last", style: TextStyle(fontSize: 12, color: ColorConfig.color_a9a9a9),),
                                                 margin: EdgeInsets.fromLTRB(0, 0, 3, 0),
                                               ),
-                                              Image.asset(_chartReq == null ? LOCAL_IMAGE + "up.png" : LOCAL_IMAGE + _getImageName(_chartReq.outcomeChange), width: 17, height: 9,)
+                                              Image.asset(_chartReq == null ? LOCAL_IMAGE + "flat.png" : LOCAL_IMAGE + _getImageName(_chartReq.outcomeChange), width: 17, height: 9,)
                                             ],
                                           )
                                         ],
@@ -176,18 +175,18 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                               ],
                             ),
                           )),
+                        Container(width: 7,),
                         Expanded(
                             flex: 1,
                             child: Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 6, 0),
                               height: 117,
-                              color: ColorConfig.color_white,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(6)), color: ColorConfig.color_white),
                               child: Stack(
                                 children: <Widget>[
                                   Positioned(
                                       right: 0,
                                       top: 0,
-                                      child: Image.asset(LOCAL_IMAGE + "expand_icon.png", width: 77, height: 69,)),
+                                      child: Image.asset(LOCAL_IMAGE + "chart_bg.png", width: 77, height: 69,)),
                                   Positioned(
                                       child: Container(
                                         padding: EdgeInsets.all(15),
@@ -213,7 +212,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                                                   child: Text("compare last", style: TextStyle(fontSize: 12, color: ColorConfig.color_a9a9a9),),
                                                   margin: EdgeInsets.fromLTRB(0, 0, 3, 0),
                                                 ),
-                                                Image.asset(_chartReq == null ? LOCAL_IMAGE + "up.png" : LOCAL_IMAGE + _getImageName(_chartReq.incomeChange), width: 17, height: 9,)
+                                                Image.asset(_chartReq == null ? LOCAL_IMAGE + "flat.png" : LOCAL_IMAGE + _getImageName(_chartReq.incomeChange), width: 17, height: 9,)
                                               ],
                                             )
                                           ],
@@ -256,7 +255,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
                     color: ColorConfig.color_white,
                     margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
                     height: 155,
-                    child: charts.TimeSeriesChart(
+                    child: (_chartReq == null || _chartReq.outcomeCategoryStatisticsDBs == null) ? Container() : charts.TimeSeriesChart(
                       _createAmountData(_chartReq),
                       primaryMeasureAxis: charts.NumericAxisSpec( // 交叉轴的配置，参数参考主轴配置
                           showAxisLine: false, // 显示轴线
@@ -435,7 +434,7 @@ class ChartWidgetState extends State with TickerProviderStateMixin
     } else if (change == AmountVaryEnum.DOWN) {
       return "down.png";
     }  else{
-      return "up.png";
+      return "flat.png";
     }
   }
 }
