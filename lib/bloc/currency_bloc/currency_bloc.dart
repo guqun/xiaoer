@@ -17,9 +17,10 @@ class CurrencyBloc extends Bloc<CurrencyBlocEvent, CurrencyBlocState>
       try{
         if (event is CurrencyBlocQueryAllEvent) {
           List<CurrencyDB> currencyDBs = await CurrencyProvider.queryAll();
-          yield await Future.delayed(Duration(milliseconds: 5000)).then((_){
-            return new CurrencyBlocQueryAllSuccessState(currencyDBs);
-          });
+//          yield await Future.delayed(Duration(milliseconds: 5000)).then((_){
+//            return new CurrencyBlocQueryAllSuccessState(currencyDBs);
+//          });
+          yield CurrencyBlocQueryAllSuccessState(currencyDBs);
         }
         if (event is CurrencyBlocChangeSecondaryEvent) {
           List<CurrencyDB> currencyDBs = await CurrencyProvider.queryAll();

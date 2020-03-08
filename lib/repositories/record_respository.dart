@@ -2,7 +2,9 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter_app/application.dart';
+import 'package:flutter_app/db/account_provider.dart';
 import 'package:flutter_app/db/category_statistics_provider.dart';
+import 'package:flutter_app/db/dao/account_db.dart';
 import 'package:flutter_app/db/dao/category_statistics_db.dart';
 import 'package:flutter_app/db/dao/day_amount_db.dart';
 import 'package:flutter_app/db/dao/month_amount_db.dart';
@@ -116,7 +118,17 @@ class RecordRespository
         categoryStatisticsDB.count += 1;
         await CategoryStatisticsProvider.update(categoryStatisticsDB);
       }
-
+      
+      // change account amount
+      AccountDB accountDB = await AccountProvider.queryById(accountId);
+      if (accountDB != null) {
+        if (recordType == RecordTypeEnum.INCOME) {
+          accountDB.amount += amount;
+        }  else{
+          accountDB.amount -= amount;
+        }
+        await AccountProvider.update(accountDB);
+      }  
       return DBResponse(true);
     }catch(e){
       return DBResponse(false, message: e.toString());
@@ -292,6 +304,21 @@ class RecordRespository
       await DayAmountProvider.update(dayAmountDB);
 
 
+      AccountDB accountDB = await AccountProvider.queryById(recordDB.accountId);
+      if (accountDB != null) {
+        if (oldRecordDB.recordType == RecordTypeEnum.INCOME) {
+          accountDB.amount -= oldRecordDB.amount;
+        }  else if(oldRecordDB.recordType == RecordTypeEnum.OUTCOME){
+          accountDB.amount += oldRecordDB.amount;
+        }
+        if (recordDB.recordType == RecordTypeEnum.INCOME) {
+          accountDB.amount += recordDB.amount;
+        }  else if(recordDB.recordType == RecordTypeEnum.OUTCOME){
+          accountDB.amount -= recordDB.amount;
+        }
+        await AccountProvider.update(accountDB);
+      }
+
       CategoryStatisticsDB categoryStatisticsDB = await CategoryStatisticsProvider.queryByYearAndMonthAndId(year, month, recordDB.subType);
       if (categoryStatisticsDB == null) {
         // insert new data
@@ -313,9 +340,6 @@ class RecordRespository
         categoryStatisticsDB.amount += recordDB.mainCurrentAmount;
         await CategoryStatisticsProvider.update(categoryStatisticsDB);
       }
-
-
-
       return DBResponse(true);
     }catch(e){
       return DBResponse(false, message: e.toString());
@@ -353,6 +377,16 @@ class RecordRespository
 
       await MonthAmountProvider.update(monthAmountDB);
       await DayAmountProvider.update(dayAmountDB);
+
+      AccountDB accountDB = await AccountProvider.queryById(oldRecordDB.accountId);
+      if (accountDB != null) {
+        if (oldRecordDB.recordType == RecordTypeEnum.INCOME) {
+          accountDB.amount -= oldRecordDB.amount;
+        }  else if(oldRecordDB.recordType == RecordTypeEnum.OUTCOME){
+          accountDB.amount += oldRecordDB.amount;
+        }
+        await AccountProvider.update(accountDB);
+      }
 
 
       CategoryStatisticsDB categoryStatisticsDB = await CategoryStatisticsProvider.queryByYearAndMonthAndId(year, month, oldRecordDB.subType);
