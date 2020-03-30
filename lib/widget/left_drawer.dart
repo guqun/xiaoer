@@ -77,6 +77,18 @@ class LeftDrawer extends StatelessWidget {
                       margin: EdgeInsets.fromLTRB(16, 12, 16, 12),
                       child: Divider(height: 1, color: ColorConfig.color_cccccc,),
                     ),
+                    ListTile(
+                      leading: Image.asset(LOCAL_IMAGE + "account_manage_icon.png", width: 42, height: 42,),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      title: const Text('Export Data'),
+                      onTap: (){
+                        NavigatorUtil.goExportDataPage(context);
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(16, 12, 16, 12),
+                      child: Divider(height: 1, color: ColorConfig.color_cccccc,),
+                    ),
                   ],
                 ),
               ),

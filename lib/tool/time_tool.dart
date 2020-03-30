@@ -31,6 +31,12 @@ class TimeTool
     }
   }
 
+  static String customFormatTime_YYYY_MM_DD(int time)
+  {
+    DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(time);
+    return dateTime.year.toString() + "-" + dateTime.month.toString() + "-" + dateTime.day.toString();
+  }
+
   static String customFormatTime_YYYY_MM(int time)
   {
     DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(time);

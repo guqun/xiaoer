@@ -10,6 +10,7 @@ import 'package:flutter_app/page/currency_page.dart';
 import 'package:flutter_app/page/edit_account_page.dart';
 import 'package:flutter_app/page/edit_rate_page.dart';
 import 'package:flutter_app/page/edit_record_page.dart';
+import 'package:flutter_app/page/export_data_page.dart';
 import 'package:flutter_app/page/home_page.dart';
 import 'package:flutter_app/page/splash_page.dart';
 import 'package:flutter_app/tool/fluro_convert_utils.dart';
@@ -85,6 +86,13 @@ var editRecordPageHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params)
     {
       return EditRecordPage(int.parse(params["id"]?.first));
+    }
+);
+
+var exportDataPageHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params)
+    {
+      return ExportDataPage();
     }
 );
 

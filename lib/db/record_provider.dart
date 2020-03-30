@@ -98,4 +98,31 @@ class RecordProvider
     return records;
   }
 
+  static Future<int> queryCountByTime(final int startYear, final int startMonth, final int endYear, final int endMonth) async
+  {
+    Database database = await DBUtil.getDB();
+
+    return Sqflite.firstIntValue(await database.rawQuery("SELECT COUNT(*)  FROM $RecordTable where $YearKey >= $startYear and $YearKey <= $endYear and $MonthKey >= $startMonth and $MonthKey <= $endMonth"));
+
+//    List<Map<String, dynamic>> collection = await database.query(RecordTable, orderBy: '$CreateTimeKey DESC', where: '$YearKey >= ? and $YearKey <= ? and $MonthKey = ?',
+//        whereArgs: [startYear, startMonth, endYear, endMonth]);
+//    List<RecordDB> records = new List();
+//    collection.forEach((element){
+//      records.add(RecordDB.fromJson(element));
+//    });
+//    return records;
+  }
+
+  static Future<List<RecordDB>> queryByTime(int startYear, int startMonth, int endYear, int endMonth) async
+  {
+    Database database = await DBUtil.getDB();
+    List<Map<String, dynamic>> collection = await database.query(RecordTable, orderBy: '$CreateTimeKey DESC', where: '$YearKey >= ? and $MonthKey >= ? and $YearKey <= ? and $MonthKey <= ?',
+        whereArgs: [startYear, startMonth, endYear, endMonth]);
+    List<RecordDB> records = new List();
+    collection.forEach((element){
+      records.add(RecordDB.fromJson(element));
+    });
+    return records;
+  }
+
 }

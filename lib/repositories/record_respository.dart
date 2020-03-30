@@ -15,11 +15,15 @@ import 'package:flutter_app/db/record_provider.dart';
 import 'package:flutter_app/enum/record_type.dart';
 import 'package:flutter_app/model/db_response.dart';
 import 'package:flutter_app/model/req/detail_req.dart';
+import 'package:flutter_app/model/req/export_req.dart';
 import 'package:flutter_app/model/req/record_req.dart';
 import 'package:flutter_app/tool/time_tool.dart';
 
 class RecordRespository
 {
+
+  static final int MaxCount = 500;
+
   static Future<DBResponse> add(int recordType, int subType, String subTypeName, double amount, String remark, int currencyId, String currencyName, String currencyImage,
       int mainCurrencyId, String mainCurrencyName, double mainCurrencyAmount, double rate, int year, int month, int day, int accountId, String accountName, String accountImage) async
   {
@@ -184,8 +188,6 @@ class RecordRespository
       print(e.toString());
       return DBResponse(false, message: e.toString());
     }
-
-
   }
   static Future<DBResponse> queryDetailByMonthAndYear(int year, int month, int page, {int day, int pageSize = 20}) async
   {
@@ -406,6 +408,44 @@ class RecordRespository
 
       return DBResponse(true);
     }catch(e){
+      return DBResponse(false, message: e.toString());
+    }
+  }
+
+
+  static Future<DBResponse> queryByTime(int startYear, int startMonth, int endYear, int endMonth) async
+  {
+    try{
+      int count = await RecordProvider.queryCountByTime(startYear, startMonth, endYear, endMonth);
+      if (count > MaxCount) {
+        return DBResponse(false, message: "count must less 500");
+      }
+
+      List<RecordDB> recordDBs = await RecordProvider.queryByTime(startYear, startMonth, endYear, endMonth);
+
+      List<ExportReq> exportReqs = new List();
+      if (recordDBs.length == 0) {
+        return DBResponse(true, data: exportReqs);
+      }
+      for(int i = 0; i < recordDBs.length; i ++){
+        ExportReq exportReq = new ExportReq();
+        RecordDB recordDB = recordDBs[i];
+        exportReq.amount = recordDB.amount.toString();
+        exportReq.month = recordDB.month.toString();
+        exportReq.year = recordDB.year.toString();
+        exportReq.name = recordDB.subTypeName;
+        exportReq.remark = recordDB.remark;
+        exportReq.day = recordDB.day.toString();
+        exportReq.time = TimeTool.customFormatTime_YYYY_MM_DD(recordDB.createTime);
+        exportReq.unit = recordDB.currentUnit;
+        exportReq.mainAmount = recordDB.mainCurrentAmount.toString();
+        exportReq.mainUint = recordDB.mainCurrentUnit;
+        exportReq.account = recordDB.accountName;
+        exportReqs.add(exportReq);
+      }
+      return DBResponse(true, data: exportReqs);
+    }catch (e){
+      print(e.toString());
       return DBResponse(false, message: e.toString());
     }
   }
