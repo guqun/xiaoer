@@ -63,14 +63,14 @@ class ExportDataBloc extends Bloc<ExportDataBlocEvent, ExportDataBlocState>
             }
             final res = const ListToCsvConverter().convert(list);
             String dir = (await getTemporaryDirectory()).path;
-            String fileName = TimeTool.customFormatTime_YYYY_MM_DD(DateTime.now().millisecondsSinceEpoch);
+            String fileName = "TwoTiny_" + TimeTool.customFormatTime_YYYY_MM_DD(DateTime.now().millisecondsSinceEpoch);
             File file = new File('$dir/$fileName.csv');
             await file.writeAsString(res);
 //            launch("mailto:smith@example.org?subject=News&body=New%20plugin");
 
             final Email email = Email(
-              body: 'Export email',
-              subject: event.startYear.toString() + "/" + event.startMonth.toString() + "-" + event.endYear.toString() + "/" + event.endMonth.toString(),
+              body: 'TwoTiny Data Export',
+              subject: "TwoTiny " + event.startYear.toString() + "/" + event.startMonth.toString() + "-" + event.endYear.toString() + "/" + event.endMonth.toString(),
               recipients: [event.email],
               attachmentPaths: ['$dir/$fileName.csv'],
               isHTML: false,
